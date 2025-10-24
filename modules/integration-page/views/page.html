@@ -1,0 +1,121 @@
+{# This is an example home page template. It inherits and extends a layout
+template that lives in the top-level views/ folder for convenience #} {% extends
+"layout.html" %} {% block main %}
+<section
+  class="bg-first-section ltr:pr-[20px] ltr:md:pr-[0] rtl:pl-[20px] rtl:md:pl-[0]"
+>
+  <div
+    class="flex lg:items-center flex-col ltr:text-left rtl:text-right ltr:pl-[30px] rtl:pr-[30px] pt-[50px] lg:pt-[110px] md:pb-[114px] w-full"
+  >
+    <div class="lg:text-center w-full pb-[8px]">
+      {% area data.page, 'titleOne'%}
+    </div>
+    <div class="flex">
+      <div class="min-w-[100px]">{% area data.page, 'bannerSubtitle'%}</div>
+      <div class="w-[21px] h-[20px] ml-[7px] invisible md:visible"></div>
+    </div>
+    <div class="min-w-100px">{% area data.page, 'bannerDescription'%}</div>
+  </div>
+
+  <div
+    class="px-4 mx-auto sm:max-w-xl md:max-w-full lg:w-full md:px-10 lg:px-8 lg:py-2 mt-8"
+  >
+    <div class="grid gap-2 lg:gap-10 lg:grid-cols-2">
+      <div
+        class="flex items-center justify-center -mx-4 ltr:lg:pl-4 rtl:lg:pr-4"
+      >
+        <div class="flex flex-col items-end p-4 lg:p-11">
+          <img
+            class="object-contain w-full h-full drop-shadow-md"
+            src="{{apos.attachment.url(apos.attachment.first(data.page._ssoImage))}}"
+          />
+        </div>
+      </div>
+      <div
+        class="flex flex-col justify-center ltr:xl:pr-0 rtl:xl:pl-0 lg:max-w-lg mx-auto"
+      >
+        <div class="lg:py-24 ltr:lg:pr-14 rtl:lg:pl-14">
+          {% area data.page,'ssoTitle'%} {% area data.page,'ssoDescription'%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div
+    class="px-4 mx-auto sm:max-w-xl md:max-w-full lg:w-full md:px-10 lg:px-8 lg:py-2 mt-8"
+  >
+    <div class="grid gap-2 lg:gap-10 lg:grid-cols-2">
+      <div
+        class="flex flex-col justify-center ltr:xl:pr-0 rtl:xl:pl-0 lg:max-w-lg mx-auto"
+      >
+        <div class="lg:py-24">
+          {% area data.page,'posTitle'%} {% area data.page,'posDescription'%}
+        </div>
+      </div>
+      <div
+        class="flex items-center justify-center -mx-4 ltr:lg:pl-4 rtl:lg:pr-4 order-first lg:order-last"
+      >
+        <div class="flex flex-col items-end p-4 lg:p-11">
+          <img
+            class="object-contain w-full h-full drop-shadow-md"
+            src="{{apos.attachment.url(apos.attachment.first(data.page._posImage))}}"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="px-4 mx-auto sm:max-w-xl md:max-w-full lg:w-full md:px-10 lg:px-8 lg:py-2 mt-8"
+  >
+    <div class="grid gap-2 lg:gap-10 lg:grid-cols-2">
+      <div
+        class="flex items-center justify-center -mx-4 ltr:lg:pl-4 rtl:lg:pr-4"
+      >
+        <div class="flex flex-col items-end p-4 lg:p-11">
+          <img
+            class="object-contain w-full h-full drop-shadow-md"
+            src="{{apos.attachment.url(apos.attachment.first(data.page._connectorImage))}}"
+          />
+        </div>
+      </div>
+      <div
+        class="flex flex-col justify-center ltr:xl:pr-0 rtl:xl:pl-0 lg:max-w-lg mx-auto"
+      >
+        <div class="lg:py-24 ltr:lg:pr-14 rtl:lg:pl-14">
+          {% area data.page,'connectorTitle'%} {% area
+          data.page,'connectorDescription'%}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="px-4 mx-auto sm:max-w-xl md:max-w-full lg:w-full md:px-10 lg:px-8 lg:py-2 mt-8"
+  >
+    <div class="grid gap-2 lg:gap-10 lg:grid-cols-2">
+      <div
+        class="flex flex-col justify-center ltr:xl:pr-0 rtl:xl:pl-0 lg:max-w-lg mx-auto"
+      >
+        <div class="lg:py-24">
+          <div class="inline-flex justify-between w-[75%]">
+            {% area data.page,'sparkTitle'%}
+            <span class="text-yellow caption">BETA </span>
+          </div>
+
+          {% area data.page,'sparkDescription'%}
+        </div>
+      </div>
+      <div
+        class="flex items-center justify-center -mx-4 ltr:lg:pl-4 rtl:lg:pr-4 order-first lg:order-last"
+      >
+        <div class="flex flex-col items-end p-4 lg:p-11">
+          <img
+            class="object-contain w-full h-full drop-shadow-md"
+            src="{{apos.attachment.url(apos.attachment.first(data.page._sparkImage))}}"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

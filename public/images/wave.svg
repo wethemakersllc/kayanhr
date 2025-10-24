@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="187.757" height="37.874" viewBox="0 0 187.757 37.874">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_118" data-name="Path 118" d="M190,391H376.775v31.374H190Zm0,0"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <path id="Path_117" data-name="Path 117" d="M177.418,324.219,306.734,232l68.953,96.687L246.371,420.907Zm0,0" transform="translate(-177.418 -231.996)"/>
+    </clipPath>
+  </defs>
+  <g id="Kayan_Assets" data-name="Kayan Assets" transform="matrix(0.999, -0.035, 0.035, 0.999, -203.53, -377.612)" clip-path="url(#clip-path)">
+    <g id="Group_209" data-name="Group 209" transform="translate(183.832 313.052)" clip-path="url(#clip-path-2)">
+      <g id="Group_208" data-name="Group 208" transform="translate(0 0)" clip-path="url(#clip-path-2)">
+        <path id="Path_115" data-name="Path 115" d="M200.047,411.429A29.551,29.551,0,0,1,222.08,402.3c7.974.193,14.879,4.268,21.407,8.453,12.8,8.217,25.576,15.628,41.047,9.686,13.286-5.1,26.4-20.494,41.675-13.987,7.7,3.284,14.391,7.845,22.788,9.362a47.454,47.454,0,0,0,24.086-2.083c6.608-2.3,2.857-12.491-3.726-10.2a35.727,35.727,0,0,1-25.674-.517c-7.71-3.223-14.469-8.443-23.071-9.107-16.714-1.293-27.577,13.146-42.582,17.275-15.365,4.24-28.245-11.055-41.275-16.524-15.75-6.6-33.515-2.338-45.141,9.912C186.817,409.639,195.26,416.47,200.047,411.429Zm0,0" transform="translate(-183.927 -313.344)" fill="#41a6f7"/>
+      </g>
+    </g>
+  </g>
+</svg>

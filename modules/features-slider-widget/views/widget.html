@@ -1,0 +1,280 @@
+<section data-features-slider-widget>
+  <section class="pt-[20px] lg:pt-44 pb-8">
+    <div
+      class="flex flex-col sm:flex-row justify-between items-center md:items-end px-[1.5rem] md:px-[2.5rem] xl:px-[7rem]"
+    >
+      <div class="mb-[20px]">
+        {%if apos.i18n.options.locales[data.locale].isRtl %}
+        <h2
+          class="rtl:Tajawal text-[25px] sm:Title1 xl:Title0 text-dark-gray4 ltr:text-left rtl:text-right sm:max-w-[72%]"
+        >
+          ما تقدمه
+          <span class="wavy-underline-ar relative">كيان.</span>
+        </h2>
+        {%else%}
+        <h2
+          class="rtl:Tajawal text-[25px] sm:Title1 xl:Title0 text-dark-gray4 ltr:text-left rtl:text-right sm:max-w-[72%]"
+        >
+          Work That Feels Like
+          <span class="wavy-underline relative">Kayan.</span>
+        </h2>
+        {%endif%}
+      </div>
+      <div class="flex rtl:flex-row-reverse">
+        <div class="slider-prev group cursor-pointer pl-5 py-5">
+          <img
+            class="md:group-hover:translate-x-[-15px] ease-in duration-200"
+            src="/images/Icon ionic-ios-arrow-round-forward(1).svg"
+          />
+        </div>
+        <div class="slider-next group ml-[60px] cursor-pointer pr-5 py-5">
+          <img
+            class="rotate-180 md:group-hover:translate-x-[15px] ease-in duration-200"
+            src="/images/Icon ionic-ios-arrow-round-forward(1).svg "
+          />
+        </div>
+      </div>
+    </div>
+    <div dir="ltr">
+      {%if apos.i18n.options.locales[data.locale].isRtl %}
+
+      <div
+        class="my-slider-ar md:pl-[60px] lg:pl-[100px] flex mt-[60px] overflow-hidden {%if apos.i18n.options.locales[data.locale].isRtl %} md:pr-[2.5rem] pr-[1.5rem] xl:pr-[7rem] {%else%} md:pl-[2.5rem] pl-[1.5rem] xl:pl-[7rem] {%endif%} touch-pan-y"
+      >
+        {% for cards in data.widget.cards | slice(data.widget.cards.length/2) |
+        reverse %}
+
+        <div>
+          {% for card in cards %}
+          <div
+            dir="rtl"
+            class="bg-white shadow mb-[25px] px-[2.25rem] py-[3.25rem] h-[46%] rounded-lg bg-no-repeat bg-cover bg-center"
+            style="background-image: url('{{apos.attachment.url(apos.attachment.first(card._backgroundImage))}}')"
+          >
+            <div class="select-none">
+              <h5
+                class="{% if card.textColor === '#FFFFFF'%} text-[#CCE4F7] {% else %} text-[#262626] {%endif%} Title4 leading-[19px] pb-[5px] uppercase"
+              >
+                {{card._feature[0].title}}{%if card._feature[0].beta%}
+                (BETA){%endif%}
+              </h5>
+              <p
+                class="SubHeading md:SubHeading2 {% if card.textColor === '#FFFFFF'%} text-[#FFFFFF] {% else %} text-[#262626] {%endif%} leading-[35px] pb-[11px]"
+              >
+                {{card.title}}
+              </p>
+              <div class="max-w-[100%]">
+                <p
+                  class="caption2 leading-[19px] {% if card.textColor === '#FFFFFF'%} text-[#FFFFFF] {% else %} text-[#262626] {%endif%} pb-[11px]"
+                >
+                  {{card.subtitle}}
+                </p>
+              </div>
+              {%if not card._feature[0].disableNavigation%} {% if
+              card.buttonType === 'arrow'%}
+
+              <a
+                class="flex items-end {% if card.buttonTextColor === '#FFFFFF'%} text-[#FFFFFF] {% elif card.buttonTextColor === '#FBD671' %} text-[#FBD671] {%else%} text-[#0F69B0] {%endif%} mt-[25px]"
+                {%if
+                apos.i18n.options.locales[data.locale].isRtl
+                %}
+                href="/ar/features/{{card._feature[0].slug}}"
+                {%else
+                %}
+                href="/features/{{card._feature[0].slug}}"
+                {%
+                endif
+                %}
+              >
+                <p
+                  class="Button3 rtl:leading-[8px] ltr:leading-[16px] pl-[10px]"
+                >
+                  {{card.buttonText}}
+                </p>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12.401"
+                  height="12.106"
+                  viewBox="0 0 12.401 12.106"
+                  class="rotate-180 self-center"
+                >
+                  <g
+                    id="Group_1068"
+                    data-name="Group 1068"
+                    transform="translate(0.75 1.057)"
+                  >
+                    <path
+                      id="Vector_102"
+                      data-name="Vector 102"
+                      d="M0,0,5.895,5,0,9.992"
+                      transform="translate(5.006)"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                    />
+                    <path
+                      id="Vector_103"
+                      data-name="Vector 103"
+                      d="M10.9,0H0"
+                      transform="translate(0 4.996)"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                    />
+                  </g>
+                </svg>
+              </a>
+
+              {% else %}
+
+              <div class="sm:float-right mt-[25px]">
+                <a
+                  {%if
+                  apos.i18n.options.locales[data.locale].isRtl
+                  %}
+                  href="/ar/features/{{card._feature[0].slug}}"
+                  {%else
+                  %}
+                  href="/features/{{card._feature[0].slug}}"
+                  {%
+                  endif
+                  %}
+                  class="{% if card.buttonBackgroundColor === '#F9D067'%} bg-[#F9D067] {% else %} bg-[#FB9448] {%endif%} px-[15px] py-[15px] Button3 leading-[16px] text-[#FFFFFF] rounded-md transition-opacity duration-300 opacity-100 hover:opacity-70"
+                >
+                  {{card.buttonText}}
+                </a>
+              </div>
+              {% endif %} {%endif%}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        {% endfor %}
+      </div>
+      {%else%}
+      <div
+        class="my-slider flex mt-[60px] overflow-hidden {%if apos.i18n.options.locales[data.locale].isRtl %} md:pr-[2.5rem] pr-[1.5rem] xl:pr-[7rem] {%else%} md:pl-[2.5rem] pl-[1.5rem] xl:pl-[7rem] {%endif%} touch-pan-y"
+      >
+        {% for cards in data.widget.cards | slice(data.widget.cards.length/2) %}
+
+        <div>
+          {% for card in cards %}
+          <div
+            dir="ltr"
+            class="bg-white shadow mb-[25px] px-[2.25rem] py-[3.25rem] h-[46%] rounded-lg bg-no-repeat bg-cover bg-center"
+            style="background-image: url('{{apos.attachment.url(apos.attachment.first(card._backgroundImage))}}')"
+          >
+            <div class="select-none">
+              <h5
+                class="{% if card.textColor === '#FFFFFF'%} text-[#CCE4F7] {% else %} text-[#262626] {%endif%} Title4 leading-[19px] pb-[5px] uppercase"
+              >
+                {{card._feature[0].title}}{%if card._feature[0].beta%}
+                (BETA){%endif%}
+              </h5>
+              <p
+                class="SubHeading md:SubHeading2 {% if card.textColor === '#FFFFFF'%} text-[#FFFFFF] {% else %} text-[#262626] {%endif%} leading-[35px] pb-[11px]"
+              >
+                {{card.title}}
+              </p>
+              <div class="max-w-[100%]">
+                <p
+                  class="caption2 leading-[19px] {% if card.textColor === '#FFFFFF'%} text-[#FFFFFF] {% else %} text-[#262626] {%endif%} pb-[11px]"
+                >
+                  {{card.subtitle}}
+                </p>
+              </div>
+              {%if not card._feature[0].disableNavigation%} {% if
+              card.buttonType === 'arrow'%}
+
+              <a
+                class="flex items-end {% if card.buttonTextColor === '#FFFFFF'%} text-[#FFFFFF] {% elif card.buttonTextColor === '#FBD671' %} text-[#FBD671] {%else%} text-[#0F69B0] {%endif%} mt-[25px]"
+                {%if
+                apos.i18n.options.locales[data.locale].isRtl
+                %}
+                href="/ar/features/{{card._feature[0].slug}}"
+                {%else
+                %}
+                href="/features/{{card._feature[0].slug}}"
+                {%
+                endif
+                %}
+              >
+                <p
+                  class="Button3 rtl:leading-[8px] ltr:leading-[16px] pr-[10px]"
+                >
+                  {{card.buttonText}}
+                </p>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12.401"
+                  height="12.106"
+                  viewBox="0 0 12.401 12.106"
+                  class="self-center"
+                >
+                  <g
+                    id="Group_1068"
+                    data-name="Group 1068"
+                    transform="translate(0.75 1.057)"
+                  >
+                    <path
+                      id="Vector_102"
+                      data-name="Vector 102"
+                      d="M0,0,5.895,5,0,9.992"
+                      transform="translate(5.006)"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                    />
+                    <path
+                      id="Vector_103"
+                      data-name="Vector 103"
+                      d="M10.9,0H0"
+                      transform="translate(0 4.996)"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                    />
+                  </g>
+                </svg>
+              </a>
+
+              {% else %}
+
+              <div class="sm:float-right mt-[25px]">
+                <a
+                  {%if
+                  apos.i18n.options.locales[data.locale].isRtl
+                  %}
+                  href="/ar/features/{{card._feature[0].slug}}"
+                  {%else
+                  %}
+                  href="/features/{{card._feature[0].slug}}"
+                  {%
+                  endif
+                  %}
+                  class="{% if card.buttonBackgroundColor === '#F9D067'%} bg-[#F9D067] {% else %} bg-[#FB9448] {%endif%} px-[15px] py-[15px] Button3 leading-[16px] text-[#FFFFFF] rounded-md transition-opacity duration-300 opacity-100 hover:opacity-70"
+                >
+                  {{card.buttonText}}
+                </a>
+              </div>
+              {% endif %} {%endif%}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        {% endfor %}
+      </div>
+      {%endif%}
+    </div>
+  </section>
+</section>

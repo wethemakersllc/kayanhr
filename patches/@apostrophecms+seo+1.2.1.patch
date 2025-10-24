@@ -1,0 +1,55 @@
+diff --git a/node_modules/@apostrophecms/seo/i18n/en.json b/node_modules/@apostrophecms/seo/i18n/en.json
+index ead9e41..0486ec9 100644
+--- a/node_modules/@apostrophecms/seo/i18n/en.json
++++ b/node_modules/@apostrophecms/seo/i18n/en.json
+@@ -2,7 +2,9 @@
+   "title": "Title",
+   "titleHtmlHelp": "Defines the title of the page in search results or on the page's tab. It should be <a href=\"https://moz.com/learn/seo/title-tag\" target=\"_blank\">under 60 characters</a>.",
+   "description": "Description",
++  "keywords": "Keywords",
+   "descriptionHtmlHelp": "A short and accurate summary of the content of the page used in search results. It should be <a href=\"https://moz.com/learn/seo/meta-description\" target=\"_blank\">between 50-160 characters</a>.",
++  "keywordsHtmlHelp": "SEO Keywords are no longer used by Google for ranking purposes, but can be used for internal tracking or other search engines.",
+   "robots": "Robots Tag",
+   "robotsHtmlHelp": "Search engine indexing setting. To let Google fully index and crawl your page, leave these UNCHECKED. <a href=\"https://moz.com/learn/seo/robots-meta-directives\" data-toggle=\"tooltip\" target=\"new_window\" title=\"Learn More About Robots Meta Tag\">Learn more about these options</a>",
+   "robotsNoFollow": "Do not crawl links on page (nofollow)",
+diff --git a/node_modules/@apostrophecms/seo/modules/@apostrophecms/seo-fields-doc-type/index.js b/node_modules/@apostrophecms/seo/modules/@apostrophecms/seo-fields-doc-type/index.js
+index 07dc0b4..892c0ad 100644
+--- a/node_modules/@apostrophecms/seo/modules/@apostrophecms/seo-fields-doc-type/index.js
++++ b/node_modules/@apostrophecms/seo/modules/@apostrophecms/seo-fields-doc-type/index.js
+@@ -19,6 +19,11 @@ module.exports = {
+           type: 'string',
+           htmlHelp: 'aposSeo:descriptionHtmlHelp'
+         },
++        seoKeywords: {
++          label: 'aposSeo:keywords',
++          type: 'string',
++          htmlHelp: 'aposSeo:keywordsHtmlHelp'
++        },
+         seoRobots: {
+           label: 'aposSeo:robots',
+           htmlHelp: 'aposSeo:robotsHtmlHelp',
+@@ -41,6 +46,7 @@ module.exports = {
+           fields: [
+             'seoTitle',
+             'seoDescription',
++            'seoKeywords',
+             'seoRobots'
+           ],
+           last: true
+diff --git a/node_modules/@apostrophecms/seo/views/metaHead.html b/node_modules/@apostrophecms/seo/views/metaHead.html
+index 9a0e589..8d4305b 100644
+--- a/node_modules/@apostrophecms/seo/views/metaHead.html
++++ b/node_modules/@apostrophecms/seo/views/metaHead.html
+@@ -16,6 +16,12 @@
+   <meta name="description" content="{{ seoDescription }}" />
+ {% endif %}
+ 
++{# keywords #}
++{% set seoKeywords = piece.seoKeywords or page.seoKeywords or home.seoKeywords %}
++{% if seoKeywords %}
++  <meta name="keywords" content="{{ seoKeywords }}" />
++{% endif %}
++
+ {# robots #}
+ {% set seoRobots = document.seoRobots %}
+ {% if seoRobots.length %}

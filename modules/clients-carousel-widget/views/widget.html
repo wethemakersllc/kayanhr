@@ -1,0 +1,48 @@
+<section
+  class="pt-0 pb-20 md:pt-[1rem] md:pb-32 bg-light-gray1"
+  data-clients-carousel-widget
+  dir="ltr"
+>
+  <div class="flex-row items-center h-[100px]">
+    <div class="slider-container rounded-lg">
+      <div class="slider">
+        <div class="logos">
+          {% for client in data.widget.clients %}
+          <div class="logo w-[300px] h-[120px] ml-10">
+            <div
+              class="flex-column w-full h-full items-center justify-start bg-white rounded-lg pb-6"
+            >
+              <div
+                class="bg-sky-blue w-[83%] h-[8px] rounded-br-lg rounded-bl-lg mx-auto"
+              ></div>
+              <img
+                class="h-16 mt-7 mx-auto"
+                src="{{apos.attachment.url(apos.attachment.first(client._image))}}"
+                alt="{{client._image[0].alt}}"
+              />
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="logos">
+          {% for client in data.widget.clients %}
+          <div class="logo w-[300px] h-[120px] ml-10">
+            <div
+              class="flex-column w-full h-full items-center justify-start bg-white rounded-lg pb-6"
+            >
+              <div
+                class="bg-sky-blue w-[83%] h-[8px] rounded-br-lg rounded-bl-lg mx-auto"
+              ></div>
+              <img
+                class="h-16 mt-7 mx-auto"
+                src="{{apos.attachment.url(apos.attachment.first(client._image))}}"
+                alt="{{client._image[0].alt}}"
+              />
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

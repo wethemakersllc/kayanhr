@@ -1,0 +1,143 @@
+{% extends "layout.html" %} {% block main %}
+<section
+  class="bg-blue2 px-8 pb-8 md:px-20 lg:px-32 lg:pt-[80px] bg-[url('/images/pills-background.png')] {%if apos.i18n.options.locales[data.locale].isRtl %} contact-background-position-ar {%else%} contact-background-position {%endif%} bg-no-repeat"
+>
+  <div class="w-full md:w-2/3 lg:w-1/2 ltr:pr-4 rtl:pl-4 md:mb-0 py-20">
+    <div class="lg:max-w-2xl ltr:lg:ml-auto rtl:lg:mr-auto">
+      {% if apos.i18n.options.locales[data.locale].isRtl %}
+      <h1
+        class="Tajawal mb-4 text-5xl md:Title0 ltr:text-left rtl:text-right text-white relative"
+      >
+        تواصل<span
+          class="blue-circle before:md:top-[-25px] before:md:right-[185px] before:top-[-25px] before:right-[138px] before:w-[165px] md:before:w-[220px]"
+        >
+          معنا
+        </span>
+      </h1>
+      {% else %}
+      <h1
+        class="mb-4 text-5xl md:Title0 ltr:text-left rtl:text-right text-white relative"
+      >
+        Get in<span
+          class="blue-circle before:md:top-[-25px] before:md:left-[185px] before:top-[-25px] before:left-[138px] before:w-[165px] md:before:w-[220px]"
+        >
+          Touch
+        </span>
+      </h1>
+      {% endif %} {% area data.page, 'bannerDescription'%}
+    </div>
+  </div>
+  <div class="container flex justify-center">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 md:gap-24 lg:gap-[225px] justify-center"
+    >
+      <div class="flex flex-col">
+        <div>
+          <p class="mb-4 Title2 text-white">{{__t("Email")}}</p>
+          <div
+            class="h-[4px] w-[48px] rounded-md border-light-blue5 bg-light-blue5"
+          ></div>
+        </div>
+        <div class="mt-[26px] text-white space-y-1">
+          {% area data.page, 'email'%}
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div>
+          <p class="mb-4 Title2 text-white">{{__t("Working Hours")}}</p>
+          <div
+            class="h-[4px] w-[48px] rounded-md border-light-blue5 bg-light-blue5"
+          ></div>
+        </div>
+        <div class="mt-[26px] text-white space-y-1">
+          {% area data.page, 'workingDays'%} {% area data.page, 'workingHours'%}
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div>
+          <p class="mb-4 Title2 text-white">{{__t("Fax")}}</p>
+          <div
+            class="h-[4px] w-[48px] rounded-md border-light-blue5 bg-light-blue5"
+          ></div>
+        </div>
+        <div class="mt-[26px] text-white space-y-1">
+          <p class="caption2">{% area data.page, 'address'%}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section
+  class="bg-blue2 px-2 pb-8 md:px-20 lg:px-32 pt-20 contact-background-gradient"
+>
+  <div
+    class="mx-auto bg-white shadow-md rounded-2xl py-11 px-8 ltr:lg:pr-8 ltr:lg:pl-16 rtl:lg:pl-8 rtl:lg:pr-16 lg:grid-cols-2 gap-6"
+  >
+    <div class="flex justify-center">
+      <div class="flex justify-center">
+        <div class="flex justify-center flex-wrap">
+          {% for location in data.page.locations %}
+          <div
+            class="bg-white shadow-md rounded-lg overflow-hidden mb-6 flex-1 mx-3 my-3 min-w-[280px] max-w-[350px] lg:min-w-[300px] lg:max-w-[450px] lg:mx-3 lg:my-3"
+          >
+            <div class="bg-blue2 h-[5px]"></div>
+            <div class="p-4">
+              <iframe
+                height="200"
+                class="w-full"
+                loading="lazy"
+                allowfullscreen
+                src="{{ location.googleMap }}"
+              ></iframe>
+            </div>
+            <div class="px-4">
+              <div class="h-[1px] bg-light-gray3"></div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-center mb-2">
+                <img
+                  src="{{ apos.attachment.url(location.image, { size: 'one-sixth' }) }}"
+                  alt="{{ location.title }}"
+                  class="mr-4"
+                  style="width: 20px; height: 20px"
+                />
+
+                <h2 class="text-xl font-bold text-light-navy-blue px-2">
+                  {{ location.title }}
+                </h2>
+              </div>
+              <div class="flex items-center py-1">
+                <img
+                  src="/images/addres.svg"
+                  alt=""
+                  srcset=""
+                  class="w-[15px]"
+                />
+                <p class="text-dark-navy-blue text-sm font-normal px-4">
+                  {{ location.address }}
+                </p>
+              </div>
+              <div class="flex items-center py-1">
+                <img src="/images/phone.svg" alt="" srcset="" />
+                <p
+                  dir="ltr"
+                  class="text-dark-navy-blue text-sm font-normal px-4"
+                >
+                  {{ location.phoneNumber }}
+                </p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="pt-[50px]">
+      {% area data.page, 'contactForm' with { '@apostrophecms/form':{
+      type:"column__form" } }%}
+    </div>
+  </div>
+</section>
+{% endblock %}

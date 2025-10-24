@@ -1,0 +1,771 @@
+{# Automatically extends the right outer layout and also handles AJAX siutations#}
+{% extends data.outerLayout %}
+
+{% block title %}
+  {% set seoTitle = piece.seoTitle or page.seoTitle or home.seoTitle %}
+  {% if seoTitle %}
+    <title>{{ seoTitle }}</title>
+  {% else %}
+    {% set title = data.piece.title or data.page.title %}
+    {{ title }}</title>
+{% endif %}
+{% endblock %}
+
+{% block extraHead %}
+{% if data.piece %}
+  {% set doc = data.piece %}
+{% else %}
+  {% set doc = data.page %}
+{% endif %}
+
+{% if doc and doc.slug %}
+  {# 
+      Example for Arabic + English + x-default 
+      Adjust domain, path, etc. as needed 
+    #}
+  <link 
+      rel="alternate" 
+      href="https://kayanhr.com/ar{{ doc._url | replace("https://kayanhr.com/ar", "")  | replace("https://kayanhr.com", "")   }}" 
+      hreflang="ar" 
+/>
+  <link 
+      rel="alternate" 
+      href="https://kayanhr.com{{ doc._url | replace("https://kayanhr.com/ar", "")  | replace("https://kayanhr.com", "")   }}" 
+      hreflang="en" 
+/>
+  <link 
+      rel="alternate" 
+      href="https://kayanhr.com{{ doc._url | replace("https://kayanhr.com/ar", "")  | replace("https://kayanhr.com", "")   }}" 
+      hreflang="x-default" 
+/>
+{% endif %}
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/tiny-slider.css"
+/>
+<link rel="stylesheet" type="text/css" href="/style/modal-video.min.css"/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="/style/jquery.datetimepicker.min.css"
+/>
+<link href="/dist/output.min.css" rel="stylesheet"/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="32x32"
+  href="/images/favicon-32x32.png"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="16x16"
+  href="/images/favicon-16x16.png"
+/>
+{% endblock %}
+{% block beforeMain %}
+<div
+  class="bp-wrapper {%if not data.user%} z-20 {%endif%}"
+  {%if
+  apos.i18n.options.locales[data.locale].isRtl
+  %}
+  dir="rtl"
+  {%else
+  %}dir="ltr"
+  {%
+  endif
+  %}
+>
+  <header class="shadow-sm fixed z-[500] left-0 right-0">
+    <div
+      class="max-w-full px-4 mx-auto sm:px-6 md:px-10 xl:px-28 bg-white py-8 nav-wrapper"
+    >
+      <div
+        class="flex items-center justify-between space-x-4 lg:space-x-10 rtl:space-x-reverse"
+      >
+        <div class="flex lg:w-0 lg:flex-[0.5]">
+          <a
+            {%if
+            apos.i18n.options.locales[data.locale].isRtl
+            %}
+            href="/ar"
+            {%else
+            %}href="/"
+            {%
+            endif
+            %}
+          >
+            <img src="/images/kayan-logo.svg" alt="kayan logo"/>
+          </a>
+        </div>
+        <nav
+          class="hidden space-x-10 rtl:space-x-reverse text-sm lg:flex text-dark-gray1 Button3"
+        >
+          <div class="group mt-[5px] inline-block dropdown-header-container">
+            {% area data.global, 'featuresNav' with { 'feature-nav': { type:
+            'header' } } %}
+          </div>
+          <div class="group mt-[5px] inline-block dropdown-header-container">
+            <button
+              class="outline-none focus:outline-none bg-white flex items-center"
+            >
+              <span
+                class="ltr:pr-1 rtl:pl-1 text-dark-gray1 inline-flex Button3 flex-1 dropdown-header hover:text-blue"
+                >{{__t("COMPANY")}}
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                  <path
+                    fill="currentColor"
+                    d="M12 14.95 6.475 9.425 7.45 8.425 12 12.975 16.55 8.425 17.525 9.425Z"
+/>
+                </svg>
+              </span>
+            </button>
+            <ul
+              class="text-dark-gray3 py-[30px] space-y-4 bg-white rounded-[10px] transform scale-0 group-hover:scale-100 absolute transition duration-300 ease-in-out origin-top min-w-[200px] mt-[2px] shadow-md"
+            >
+              <li
+                class="Button4 py-1 w-[90%] mx-auto p-[3px] rounded-[3px] text-dark-gray4 transition-color duration-300 hover:text-sky-blue"
+              >
+                <a
+                  {%if
+                  apos.i18n.options.locales[data.locale].isRtl
+                  %}
+                  href="/ar/empowering-global-businesses-with-seamless-hr-management-kayanhr"
+                  {%else
+                  %}href="/empowering-global-businesses-with-seamless-hr-management-kayanhr"
+                  {%
+                  endif
+                  %}
+                  class="w-full h-full block"
+                  >{{__t("About us")}}</a
+                >
+              </li>
+              <li
+                class="Button4 py-1 w-[90%] mx-auto p-[3px] rounded-[3px] text-dark-gray4 transition-color duration-300 hover:text-sky-blue"
+              >
+                <a
+                  {%if
+                  apos.i18n.options.locales[data.locale].isRtl
+                  %}
+                  href="/ar/join-our-journey-to-success-partner-with-us-kayanhr"
+                  {%else
+                  %}href="/join-our-journey-to-success-partner-with-us-kayanhr"
+                  {%
+                  endif
+                  %}
+                  class="w-full h-full block"
+                >
+                  {{__t("Partners")}}
+                </a>
+              </li>
+              <li
+                class="Button4 py-1 w-[90%] mx-auto p-[3px] rounded-[3px] text-dark-gray4 transition-color duration-300 hover:text-sky-blue"
+              >
+                <a
+                  {%if
+                  apos.i18n.options.locales[data.locale].isRtl
+                  %}
+                  href="/ar/blog"
+                  {%else
+                  %}href="/blog"
+                  {%
+                  endif
+                  %}
+                  class="w-full h-full block"
+                >
+                  {{__t("Blog")}}
+                </a>
+              </li>
+              <li
+                class="Button4 py-1 w-[90%] mx-auto p-[3px] rounded-[3px] text-dark-gray4 transition-color duration-300 hover:text-sky-blue"
+              >
+                <a
+                  {%if
+                  apos.i18n.options.locales[data.locale].isRtl
+                  %}
+                  href="/ar/book-kayanhr-demo-and-discover-our-human-resource-solutions"
+                  {%else
+                  %}href="/book-kayanhr-demo-and-discover-our-human-resource-solutions"
+                  {%
+                  endif
+                  %}
+                  class="w-full h-full block"
+                  >{{__t("Book a Demo")}}</a
+                >
+              </li>
+              {%if data.global.careersUrl%}
+
+                <li
+                class="Button4 py-1 w-[90%] mx-auto p-[3px] rounded-[3px] text-dark-gray4 transition-color duration-300 hover:text-sky-blue"
+              >
+                  <a href="{{data.global.careersUrl}}" class="w-full h-full block"
+                  >{{__t("Work With us")}}</a
+                >
+                </li>
+                {%endif%}
+                <li
+                class="Button4 py-1 w-[90%] mx-auto p-[3px] rounded-[3px] text-dark-gray4 transition-color duration-300 hover:text-sky-blue"
+              >
+                  <a
+                  {%if
+                  apos.i18n.options.locales[data.locale].isRtl
+                  %}
+                  href="/ar/contact-us-anytime-schedule-a-free-appointment-with-our-team-kayanhr"
+                  {%else
+                  %}href="/contact-us-anytime-schedule-a-free-appointment-with-our-team-kayanhr"
+                  {%
+                  endif
+                  %}
+                  class="w-full h-full block"
+                  >{{__t("Contact us")}}</a
+                >
+                </li>
+              </ul>
+            </div>
+            <div class="group mt-[5px] inline-block dropdown-header-container">
+              <a
+              {%if
+              apos.i18n.options.locales[data.locale].isRtl
+              %}
+              href="/ar/customize-global-tax-and-social-security-rules-easily-kayanhr"
+              {%else
+              %}href="/customize-global-tax-and-social-security-rules-easily-kayanhr"
+              {%
+              endif
+              %}
+              class="outline-none focus:outline-none bg-white flex items-center"
+            >
+                <span
+                class="ltr:pr-1 rtl:pl-1 text-dark-gray1 Button3 flex-1 dropdown-header hover:text-blue"
+              >
+                  {{__t('WHY KAYAN')}}
+                </span>
+              </a>
+            </div>
+            <div class="group mt-[5px] inline-block dropdown-header-container">
+              <a
+              {%if
+              apos.i18n.options.locales[data.locale].isRtl
+              %}
+              href="/ar/elevate-with-kayan-s-partner-program-kayanhr"
+              {%else
+              %}href="/elevate-with-kayan-s-partner-program-kayanhr"
+              {%
+              endif
+              %}
+              class="outline-none focus:outline-none bg-white flex items-center"
+            >
+                <span
+                class="ltr:pr-1 rtl:pl-1 text-dark-gray1 Button3 flex-1 dropdown-header hover:text-blue"
+              >
+                  {{__t('PARTNER WITH US')}}
+                </span>
+              </a>
+            </div>
+          </nav>
+
+          <div class="items-center justify-end flex-1 hidden sm:flex">
+            {% for localization in data.localizations %}
+              {% if not
+              localization.current %}
+                <div class="relative ltr:mr-8 rtl:ml-8 leading-[2]">
+                  {% if localization.type == 'feature' %}
+                    <a
+              href="{%if localization.homePageUrl != '/'%}{{ localization.homePageUrl }}{%endif%}{%if localization.locale == 'ar'%}{{'features'}}{%else%}{{'/features'}}{%endif%}/{{localization.slug}}"
+              {%
+              else
+              %}
+              <a
+              {%
+              endif
+              %}
+              class="login-btn ltr:Button2Ar rtl:Button2 text-gray-700, cursor-pointer"
+              onclick="redirect()"
+            >
+              {{ localization.label }}
+            </a>
+          </div>
+          {% endif %} {% endfor %} {%if data.global.loginUrl%}
+
+          <div
+            class="relative ltr:mr-6 ltr:xl:mr-8 rtl:ml-6 rtl:xl:ml-8 leading-[2]"
+          >
+            <a
+              class="login-btn Button2 text-blue"
+              href="{{data.global.loginUrl}}"
+              target="_blank"
+            >
+              {{__t('Login')}}
+            </a>
+          </div>
+          {%endif%}
+
+          <!-- {% if data.global.findMySolutionsUrl %}
+              <a href="{{data.global.findMySolutionsUrl}}"
+                class="btn-primary transition-color duration-200 rounded-lg Button2">
+                Find my Solution
+              </a>
+              {%endif%} -->
+        </div>
+
+        <div class="lg:hidden">
+          <button class="p-2 text-dark-gray6 rounded-lg menu-btn" type="button">
+            <span class="sr-only">Open menu</span>
+            <svg
+              aria-hidden="true"
+              class="w-[32px] h-[32px]"
+              fill="none"
+              stroke="currentColor"
+              viewbox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 6h16M4 12h16M4 18h16"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="overlay-wrapper ease-out transition-medium duration-700 opacity-0 touch-none"
+    >
+      <div
+        class="overlay z-10 fixed inset-0 transition-opacity duration-700 hidden"
+      >
+        <div class="absolute inset-0 bg-black opacity-50" tabindex="0"></div></div>
+                  </div>
+                  <aside
+      class="burger-aside nav-menu touch-none transform top-0 w-[80%] bg-white fixed h-full overflow-auto no-scrollbar ease-in-out transition-all duration-700 z-30 rtl:translate-x-full rtl:right-0 ltr:-translate-x-full ltr:left-0 hidden"
+    >
+                    <span class="flex w-full items-center p-4">
+                      <img src="/images/kayan-logo.svg" alt="Logo" class="h-auto w-32"/>
+                    </span>
+                    {% area data.global, 'featuresNav' with { 'feature-nav': { type: 'burger'
+      } } %}
+                  </aside>
+                </header>
+
+                <main class="bp-main">
+                {% endblock %}
+                {% block main %}
+                  {# Usually, your page templates in the
+    @apostrophecms/pages module will override this block. It is safe to assume
+    this is where your page-specific content should go. #}
+                {% endblock %}
+                {% block afterMain %}
+                  <aside class="p-12 bg-white sm:p-16 lg:p-24">
+                    {%if (data.page.type !== 'partner-with-us-page') and (data.page.type !==
+      'partners-page')%}
+
+                      <div class="max-w-2xl mx-auto text-center">
+                        <p class="">{% area data.global, 'cta'%}</p>
+                        <p class="">{% area data.global, 'ctaSubtitle'%}</p>
+
+                        <div
+          class="mt-8 sm:items-center sm:justify-center sm:flex sm:space-x-8 rtl:space-x-reverse"
+        >
+                          {%if data.page.type !== 'contact-page'%}
+
+                            <a
+            {%if
+            apos.i18n.options.locales[data.locale].isRtl
+            %}
+            href="/ar/contact-us-anytime-schedule-a-free-appointment-with-our-team-kayanhr"
+            {%else
+            %}href="/contact-us-anytime-schedule-a-free-appointment-with-our-team-kayanhr"
+            {%
+            endif
+            %}
+            class="btn-outline transition-color duration-200 rounded-lg w-[150px] flex justify-center items-center mt-2 mx-auto sm:mx-0 Button2"
+          >
+                              {{__t("Contact us")}}
+                            </a>
+
+                            {%endif%}
+                            {%if data.page.type !== 'book-a-demo-page'%}
+
+                              <a
+            {%if
+            apos.i18n.options.locales[data.locale].isRtl
+            %}
+            href="/ar/book-kayanhr-demo-and-discover-our-human-resource-solutions"
+            {%else
+            %}href="/book-kayanhr-demo-and-discover-our-human-resource-solutions"
+            {%
+            endif
+            %}
+            class="btn-primary transition-color duration-200 rounded-lg w-[150px] flex justify-center items-center mt-2 mx-auto sm:mx-0 Button2"
+          >
+                                {{__t("Book A Demo")}}
+                              </a>
+
+                              {%endif%}
+                            </div>
+                          </div>
+                          {%else%}
+                          <div class="max-w-3xl mx-auto text-center">
+                            <p class="">{% area data.global, 'partnerCta'%}</p>
+                            <p class="">{% area data.global, 'partnerCtaSubtitle'%}</p>
+
+                            <div
+          class="mt-8 sm:items-center sm:justify-center sm:flex sm:space-x-8 rtl:space-x-reverse"
+        >
+                              <a
+            href="https://app.kayanhr.com/"
+            target="_blank"
+            class="btn-primary transition-color duration-200 rounded-lg min-w-[140px] w-auto flex justify-center items-center mt-2 mx-auto sm:mx-0 Button2"
+          >
+                                {{__t("Login Now")}}
+                              </a>
+                            </div>
+                          </div>
+                        {% endif %}
+                      </aside>
+                      <footer>
+                        <div class="px-4 mx-auto max-w-full sm:px-6 md:px-10 xl:px-28">
+                          {% area data.global, 'featuresNav' with { 'feature-nav': { type:
+        'footer' } } %}
+
+                          <div
+          class="flex flex-col justify-between ltr:pb-4 ltr:lg:pb-24 sm:flex-row"
+        >
+                            <div class="flex">
+                              <a href="{{data.global.appStoreUrl}}" target="_blank">
+                                <img
+                class="w-[128px] transition-opacity duration-300 opacity-100 hover:opacity-70"
+                {%if
+                apos.i18n.options.locales[data.locale].isRtl
+                %}
+                src="/images/apple-store-ar.svg"
+                alt="kayan HR تحميل ابل اب"
+                {%else
+                %}
+                src="/images/apple-store.svg"
+                alt="Download Kayan on apple store"
+                {%
+                endif
+                %}
+                alt=""
+/>
+                              </a>
+                              <a href="{{data.global.googlePlayUrl}}" target="_blank">
+                                <img
+                class="ltr:ml-3 rtl:mr-3 w-[128px] transition-opacity duration-300 opacity-100 hover:opacity-70"
+                {%if
+                apos.i18n.options.locales[data.locale].isRtl
+                %}
+                style="margin-top: 2px"
+                src="/images/google-store-ar.svg"
+                alt="kayan HR تحميل جوجل بلاي"
+                {%else%}
+                src="/images/google-store.svg"
+                alt="kayan on google play"
+                {%
+                endif
+                %}
+                alt=""
+/>
+                              </a>
+                            </div>
+                            <div class="ltr:md:pr-[0.5rem] rtl:md:pl-[0.5rem] pb-[0px]">
+                              <div
+              class="flex items-center my-7 sm:mt-2 space-x-4 rtl:space-x-reverse justify-start sm:justify-end sm:mb-[50px]"
+            >
+                                {% if data.global.linkedinUrl %}
+                                  <a
+                href="{{data.global.linkedinUrl}}"
+                target="_blank"
+                class="transition-opacity duration-300 opacity-100 hover:opacity-70"
+              >
+                                    <img src="/images/linkedin-in.png" alt="linked-in"/>
+                                  </a>
+                                {% endif %}
+                                {% if data.global.facebookUrl %}
+                                  <a
+                href="{{data.global.facebookUrl}}"
+                target="_blank"
+                class="transition-opacity duration-300 opacity-100 hover:opacity-70"
+              >
+                                    <img src="/images/facebook.png" alt="facebook"/>
+                                  </a>
+                                {% endif %}
+                                {% if data.global.instagramUrl %}
+
+                                  <a
+                href="{{data.global.instagramUrl}}"
+                target="_blank"
+                class="transition-opacity duration-300 opacity-100 hover:opacity-70"
+              >
+                                    <img src="/images/instagram.png" alt="instagram"/>
+                                  </a>
+                                {% endif %}
+                                {% if data.global.email %}
+                                  <a
+                href="mailto:{{data.global.email}}"
+                class="transition-opacity duration-300 opacity-100 hover:opacity-70"
+              >
+                                    <img src="/images/mail.png" alt="mail"/>
+                                  </a>
+                                {% endif %}
+                              </div>
+                              <div class="flex flex-row sm:justify-end">
+                                {%if not apos.i18n.options.locales[data.locale].isRtl %}
+
+                                  <p
+                class="Buttonlast max-w-[365px] w-full sm:w-[365px] lg:pb-0 pb-24"
+              >
+                © kayanHR.
+                <span id="year"></span>
+                All Rights Reserved. By
+                <a
+                  href="https://wethemakers.dev/"
+                  target="_blank"
+                  class="group"
+                >
+                                      <span class="group-hover:text-blue ease-in duration-200"
+                    >We.</span
+                  >
+                                      <span class="group-hover:text-blue ease-in duration-200"
+                    >The.</span
+                  >
+                                      <span class="group-hover:text-blue ease-in duration-200"
+                    >Makers</span
+                  ></a
+                >
+                                  </p>
+                                  {%endif%}
+                                </div>
+                              </div>
+                            </div>
+                            {%if apos.i18n.options.locales[data.locale].isRtl %}
+
+                              <p class="Buttonlast w-full max-w-[395px] pb-24">
+          كيان إتش آر© ، جميع الحقوق محفوظة
+          <span id="year"></span>. بواسطة
+          <a
+            href="https://wethemakers.dev/"
+            target="_blank"
+            class="group revert-unicode-bidi"
+          >
+                                  <span class="group-hover:text-blue ease-in duration-200">We.</span>
+                                  <span class="group-hover:text-blue ease-in duration-200">The.</span>
+                                  <span class="group-hover:text-blue ease-in duration-200"
+              >Makers</span
+            >
+                                </a>
+                              </p>
+                              {%endif%}
+                            </div>
+                          </footer>
+                        </main>
+                      </div>
+
+                      <script src="/js/jquery.min.js"></script>
+                      <script src="/js/site.min.js"></script>
+                      <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
+                      <script src="/js/jquery-modal-video.min.js"></script>
+                      <script src="/js/jquery.datetimepicker.full.min.js"></script>
+                      <script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id={{data.global.googleAnalytics}}"
+></script>
+                      <script>
+                        function redirect() {
+                          if (!window.location.pathname.includes("/ar")) {
+                            window.location.href = "/ar" + window.location.pathname;
+                          } else {
+                            window.location.href = window
+                              .location
+                              .pathname
+                              .replace("/ar", "");
+                          }
+                        }
+
+                        window.dataLayer = window.dataLayer || [];
+
+                        function gtag() {
+                          dataLayer.push(arguments);
+                        }
+                        gtag("js", new Date());
+                        gtag("config", "{{data.global.googleAnalytics}}");
+                      </script>
+
+                      <script type="application/ld+json">
+
+                        {
+                          "@context": "https://schema.org",
+                          "@type": "{% if data.page.type == '@apostrophecms/home-page' %}Organization{% elseif data.page.type == '@apostrophecms/blog-page' %}{% if data.piece %}Article{% else %} Blog{% endif %}{% else %}WebPage{% endif %}",
+                          {% if data.page.type == '@apostrophecms/blog-page' %}
+                            "mainEntityOfPage": {
+                              "@type": "WebPage",
+                              "url": "{{data.page._url}}{% if data.piece.slug %}/{{data.piece.slug}}{% endif %}"
+                            },
+                          {% endif %}
+
+                          "name": "{%if data.piece.title%}{{data.piece.title}}{%else%}{{data.page.title}}{%endif%}",
+                          "url": "{{data.page._url}}{% if data.piece.slug %}/{{data.piece.slug}}{% endif %}",
+                          {% if data.page.type == '@apostrophecms/blog-page' %}
+                            "headline": "{%if data.piece.title%}{{data.piece.title}}{%else%}{{data.page.title}}{%endif%}",
+                          {% endif %}
+
+                          "description": "{%if data.piece.schemaDescription%}{{data.piece.schemaDescription}}{%else%}{{data.page.seoDescription}}{% endif %}",
+                          {% if data.page.type == '@apostrophecms/home-page' %}
+                            "alternateName": "{% if apos.i18n.options.locales[data.locale].isRtl %}KayanHR{% else %}كيان إتش آر{% endif %}",
+                          {% endif %}
+                          {% if data.page.type != '@apostrophecms/home-page' %}
+                            "inLanguage": "{% if apos.i18n.options.locales[data.locale].isRtl %}ar{% else %}en{% endif %}",
+                          {% endif %}
+                          {% if data.piece %}
+                            {% if data.piece.type === '@apostrophecms/blog' %}
+                              {% for item in data.piece.content.items %}
+                                {% if item.type == '@apostrophecms/image' %}
+                                  "image": "{{item._image[0].attachment._urls.original}}",
+                                {% endif %}
+                              {% endfor %}
+                            {% else %}
+                              "image": "https://kayanhr.com/images/kayan-logo.svg",
+                            {% endif %}
+                          {% else %}
+                            "logo": "https://kayanhr.com/images/kayan-logo.svg",
+                          {% endif %}
+                          {% if data.page.type != '@apostrophecms/home-page' %}
+                            "isPartOf": {
+                              "@type": "WebSite",
+                              "name": "{% if apos.i18n.options.locales[data.locale].isRtl %}كيان إتش آر{% else %}KayanHR{% endif %}",
+                              "url": "{% if apos.i18n.options.locales[data.locale].isRtl %}https://kayanhr.com/ar{% else %}https://kayanhr.com{% endif %}",
+                              "alternateName": "{% if apos.i18n.options.locales[data.locale].isRtl %}KayanHR{% else %}كيان إتش آر{% endif %}"
+                            },
+                          {% endif %}
+
+                          {% if data.page.type == '@apostrophecms/blog-page' %}
+                            "author": {
+                              "@type": "Organization",
+                              "name": "{% if apos.i18n.options.locales[data.locale].isRtl %}كيان إتش آر{% else %}KayanHR{% endif %}"
+                            },
+                          {% endif %}
+                          "sameAs": [
+                            "https://facebook.com/kayanhr", "https://linkedin.com/company/kayanhr", "https://instagram.com/kayan.hr"
+                          ],
+                          {% if data.page.type != '@apostrophecms/home-page' %}
+                            "breadcrumb": {
+                              "@type": "BreadcrumbList",
+                              "itemListElement": [
+                                {% set i = 0 %}
+                                {% if data.piece._url %}
+                                  {% set urlSegments = data.piece._url.split('/') %}
+                                {% else %}
+                                  {% set urlSegments = data.page._url.split('/') %}
+                                {% endif %}
+                                {% for segment in urlSegments %}
+                                  {% if segment and segment != 'ar' and segment != 'https:' %}
+                                    {
+                                      "@type": "ListItem",
+                                      "position": {{ i }},
+                                      "name": "{{ segment | replace('-', ' ') | capitalize }}",
+                                      "item": "{{urlSegments.slice(0, loop.index).join('/') }}"
+                                    }
+
+                                    {% if not loop.last and data.page.type != '@apostrophecms/home-page' %},{% endif %}
+                                    {% set i = i + 1 %}
+                                  {% endif %}
+                                {% endfor %}
+                              ]
+                            },
+                          {% endif %}
+                          {% if data.piece._url %}
+                            "publisher": {
+                              "@type": "Organization",
+                              //same conditions as above for the name, alternateName, url, logo
+                              "name": "{% if apos.i18n.options.locales[data.locale].isRtl %}كيان إتش آر{% else %}KayanHR{% endif %}",
+                              "alternateName": "{% if apos.i18n.options.locales[data.locale].isRtl %}KayanHR{% else %}كيان إتش آر{% endif %}",
+                              "url": "{% if apos.i18n.options.locales[data.locale].isRtl %}https://kayanhr.com/ar{% else %}https://kayanhr.com{% endif %}",
+                              "logo": "https://kayanhr.com/images/kayan-logo.svg",
+                              "contactPoint": [
+                                {
+                                  "@type": "ContactPoint",
+                                  "telephone": "+96265693999",
+                                  "contactType": "{% if apos.i18n.options.locales[data.locale].isRtl %}خدمة العملاء{% else %}Customer Service{% endif %}",
+                                  "areaServed": "Jordan",
+                                  "availableLanguage": ["ar", "en"]
+                                }, {
+                                  "@type": "ContactPoint",
+                                  "telephone": "+966556124555",
+                                  "contactType": "{% if apos.i18n.options.locales[data.locale].isRtl %}خدمة العملاء{% else %}Customer Service{% endif %}",
+                                  "areaServed": "Saudi Arabia",
+                                  "availableLanguage": ["ar", "en"]
+                                }, {
+                                  "@type": "ContactPoint",
+                                  "telephone": "+96594951116",
+                                  "contactType": "{% if apos.i18n.options.locales[data.locale].isRtl %}خدمة العملاء{% else %}Customer Service{% endif %}",
+                                  "areaServed": "Kuwait",
+                                  "availableLanguage": ["ar", "en"]
+                                }
+                              ]
+                            }
+                          {% else %}
+                            "contactPoint": [
+                              {
+                                "@type": "ContactPoint",
+                                "telephone": "+96265693999",
+                                "contactType": "{% if apos.i18n.options.locales[data.locale].isRtl %}خدمة العملاء{% else %}Customer Service{% endif %}",
+                                "areaServed": "Jordan",
+                                "availableLanguage": ["ar", "en"]
+                              }, {
+                                "@type": "ContactPoint",
+                                "telephone": "+966556124555",
+                                "contactType": "{% if apos.i18n.options.locales[data.locale].isRtl %}خدمة العملاء{% else %}Customer Service{% endif %}",
+                                "areaServed": "Saudi Arabia",
+                                "availableLanguage": ["ar", "en"]
+                              }, {
+                                "@type": "ContactPoint",
+                                "telephone": "+96594951116",
+                                "contactType": "{% if apos.i18n.options.locales[data.locale].isRtl %}خدمة العملاء{% else %}Customer Service{% endif %}",
+                                "areaServed": "Kuwait",
+                                "availableLanguage": ["ar", "en"]
+                              }
+                            ],
+                            "address": [
+                              {
+                                "@type": "PostalAddress",
+                                "streetAddress": "{% if apos.i18n.options.locales[data.locale].isRtl %}ساحة انشاصي رقم 28، شارع الحصري، الشميساني{% else %}Anshasi Square #28, Al-Husari St. Al Shumaisani{% endif %}",
+                                "addressLocality": "{% if apos.i18n.options.locales[data.locale].isRtl %}عمان{% else %}Amman{% endif %}",
+                                "addressRegion": "{% if apos.i18n.options.locales[data.locale].isRtl %}محافظة عمان{% else %}Amman Governorate{% endif %}",
+                                "postalCode": "11194",
+                                "addressCountry": "JO"
+                              }, {
+                                "@type": "PostalAddress",
+                                "streetAddress": "{% if apos.i18n.options.locales[data.locale].isRtl %}8479 المشرقة - الربيع الوحدة رقم 12{% else %}8479 Al Mashraqa - Ar Rabi Unit No 12{% endif %}",
+                                "addressLocality": "{% if apos.i18n.options.locales[data.locale].isRtl %}الرياض{% else %}Riyadh{% endif %}",
+                                "addressRegion": "{% if apos.i18n.options.locales[data.locale].isRtl %}منطقة الرياض{% else %}Riyadh Region{% endif %}",
+                                "postalCode": "13316-3713",
+                                "addressCountry": "SA"
+                              }, {
+                                "@type": "PostalAddress",
+                                "streetAddress": "{% if apos.i18n.options.locales[data.locale].isRtl %}مكتب رقم 14، الدور الثالث، مبنى يعقوب جاسم سعدون، شارع فهد السالم، قطعة 11، القبلة{% else %}Office 14, Floor 3, Yaqoub Jassem Saadon Building, Fahad Al Salem Street, Block 11, Qibla{% endif %}",
+                                "addressLocality": "{% if apos.i18n.options.locales[data.locale].isRtl %}مدينة الكويت{% else %}Kuwait City{% endif %}",
+                                "addressRegion": "{% if apos.i18n.options.locales[data.locale].isRtl %}الكويت{% else %}Kuwait{% endif %}",
+                                "addressCountry": "KW"
+                              }
+                            ]
+                          {% endif %}
+                          {% if data.piece.type === '@apostrophecms/blog' %}
+                            {% if data.piece.publishedAt %}
+                              "datePublished": "{{data.piece.publishedAt}}",
+                              "dateModified": "{{data.piece.publishedAt}}"
+                            {% endif %}
+                          {% endif %}
+                        }
+                      </script>
+
+                      {%if not data.user%}
+                        {% area data.global,
+                        'injected' %}
+                        {%endif%}
+                        {# Close
+.bp-wrapper #}
+                      {% endblock %}

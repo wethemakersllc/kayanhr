@@ -1,0 +1,31 @@
+version: "2"
+services:
+  kayanhr-website:
+    container_name: kayanhr-website
+    restart: always
+    image: codebase.wtmsrv.com/we.the.makers/kayanhr-website:latest
+    networks:
+      - kayanhr
+    ports:
+      - "3001:3000"
+    volumes:
+      - /data/kayanhr-website/uploads:/app/public/uploads
+    environment:
+      - APOS_MONGODB_URI=mongodb://kayanhr-mongo:27017/kayanhr-website
+      - BASE_URL=https://kayanhr.com
+      - NODE_ENV=production
+    depends_on:
+      - kayanhr-mongo
+
+  kayanhr-mongo:
+    container_name: kayanhr-mongo
+    image: mongo:4
+    restart: always
+    volumes:
+      - /data/kayanhr-website/db:/data/db
+    networks:
+      - kayanhr
+
+networks:
+  kayanhr:
+    name: kayanhr

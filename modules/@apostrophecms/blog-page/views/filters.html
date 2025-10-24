@@ -1,0 +1,23 @@
+{%- macro here(url, changes) -%} {{ url | build({ year: data.query.year },
+changes) }} {%- endmacro -%} {% fragment render(data) %}
+<ul class="bg-filter-list">
+  {% if data.filters.year.length>2 %} {% for year in data.filters.year %}
+  <li>
+    <a
+      class="{{ 'is-active' if data.query.year == year.value }}"
+      href="{{ here(data.url, { year: year.value }) }}"
+      >{{ __t(year.label) }}</a
+    >
+  </li>
+  {% endfor %} {% else %} {% for year in
+  data.filters.year.splice(data.filters.year.length-2,1) %}
+  <li>
+    <a
+      class="{{ 'is-active' if data.query.year == year.value }}"
+      href="{{ here(data.url, { year: year.value }) }}"
+      >{{ __t(year.label) }}</a
+    >
+  </li>
+  {% endfor %} {% endif %}
+</ul>
+{% endfragment %}

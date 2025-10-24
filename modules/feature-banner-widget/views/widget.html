@@ -1,0 +1,65 @@
+<section data-feature-banner-widget>
+  <div
+    class="{%if apos.i18n.options.locales[data.locale].isRtl %} feature-header-ar {%else%} feature-header {%endif%} relative"
+  >
+    <div class="flex py-[10%] lg:pb-[11%]">
+      <div
+        class="flex flex-col sm:container lg:w-[65%] px-8 ltr:lg:pl-[112px] rtl:lg:pr-[112px] feature-header-container"
+      >
+        <h1
+          class="left Title2 sm:Title1 text-dark-gray4 ltr:text-left rtl:text-right mt-4 mb-4 md:mb-[1rem] lg:mb-[1rem] md:mt-0"
+        >
+          {{data.piece.displayTitle}}
+        </h1>
+        <h2
+          class="left Title2 sm:Title1 text-dark-gray4 ltr:text-left rtl:text-right mt-4 mb-4 md:mb-[1rem] lg:mb-[1rem] md:mt-0"
+        >
+          {% area data.widget, 'subtitle'%}
+        </h2>
+        {% area data.widget, 'description'%}
+
+        <a
+          class="bg-blue z-10 leading-[16px] p-[17px] w-[fit-content] text-white text-center mt-[32px] btn-primary transition-color duration-200 rounded-lg Button2"
+          {%if
+          apos.i18n.options.locales[data.locale].isRtl
+          %}
+          href="/ar/book-kayanhr-demo-and-discover-our-human-resource-solutions"
+          {%else
+          %}href="/book-kayanhr-demo-and-discover-our-human-resource-solutions"
+          {%
+          endif
+          %}
+        >
+          {{__t("Get Started")}}
+        </a>
+      </div>
+      <div
+        class="xl:absolute xl:bottom-[75px] ltr:xl:right-0 rtl:xl:left-0 lg:flex flex-col hidden pb-[20px] pt-[55px] xl:pt-[100px]"
+      >
+        <div class="flex flex-col content-end items-end">
+          <div
+            class="shadow-xl rounded-[4px 0px 0px 4px] h-[100px] w-[380px] xl:w-[480px]"
+          ></div>
+          <div
+            class="shadow-xl rounded-[4px 0px 0px 4px] h-[100px] mt-[30px] w-[380px] xl:w-[480px]"
+          ></div>
+        </div>
+        <div>
+          <div
+            class="shadow-xl rouded-tl rounded-bl w-[480px] xl:w-[600px] h-[100px] mt-[30px] flex pl-[10px] pr-[10px] items-center {% if apos.i18n.options.locales[data.locale].isRtl %} features-header-card-ar {%else%} features-header-card {%endif%} relative"
+          >
+            <div class="bg-sky-blue p-[10px] rounded-[10px] w-[68px]">
+              {% area data.widget, 'featureCardIcon'%}
+            </div>
+            <div
+              class="leading-[32px] container mx-auto px-8 ltr:text-left rtl:text-right flex flex-col h-[48px] justify-between"
+            >
+              <div>{% area data.widget, 'featureCardTitle'%}</div>
+              <div>{% area data.widget, 'featureCardSubtitle'%}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

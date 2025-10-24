@@ -1,0 +1,820 @@
+{% if data.contextOptions.type == 'footer' %}
+<div
+  class="grid gap-12 row-gap-10 mb-8 lg:grid-cols-6 pt-16 border-t border-mystic-blue"
+>
+  <div class="md:max-w-[200px] lg:col-span-1">
+    <a
+      {%if
+      apos.i18n.options.locales[data.locale].isRtl
+      %}
+      href="/ar"
+      {%else
+      %}href="/"
+      {%
+      endif
+      %}
+      aria-label="Go home"
+      title="home"
+      class="inline-flex items-center"
+    >
+      <img src="/images/kayan-logo.svg" alt="logo" />
+    </a>
+    <ul class="mt-6 space-y-4 Title4 xl:Title2">
+      <li>
+        <a
+          {%if
+          apos.i18n.options.locales[data.locale].isRtl
+          %}
+          href="/ar/customize-global-tax-and-social-security-rules-easily-kayanhr"
+          {%else
+          %}href="/customize-global-tax-and-social-security-rules-easily-kayanhr"
+          {%
+          endif
+          %}
+          class="text-dark-gray6 transition-opacity duration-300 opacity-100 hover:opacity-70"
+        >
+          {{__t('Why Kayan')}}</a
+        >
+      </li>
+      <li>
+        <a
+          {%if
+          apos.i18n.options.locales[data.locale].isRtl
+          %}
+          href="/ar/elevate-with-kayan-s-partner-program-kayanhr"
+          {%else
+          %}href="/elevate-with-kayan-s-partner-program-kayanhr"
+          {%
+          endif
+          %}
+          class="text-dark-gray6 transition-opacity duration-300 opacity-100 hover:opacity-70"
+        >
+          {{__t('Partner with us')}}
+        </a>
+      </li>
+      <li>
+        <a
+          {%if
+          apos.i18n.options.locales[data.locale].isRtl
+          %}
+          href="/ar/integration"
+          {%else
+          %}href="/integration"
+          {%
+          endif
+          %}
+          class="text-dark-gray6 transition-opacity duration-300 opacity-100 hover:opacity-70"
+        >
+          {{__t('Integration')}}
+        </a>
+      </li>
+      {% if data.global.apiUrl%}
+      <li>
+        <a
+          href="{{data.global.apiUrl}}"
+          class="text-dark-gray6 transition-opacity duration-300 opacity-100 hover:opacity-70"
+          >API</a
+        >
+      </li>
+      {%endif%}
+    </ul>
+  </div>
+  <div
+    class="grid grid-cols-2 gap-5 gap-y-11 lg:col-span-5 md:grid-cols-3 lg:grid-cols-5"
+  >
+    {%if data.widget._peopleManagement.length > 0 %}
+    <div class="lg:mx-auto">
+      <p class="text-dark-gray6 Title4 xl:Title2">
+        {{__t("People Management")}}
+      </p>
+      <ul class="mt-6 space-y-4 Button3">
+        {% for feature in data.widget._peopleManagement%}
+        <li>
+          <a
+            {%if
+            not
+            feature.disableNavigation
+            %}
+            href="{{feature._url}}"
+            {%endif%}
+            class="text-dark-gray6 transition-opacity duration-300 opacity-100 hover:opacity-70"
+          >
+            {{feature.displayTitle}} {% if feature.beta %}
+            <span
+              class="relative bottom-[3px] rtl:Tajawal text-[10px] text-yellow -mt-4"
+            >
+              BETA
+            </span>
+            {% endif %}
+          </a>
+        </li>
+        {%endfor%}
+      </ul>
+    </div>
+    {%endif%} {%if data.widget._engagement.length > 0 %}
+    <div class="lg:mx-auto">
+      <p class="text-dark-gray6 Title4 xl:Title2">{{__t("Engagement")}}</p>
+      <ul class="mt-6 space-y-4 Button3">
+        {% for feature in data.widget._engagement%}
+        <li>
+          <a
+            {%if
+            not
+            feature.disableNavigation
+            %}
+            href="{{feature._url}}"
+            {%endif%}
+            class="text-dark-gray6 transition-opacity duration-300 opacity-100 hover:opacity-70"
+          >
+            {{feature.displayTitle}} {% if feature.beta %}
+            <span
+              class="relative bottom-[3px] rtl:Tajawal text-[10px] text-yellow -mt-4"
+            >
+              BETA
+            </span>
+            {% endif %}
+          </a>
+        </li>
+        {%endfor%}
+      </ul>
+    </div>
+    {%endif%} {%if data.widget._compensation.length > 0 %}
+    <div class="lg:mx-auto">
+      <p class="text-dark-gray6 Title4 xl:Title2">{{__t("Compensation")}}</p>
+      <ul class="mt-6 space-y-4 Button3">
+        {% for feature in data.widget._compensation%}
+        <li>
+          <a
+            {%if
+            not
+            feature.disableNavigation
+            %}
+            href="{{feature._url}}"
+            {%endif%}
+            class="text-dark-gray6 transition-opacity duration-300 opacity-100 hover:opacity-70"
+          >
+            {{feature.displayTitle}} {% if feature.beta %}
+            <span
+              class="relative bottom-[3px] rtl:Tajawal text-[10px] text-yellow -mt-4"
+            >
+              BETA
+            </span>
+            {% endif %}
+          </a>
+        </li>
+        {%endfor%}
+      </ul>
+    </div>
+    {%endif%} {%if data.widget._talentManagement.length > 0 %}
+    <div class="lg:mx-auto">
+      <p class="text-dark-gray6 Title4 xl:Title2">
+        {{__t("Talent Management")}}
+      </p>
+      <ul class="mt-6 space-y-4 Button3">
+        {% for feature in data.widget._talentManagement%}
+        <li>
+          <a
+            {%if
+            not
+            feature.disableNavigation
+            %}
+            href="{{feature._url}}"
+            {%endif%}
+            class="text-dark-gray6 transition-opacity duration-300 opacity-100 hover:opacity-70"
+            >{{feature.displayTitle}} {% if feature.beta %}
+            <span
+              class="bottom-[3px] rtl:Tajawal text-[10px] text-yellow -mt-4"
+            >
+              BETA
+            </span>
+            {% endif %}
+          </a>
+        </li>
+        {%endfor%}
+      </ul>
+    </div>
+    {%endif%}
+    <div class="lg:mx-auto">
+      <p class="text-dark-gray6 Title4 xl:Title2">{{__t("Company")}}</p>
+      <ul class="mt-6 space-y-4 Button3">
+        <li>
+          <a
+            {%if
+            apos.i18n.options.locales[data.locale].isRtl
+            %}
+            href="/ar/empowering-global-businesses-with-seamless-hr-management-kayanhr"
+            {%else
+            %}href="/empowering-global-businesses-with-seamless-hr-management-kayanhr"
+            {%
+            endif
+            %}
+            class="text-dark-gray6 transition-opacity duration-300 opacity-100 hover:opacity-70"
+            >{{__t("About us")}}</a
+          >
+        </li>
+        <li>
+          <a
+            {%if
+            apos.i18n.options.locales[data.locale].isRtl
+            %}
+            href="/ar/join-our-journey-to-success-partner-with-us-kayanhr"
+            {%else
+            %}href="/join-our-journey-to-success-partner-with-us-kayanhr"
+            {%
+            endif
+            %}
+            class="text-dark-gray6 transition-opacity duration-300 opacity-100 hover:opacity-70"
+          >
+            {{__t("Our Partners")}}
+          </a>
+        </li>
+        {%if data.global.careersUrl%}
+        <li>
+          <a
+            href="{{data.global.careersUrl}}"
+            class="text-dark-gray6 transition-opacity duration-300 opacity-100 hover:opacity-70"
+            >{{__t("Careers")}}</a
+          >
+        </li>
+        {%endif%}
+        <li>
+          <a
+            {%if
+            apos.i18n.options.locales[data.locale].isRtl
+            %}
+            href="/ar/book-kayanhr-demo-and-discover-our-human-resource-solutions"
+            {%else
+            %}href="/book-kayanhr-demo-and-discover-our-human-resource-solutions"
+            {%
+            endif
+            %}
+            class="text-dark-gray6 transition-opacity duration-300 opacity-100 hover:opacity-70"
+            >{{__t("Book a Demo")}}</a
+          >
+        </li>
+        <li>
+          <a
+            {%if
+            apos.i18n.options.locales[data.locale].isRtl
+            %}
+            href="/ar/privacy-policy-how-we-collect-use-and-protect-customer-data-kayanhr"
+            {%else
+            %}href="/privacy-policy-how-we-collect-use-and-protect-customer-data-kayanhr"
+            {%
+            endif
+            %}
+            class="text-dark-gray6 transition-opacity duration-300 opacity-100 hover:opacity-70"
+            >{{__t("Privacy Policy")}}</a
+          >
+        </li>
+        <li>
+          <a
+            {%if
+            apos.i18n.options.locales[data.locale].isRtl
+            %}
+            href="/ar/contact-us-anytime-schedule-a-free-appointment-with-our-team-kayanhr"
+            {%else
+            %}href="/contact-us-anytime-schedule-a-free-appointment-with-our-team-kayanhr"
+            {%
+            endif
+            %}
+            class="text-dark-gray6 transition-opacity duration-300 opacity-100 hover:opacity-70"
+            >{{__t("Contact us")}}</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% elif data.contextOptions.type == 'header' %}
+
+<button class="outline-none focus:outline-none bg-white flex items-center">
+  <span
+    class="ltr:pr-1 rtl:pl-1 Button3 inline-flex flex-1 dropdown-header text-dark-gray1"
+  >
+    {{__t("FEATURES")}}
+    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+      <path
+        fill="currentColor"
+        d="M12 14.95 6.475 9.425 7.45 8.425 12 12.975 16.55 8.425 17.525 9.425Z"
+      /></svg
+  ></span>
+</button>
+<ul
+  class="text-dark-gray3 py-[30px] space-y-4 bg-white rounded-[10px] transform scale-0 md:group-hover:scale-100 absolute transition duration-300 ease-in-out origin-top min-w-[181px] xl:min-w-[766px] mt-[6px] shadow-md px-14"
+>
+  <div class="grid grid-cols-3 gap-10">
+    {%if data.widget._peopleManagement.length > 0 %}
+    <div>
+      <p class="text-dark-gray3 Button3">{{__t("PEOPLE MANAGEMENT")}}</p>
+      <ul class="mt-5 space-y-2 Button3">
+        {% for feature in data.widget._peopleManagement%}
+        <li>
+          <a
+            {%if
+            not
+            feature.disableNavigation
+            %}
+            href="{{feature._url}}"
+            {%endif%}
+            class="text-dark-gray4 transition-color duration-300 hover:text-sky-blue"
+          >
+            {{feature.displayTitle}} {% if feature.beta %}
+            <span
+              class="relative bottom-[3px] rtl:Tajawal text-[10px] text-yellow -mt-4"
+            >
+              BETA
+            </span>
+            {% endif %}
+          </a>
+        </li>
+        {%endfor%}
+      </ul>
+    </div>
+    {%endif%} {%if data.widget._compensation.length > 0 %}
+    <div>
+      <p class="text-dark-gray3 Button3">{{__t("COMPENSATION")}}</p>
+      <ul class="mt-5 space-y-2 Button3">
+        {% for feature in data.widget._compensation%}
+        <li>
+          <a
+            {%if
+            not
+            feature.disableNavigation
+            %}
+            href="{{feature._url}}"
+            {%endif%}
+            class="text-dark-gray4 transition-color duration-300 hover:text-sky-blue"
+          >
+            {{feature.displayTitle}} {% if feature.beta %}
+            <span
+              class="relative bottom-[3px] rtl:Tajawal text-[10px] text-yellow -mt-4"
+            >
+              BETA
+            </span>
+            {% endif %}
+          </a>
+        </li>
+        {%endfor%}
+      </ul>
+    </div>
+    {%endif%} {%if data.widget._talentManagement.length > 0 %}
+    <div>
+      <p class="text-dark-gray3 Button3">{{__t("TALENT MANAGEMENT")}}</p>
+      <ul class="mt-5 space-y-2 Button3">
+        {% for feature in data.widget._talentManagement%}
+        <li>
+          <a
+            {%if
+            not
+            feature.disableNavigation
+            %}
+            href="{{feature._url}}"
+            {%endif%}
+            class="text-dark-gray4 transition-color duration-300 hover:text-sky-blue"
+          >
+            {{feature.displayTitle}} {% if feature.beta %}
+            <span
+              class="relative bottom-[3px] rtl:Tajawal text-[10px] text-yellow -mt-4"
+            >
+              BETA
+            </span>
+            {% endif %}
+          </a>
+        </li>
+        {%endfor%}
+      </ul>
+    </div>
+    {%endif%} {%if data.widget._engagement.length > 0 %}
+    <div>
+      <p class="text-dark-gray3 Button3">{{__t("ENGAGEMENT")}}</p>
+      <ul class="mt-5 space-y-2 Button3">
+        {% for feature in data.widget._engagement%}
+        <li>
+          <a
+            {%if
+            not
+            feature.disableNavigation
+            %}
+            href="{{feature._url}}"
+            {%endif%}
+            class="text-dark-gray4 transition-color duration-300 hover:text-sky-blue"
+          >
+            {{feature.displayTitle}} {% if feature.beta %}
+            <span
+              class="relative bottom-[3px] rtl:Tajawal text-[10px] text-yellow -mt-4"
+            >
+              BETA
+            </span>
+            {% endif %}
+          </a>
+        </li>
+        {%endfor%}
+      </ul>
+    </div>
+    {%endif%}
+  </div>
+</ul>
+{% elif data.contextOptions.type == 'burger' %}
+
+<nav
+  class="flex flex-col space-y-2 p-4 divide-y divide-gray-100 touch-pan-y overflow-scroll"
+>
+  <div class="py-2">
+    <p class="block Button3 uppercase">{{__t("FEATURES")}}</p>
+    <ul class="mt-2">
+      {%if data.widget._peopleManagement.length > 0 %}
+      <details class="group">
+        <summary
+          class="flex items-center px-4 py-2 text-dark-gray4 rounded-lg cursor-pointer group-open:text-sky-blue hover:text-sky-blue"
+        >
+          <span class="Button4"> {{__t("People Management")}} </span>
+
+          <span
+            class="ltr:ml-auto rtl:mr-auto transition duration-300 shrink-0 group-open:-rotate-180"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </span>
+        </summary>
+
+        <nav class="mt-1.5 ml-8 flex flex-col">
+          {% for feature in data.widget._peopleManagement%}
+          <a
+            {%if
+            not
+            feature.disableNavigation
+            %}
+            href="{{feature._url}}"
+            {%endif%}
+            class="flex items-center px-4 py-2 text-dark-gray4 rounded-lg hover:text-sky-blue"
+          >
+            <span class="Button4">
+              {{feature.displayTitle}} {% if feature.beta %}
+              <span
+                class="relative bottom-[3px] rtl:Tajawal text-[10px] text-yellow -mt-4"
+              >
+                BETA
+              </span>
+              {% endif %}
+            </span>
+          </a>
+
+          {%endfor%}
+        </nav>
+      </details>
+      {%endif%} {%if data.widget._engagement.length > 0 %}
+      <details class="group">
+        <summary
+          class="flex items-center px-4 py-2 text-dark-gray4 rounded-lg cursor-pointer group-open:text-sky-blue hover:text-sky-blue"
+        >
+          <span class="Button4">{{__t("Engagement")}}</span>
+
+          <span
+            class="ltr:ml-auto rtl:mr-auto transition duration-300 shrink-0 group-open:-rotate-180"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </span>
+        </summary>
+
+        <nav class="mt-1.5 ml-8 flex flex-col">
+          {% for feature in data.widget._engagement%}
+          <a
+            {%if
+            not
+            feature.disableNavigation
+            %}
+            href="{{feature._url}}"
+            {%endif%}
+            class="flex items-center px-4 py-2 text-dark-gray4 rounded-lg hover:text-sky-blue"
+          >
+            <span class="Button4">
+              {{feature.displayTitle}} {% if feature.beta %}
+              <span
+                class="relative bottom-[3px] rtl:Tajawal text-[10px] text-yellow -mt-4"
+              >
+                BETA
+              </span>
+              {% endif %}</span
+            >
+          </a>
+
+          {%endfor%}
+        </nav>
+      </details>
+      {%endif%} {%if data.widget._compensation.length > 0 %}
+      <details class="group">
+        <summary
+          class="flex items-center px-4 py-2 text-dark-gray4 rounded-lg cursor-pointer group-open:text-sky-blue hover:text-sky-blue"
+        >
+          <span class="Button4">{{__t("Compensation")}}</span>
+
+          <span
+            class="ltr:ml-auto rtl:mr-auto transition duration-300 shrink-0 group-open:-rotate-180"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </span>
+        </summary>
+
+        <nav class="mt-1.5 ml-8 flex flex-col">
+          {% for feature in data.widget._compensation%}
+          <a
+            {%if
+            not
+            feature.disableNavigation
+            %}
+            href="{{feature._url}}"
+            {%endif%}
+            class="flex items-center px-4 py-2 text-dark-gray4 rounded-lg hover:text-sky-blue"
+          >
+            <span class="Button4">
+              {{feature.displayTitle}}{% if feature.beta %}
+              <span
+                class="relative bottom-[3px] rtl:Tajawal text-[10px] text-yellow -mt-4"
+              >
+                BETA
+              </span>
+              {% endif %}
+            </span>
+          </a>
+
+          {%endfor%}
+        </nav>
+      </details>
+      {% endif %} {%if data.widget._talentManagement.length > 0 %}
+      <details class="group">
+        <summary
+          class="flex items-center px-4 py-2 text-dark-gray4 rounded-lg cursor-pointer group-open:text-sky-blue hover:text-sky-blue"
+        >
+          <span class="Button4">{{__t("Talent Management")}}</span>
+
+          <span
+            class="ltr:ml-auto rtl:mr-auto transition duration-300 shrink-0 group-open:-rotate-180"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </span>
+        </summary>
+
+        <nav class="mt-1.5 ml-8 flex flex-col">
+          {% for feature in data.widget._talentManagement%}
+          <a
+            {%if
+            not
+            feature.disableNavigation
+            %}
+            href="{{feature._url}}"
+            {%endif%}
+            class="flex items-center px-4 py-2 text-dark-gray4 rounded-lg hover:text-sky-blue"
+          >
+            <span class="Button4">
+              {{feature.displayTitle}} {% if feature.beta %}
+              <span
+                class="relative bottom-[3px] rtl:Tajawal text-[10px] text-yellow -mt-4"
+              >
+                BETA
+              </span>
+              {% endif %}</span
+            >
+          </a>
+
+          {%endfor%}
+        </nav>
+      </details>
+      {% endif %}
+    </ul>
+  </div>
+  <div class="py-2">
+    <p class="block Button3 uppercase">{{__t("COMPANY")}}</p>
+
+    <ul class="mt-1">
+      <li>
+        <a
+          {%if
+          apos.i18n.options.locales[data.locale].isRtl
+          %}
+          href="/ar/empowering-global-businesses-with-seamless-hr-management-kayanhr"
+          {%else
+          %}href="/empowering-global-businesses-with-seamless-hr-management-kayanhr"
+          {%
+          endif
+          %}
+          class="block px-4 py-2 Button4 text-dark-gray4 rounded-lg hover:text-sky-blue"
+        >
+          {{__t("About us")}}
+        </a>
+      </li>
+      <li>
+        <a
+          {%if
+          apos.i18n.options.locales[data.locale].isRtl
+          %}
+          href="/ar/join-our-journey-to-success-partner-with-us-kayanhr"
+          {%else
+          %}href="/join-our-journey-to-success-partner-with-us-kayanhr"
+          {%
+          endif
+          %}
+          class="block px-4 py-2 Button4 text-dark-gray4 rounded-lg hover:text-sky-blue"
+        >
+          {{__t("Partners")}}
+        </a>
+      </li>
+      <li>
+        <a
+          {%if
+          apos.i18n.options.locales[data.locale].isRtl
+          %}
+          href="/ar/book-kayanhr-demo-and-discover-our-human-resource-solutions"
+          {%else
+          %}href="/book-kayanhr-demo-and-discover-our-human-resource-solutions"
+          {%
+          endif
+          %}
+          class="block px-4 py-2 Button4 text-dark-gray4 rounded-lg hover:text-sky-blue"
+        >
+          {{__t("Book A Demo")}}
+        </a>
+      </li>
+
+      {%if data.global.careersUrl%}
+
+      <li>
+        <a
+          href="{{data.global.careersUrl}}"
+          class="block px-4 py-2 Button4 text-dark-gray4 rounded-lg hover:text-sky-blue"
+        >
+          {{__t("Work With us")}}
+        </a>
+      </li>
+      {%endif%}
+      <li>
+        <a
+          {%if
+          apos.i18n.options.locales[data.locale].isRtl
+          %}
+          href="/ar/privacy-policy-how-we-collect-use-and-protect-customer-data-kayanhr"
+          {%else
+          %}href="/privacy-policy-how-we-collect-use-and-protect-customer-data-kayanhr"
+          {%
+          endif
+          %}
+          class="block px-4 py-2 Button4 text-dark-gray4 rounded-lg hover:text-sky-blue"
+        >
+          {{__t("Privacy Policy")}}
+        </a>
+      </li>
+      <li>
+        <a
+          {%if
+          apos.i18n.options.locales[data.locale].isRtl
+          %}
+          href="/ar/contact-us-anytime-schedule-a-free-appointment-with-our-team-kayanhr"
+          {%else
+          %}href="/contact-us-anytime-schedule-a-free-appointment-with-our-team-kayanhr"
+          {%
+          endif
+          %}
+          class="block px-4 py-2 Button4 text-dark-gray4 rounded-lg hover:text-sky-blue"
+        >
+          {{__t("Contact us")}}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="py-2">
+    <ul class="mt-1">
+      <li>
+        <a
+          {%if
+          apos.i18n.options.locales[data.locale].isRtl
+          %}
+          href="/ar/customize-global-tax-and-social-security-rules-easily-kayanhr"
+          {%else
+          %}href="/customize-global-tax-and-social-security-rules-easily-kayanhr"
+          {%
+          endif
+          %}
+          class="block px-4 py-2 Button4 text-dark-gray4 hover:text-sky-blue"
+        >
+          {{__t('Why Kayan')}}
+        </a>
+      </li>
+      <li>
+        <a
+          {%if
+          apos.i18n.options.locales[data.locale].isRtl
+          %}
+          href="/ar/elevate-with-kayan-s-partner-program-kayanhr"
+          {%else
+          %}href="/elevate-with-kayan-s-partner-program-kayanhr"
+          {%
+          endif
+          %}
+          class="block px-4 py-2 Button4 text-dark-gray4 rounded-lg hover:text-sky-blue"
+        >
+          {{__t('Partner with us')}}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- {% if data.global.findMySolutionsUrl %}
+  <div class="py-2 flex sm:hidden">
+    <ul class="mt-1">
+      <li>
+        <a
+          href="{{data.global.findMySolutionsUrl}}"
+          class="btn-primary transition-color duration-200 rounded-lg Button3"
+        >
+          Find my Solution
+        </a>
+      </li>
+    </ul>
+  </div>
+  {%endif%} -->
+  {% if data.global.loginUrl %}
+  <div class="py-2 flex sm:hidden">
+    <ul class="mt-1">
+      <li>
+        <div class="relative mr-2 xl:mr-8 w-auto">
+          <a
+            class="login-btn Button2 text-blue"
+            href="{{data.global.loginUrl}}"
+            target="_blank"
+          >
+            {{__t("Login")}}
+          </a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  {%endif%} {% for localization in data.localizations %} {% if localization._url
+  and not localization.current %}
+  <div class="pt-2 pb-20 flex sm:hidden">
+    <ul class="mt-1">
+      <li>
+        <div class="relative mr-2 xl:mr-8 w-auto">
+          {% if localization.type == 'feature' %}
+          <a
+            href="{%if localization.homePageUrl != '/'%}{{ localization.homePageUrl }}{%endif%}/features/{{localization.slug}}"
+            {%
+            else
+            %}
+            <a
+            href="{{ localization._url or localization.homePageUrl }}"
+            {%endif%}
+            class="ltr:Tajawal login-btn Button2 text-blue"
+          >
+            {{ localization.label }}
+          </a>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  {% endif %} {% endfor %}
+</nav>
+{%endif%}

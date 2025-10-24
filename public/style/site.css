@@ -1,0 +1,461 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Futura HV";
+  src: url("fonts/Futura-Heavy-font.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Futura MD";
+  src: url("fonts/futura-medium-bt.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Futura LT";
+  src: url("fonts/futura-light-bt.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Work Sans";
+  src: url("fonts/WorkSans-SemiBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Tajawal Bold";
+  src: url("fonts/Tajawal-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Tajawal Medium";
+  src: url("fonts/Tajawal-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Tajawal Light";
+  src: url("fonts/Tajawal-Light.ttf") format("truetype");
+}
+
+@layer utilities {
+  .LargeTitle {
+    font-size: 90px;
+    font-family: "Futura HV", sans-serif;
+    line-height: 71px;
+    @apply rtl:LargeTitleAr;
+  }
+  .LargeTitleAr {
+    font-size: 90px;
+    font-family: "Tajawal Bold", sans-serif;
+    line-height: 71px;
+  }
+  .Title0 {
+    font-size: 60px;
+    font-family: "Futura HV", sans-serif;
+    line-height: 71px;
+    @apply rtl:Title0Ar;
+  }
+  .Title0Ar {
+    font-size: 60px;
+    font-family: "Tajawal Bold", sans-serif;
+    line-height: 90px;
+  }
+  .Title1 {
+    font-size: 40px;
+    font-family: "Futura HV", sans-serif;
+    @apply rtl:Title1Ar;
+  }
+  .Title1Ar {
+    font-size: 40px;
+    font-family: "Tajawal Bold", sans-serif;
+  }
+  .Title2 {
+    font-size: 18px;
+    font-family: "Futura HV", sans-serif;
+    @apply rtl:Title2Ar;
+  }
+  .Title2Ar {
+    font-size: 18px;
+    font-family: "Tajawal Bold", sans-serif;
+  }
+  .Title3 {
+    font-size: 16px;
+    font-family: "Futura MD", sans-serif;
+    @apply rtl:Title3Ar;
+  }
+  .Title3Ar {
+    font-size: 16px;
+    font-family: "Tajawal Medium", sans-serif;
+  }
+  .Title4 {
+    font-size: 16px;
+    font-family: "Futura HV", sans-serif;
+    @apply rtl:Title4Ar;
+  }
+  .Title4Ar {
+    font-size: 16px;
+    font-family: "Tajawal Bold", sans-serif;
+  }
+  .heading {
+    font-size: 50px;
+    font-family: "Futura HV", sans-serif;
+    line-height: 71px;
+    @apply rtl:headingAr;
+  }
+  .headingAr {
+    font-size: 50px;
+    font-family: "Tajawal Bold", sans-serif;
+    line-height: 71px;
+  }
+  .SubHeading {
+    font-size: 25px;
+    font-family: "Futura MD", sans-serif;
+    @apply rtl:SubHeadingAr;
+  }
+  .SubHeadingAr {
+    font-size: 25px;
+    font-family: "Tajawal Medium", sans-serif;
+  }
+  .SubHeading2 {
+    font-size: 30px;
+    font-family: "Futura MD", sans-serif;
+    @apply rtl:SubHeading2Ar;
+  }
+  .SubHeading2Ar {
+    font-size: 30px;
+    font-family: "Tajawal Medium", sans-serif;
+  }
+  .SubHeading3 {
+    font-size: 22px;
+    font-family: "Futura MD", sans-serif;
+    @apply rtl:SubHeading3Ar;
+  }
+  .SubHeading3Ar {
+    font-size: 22px;
+    font-family: "Tajawal Medium", sans-serif;
+  }
+  .SubHeading4 {
+    font-size: 25px;
+    font-family: "Futura HV", sans-serif;
+    @apply rtl:SubHeading4Ar;
+  }
+  .SubHeading4Ar {
+    font-size: 25px;
+    font-family: "Tajawal Bold", sans-serif;
+  }
+  .body {
+    font-size: 18px;
+    font-family: "Futura LT", sans-serif;
+    line-height: 32px;
+    @apply rtl:bodyAr;
+  }
+  .bodyAr {
+    font-size: 18px;
+    font-family: "Tajawal Light", sans-serif;
+    line-height: 32px;
+  }
+  .caption {
+    font-size: 20px;
+    font-family: "Futura MD", sans-serif;
+    @apply rtl:captionAr;
+  }
+  .captionAr {
+    font-size: 20px;
+    font-family: "Tajawal Medium", sans-serif;
+  }
+  .caption2 {
+    font-size: 16px;
+    font-family: "Futura LT", sans-serif;
+    @apply rtl:caption2Ar;
+  }
+  .caption2Ar {
+    font-size: 16px;
+    font-family: "Tajawal Light", sans-serif;
+  }
+  .caption3 {
+    font-size: 20px;
+    font-family: "Futura HV", sans-serif;
+    @apply rtl:caption3Ar;
+  }
+  .caption3Ar {
+    font-size: 20px;
+    font-family: "Tajawal Bold", sans-serif;
+  }
+  .captionpartners {
+    font-size: 27px;
+    font-family: "Futura HV", sans-serif;
+    @apply rtl:captionpartnersAr;
+  }
+  .captionpartnersAr {
+    font-size: 27px;
+    font-family: "Tajawal Bold", sans-serif;
+  }
+  .Button1 {
+    font-size: 18px;
+    font-family: "Futura HV", sans-serif;
+    @apply rtl:Button1Ar;
+  }
+  .Button1Ar {
+    font-size: 18px;
+    font-family: "Tajawal Bold", sans-serif;
+  }
+  .Button2 {
+    font-size: 14px;
+    font-family: "Futura HV", sans-serif;
+    @apply rtl:Button2Ar;
+  }
+  .Button2Ar {
+    font-size: 14px;
+    font-family: "Tajawal Bold", sans-serif;
+  }
+  .Button3 {
+    font-size: 14px;
+    font-family: "Futura MD", sans-serif;
+    letter-spacing: 1.4px;
+    @apply rtl:Button3Ar;
+  }
+  .Button3Ar {
+    font-size: 14px;
+    font-family: "Tajawal Medium", sans-serif;
+    letter-spacing: 0.8px;
+  }
+  .Buttonlast {
+    font-size: 14px;
+    font-family: "Futura MD", sans-serif;
+    letter-spacing: 0px;
+    @apply rtl:ButtonlastAr;
+  }
+  .ButtonlastAr {
+    font-size: 14px;
+    font-family: "Tajawal Medium", sans-serif;
+    letter-spacing: 0px;
+  }
+  .Button4 {
+    font-size: 14px;
+    font-family: "Futura LT", sans-serif;
+    @apply rtl:Button4Ar;
+  }
+  .Button4Ar {
+    font-size: 14px;
+    font-family: "Tajawal Light", sans-serif;
+  }
+  .Button5 {
+    font-size: 14px;
+    font-family: "Futura MD", sans-serif;
+    @apply rtl:Button5Ar;
+  }
+  .Button5Ar {
+    font-size: 14px;
+    font-family: "Tajawal Medium", sans-serif;
+  }
+  .workSans {
+    font-family: "Work Sans", sans-serif;
+  }
+  .Tajawal {
+    font-family: "Tajawal Medium", sans-serif;
+    line-height: normal;
+  }
+  .FuturaHV {
+    font-family: "Futura HV", sans-serif;
+  }
+
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center px-6 py-3 text-[#ffffff] border border-[#0F69B0] bg-[#0F69B0] hover:border-[#41A6F7] hover:bg-[#41A6F7] active:bg-[#41A6F7]  focus:ring;
+  }
+  .btn-outline {
+    @apply inline-flex items-center px-6 py-3 text-[#696969] bg-[#ffffff]  border border-[#696969]  hover:bg-[#EBEBEB]  hover:border-[#EBEBEB]    active:bg-[#EBEBEB]  focus:ring;
+  }
+  .blue-circle {
+    @apply before:bg-[url('/images/blue-circle.svg')] before:bg-center before:bg-no-repeat before:content-[''] before:absolute before:w-[208px] md:before:w-[276px] before:h-[100px] md:before:h-[124px] before:top-[38px] md:before:top-[55px] ltr:before:right-[-10px] rtl:before:right-[-30px] before:bg-contain;
+  }
+  .blue-circle2 {
+    @apply before:bg-[url('/images/blue-circle.svg')] before:bg-center before:bg-no-repeat before:content-[''] before:absolute before:w-[208px] md:before:w-[276px] before:h-[100px] md:before:h-[124px] before:top-[38px] md:before:top-[55px] ltr:before:left-[-10px] rtl:before:right-[-10px] before:bg-contain;
+  }
+  .blue-circle3 {
+    @apply before:bg-[url('/images/blue-circle.svg')] before:bg-center before:bg-no-repeat before:content-[''] before:absolute before:w-[185px] md:before:w-[245px] before:h-[100px] md:before:h-[124px] before:top-[29px] md:before:top-[60px] ltr:before:left-[-10px] rtl:before:right-[45px] md:rtl:before:right-[64px] before:bg-contain;
+  }
+  .wavy-underline {
+    @apply after:bg-[url('/images/blue-line.svg')] after:bg-center after:bg-no-repeat after:content-[''] after:absolute after:w-full after:h-[100px] md:after:h-[124px] after:top-[-14px] sm:after:top-[4px] md:after:top-[-7px] xl:after:top-[22px]  after:left-[-5px] after:bg-contain;
+  }
+  .wavy-underline-ar {
+    @apply after:bg-[url('/images/blue-line.svg')] after:bg-center after:bg-no-repeat after:content-[''] after:absolute after:w-full after:h-[100px] md:after:h-[124px] after:top-[-14px] sm:after:top-[4px] md:after:top-[-7px] xl:after:top-[22px]  after:left-[0px] after:bg-contain;
+  }
+  .blue-gradient {
+    background: linear-gradient(
+      36deg,
+      rgba(255, 255, 255, 0) 50%,
+      rgba(94, 164, 241, 0.42) 85%
+    );
+  }
+  .apos-form-input {
+    @apply bg-light-gray1 text-blue body rounded-lg focus:bg-light-blue6 block w-full py-2.5 px-4 mb-0;
+  }
+  .apos-form-fieldset {
+    @apply mb-0;
+  }
+  .apos-form-label {
+    @apply block mb-2 body text-dark-gray3 rtl:mt-[7px];
+  }
+  textarea {
+    @apply bg-light-gray1 text-blue body rounded-lg  focus:bg-light-blue6 block w-full p-2.5 resize-none;
+  }
+  .grid__form > .apos-area {
+    @apply flex flex-col space-y-2 lg:grid lg:grid-cols-2 gap-x-8 gap-y-4 lg:space-y-0;
+  }
+  .column__form > .apos-area {
+    @apply flex flex-col space-y-2;
+  }
+  select {
+    @apply !p-[0.85rem] ltr:border-r-[16px] rtl:border-l-[16px] border-transparent border-solid h-[52px] appearance-none;
+  }
+}
+.mosaic {
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-rows: 1fr;
+}
+.mosaic_2 {
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.mosaic_item:first-of-type {
+  grid-column: 2 / span 2;
+  grid-row: 1 / span 2;
+}
+
+.mosaic_item:last-of-type {
+  grid-column: 1 / span 2;
+  grid-row: 2 / span 2;
+}
+.mosaic_item_2:first-of-type {
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 2;
+}
+
+.mosaic_item_2:last-of-type {
+  grid-column: 1 / span 3;
+  grid-row: 2 / span 2;
+}
+.mosaic_item_3:first-of-type {
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 2;
+}
+
+.mosaic_item_3:last-of-type {
+  grid-column: 1 / span 2;
+  grid-row: 2 / span 2;
+}
+@media (max-width: 975px) {
+  .mosaic_item_3:last-of-type {
+    grid-column: 1 / span 1;
+    grid-row: 2 / span 2;
+  }
+}
+.mosaic_item_4:first-of-type {
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 2;
+}
+
+.mosaic_item_4:last-of-type {
+  grid-column: 2 / span 1;
+  grid-row: 2 / span 2;
+}
+
+@media (max-width: 1023px) {
+  .mosaic {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .mosaic-container {
+    grid-template-columns: 1.25fr 1fr;
+  }
+}
+
+.slider-arrow {
+  display: inline-flex;
+  width: 75px;
+  height: 75px;
+  border-radius: 100%;
+  cursor: pointer;
+  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  font-size: 40px;
+  color: white;
+  font-weight: 900;
+  line-height: 69px;
+  text-align: center;
+  position: relative;
+}
+.slider-arrow span {
+  position: relative;
+  z-index: 1;
+}
+.slider-arrow:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  border-radius: 100%;
+}
+.slider-arrow:after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(1);
+  transition: all 0.25s ease-out;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.05);
+  z-index: -1;
+  border-radius: 100%;
+}
+.slider-arrow.hovering {
+  transition: transform 0.8s ease-out;
+}
+.slider-arrow.hovering:after {
+  transform: scale(1.3);
+  opacity: 1;
+}
+
+* {
+  line-height: normal;
+  unicode-bidi: embed;
+}
+
+.revert-unicode-bidi {
+  unicode-bidi: normal !important;
+}
+.notiflix-block {
+  z-index: 10 !important;
+}
+
+select {
+  print-color-adjust: exact;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyMCAyMCI+PHBhdGggc3Ryb2tlPSIjMEY2OUIwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41IiBkPSJtNiA4IDQgNCA0LTQiLz48L3N2Zz4=");
+  background-position: right -0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+[dir="rtl"] select {
+  background-position: left -0.5rem center;
+}

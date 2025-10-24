@@ -1,0 +1,222 @@
+---
+kind: pipeline
+type: exec
+name: deploy-production-services
+
+steps:
+  - name: registry-login
+    commands:
+      - docker login -u "$gitea_registry_user" -p "$gitea_registry_password" $gitea_registry_url
+    environment:
+      gitea_registry_url:
+        from_secret: gitea_registry_url
+      gitea_registry_user:
+        from_secret: gitea_registry_user
+      gitea_registry_password:
+        from_secret: gitea_registry_password
+
+  - name: create-data-folder
+    commands:
+      - mkdir -p /data/$DRONE_REPO_NAME/uploads
+      - mkdir -p /data/$DRONE_REPO_NAME/db
+
+  - name: docker-compose-run
+    commands:
+      - docker compose up -d kayanhr-mongo
+
+trigger:
+  event:
+    - tag
+
+node:
+  kayanwebsite: exec
+
+---
+kind: pipeline
+type: docker
+name: build-image-production
+
+steps:
+  - name: build
+    image: docker:dind
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
+    commands:
+      - docker login -u "$gitea_registry_user" -p "$gitea_registry_password" $gitea_registry_url
+      - export DOCKER_BUILDKIT=0
+      - export APOS_RELEASE_ID=staging
+      - export APOS_MONGODB_URI=mongodb://kayanhr-mongo:27017/$DRONE_REPO_NAME
+      - docker build --network kayanhr --build-arg APOS_MONGODB_URI=$APOS_MONGODB_URI --build-arg APOS_RELEASE_ID=$APOS_RELEASE_ID --file Dockerfile --pull -t "$gitea_registry/$DRONE_REPO_NAME:${DRONE_TAG##v}" -t "$gitea_registry/$DRONE_REPO_NAME:latest" .
+      - docker push "$gitea_registry/$DRONE_REPO_NAME:${DRONE_TAG##v}"
+      - docker push "$gitea_registry/$DRONE_REPO_NAME:latest"
+    environment:
+      gitea_registry:
+        from_secret: gitea_registry
+      gitea_registry_url:
+        from_secret: gitea_registry_url
+      gitea_registry_user:
+        from_secret: gitea_registry_user
+      gitea_registry_password:
+        from_secret: gitea_registry_password
+
+trigger:
+  event:
+    - tag
+
+node:
+  kayanwebsite: docker
+
+volumes:
+  - name: dockersock
+    host:
+      path: /var/run/docker.sock
+
+depends_on:
+  - deploy-production-services
+
+---
+kind: pipeline
+type: exec
+name: deploy-production
+
+steps:
+  - name: registry-login
+    commands:
+      - docker login -u "$gitea_registry_user" -p "$gitea_registry_password" $gitea_registry_url
+    environment:
+      gitea_registry_url:
+        from_secret: gitea_registry_url
+      gitea_registry_user:
+        from_secret: gitea_registry_user
+      gitea_registry_password:
+        from_secret: gitea_registry_password
+
+  - name: docker-compose-run
+    commands:
+      - docker compose pull
+      - docker compose up -d
+
+trigger:
+  event:
+    - tag
+node:
+  kayanwebsite: exec
+
+depends_on:
+  - build-image-production
+
+---
+kind: pipeline
+type: exec
+name: deploy-staging-services
+
+steps:
+  - name: registry-login
+    commands:
+      - docker login -u "$gitea_registry_user" -p "$gitea_registry_password" $gitea_registry_url
+    environment:
+      gitea_registry_url:
+        from_secret: gitea_registry_url
+      gitea_registry_user:
+        from_secret: gitea_registry_user
+      gitea_registry_password:
+        from_secret: gitea_registry_password
+
+  - name: create-data-folder
+    commands:
+      - mkdir -p /data/$DRONE_REPO_NAME/uploads
+      - mkdir -p /data/$DRONE_REPO_NAME/db
+
+  - name: docker-compose-run
+    commands:
+      - docker-compose -f docker-compose.services.yml pull
+      - docker-compose -f docker-compose.services.yml up -d kayanhr-mongo
+
+trigger:
+  branch:
+    - dev
+  event:
+    - push
+
+node:
+  wtmlocal: exec
+
+---
+kind: pipeline
+type: docker
+name: build-image-staging
+
+steps:
+  - name: build
+    image: docker:dind
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
+    commands:
+      - docker login -u "$gitea_registry_user" -p "$gitea_registry_password" $gitea_registry_url
+      - export DOCKER_BUILDKIT=0
+      - export APOS_RELEASE_ID=staging
+      - export APOS_MONGODB_URI=mongodb://kayanhr-mongo:27017/$DRONE_REPO_NAME
+      - docker build --network kayanhr --build-arg APOS_MONGODB_URI=$APOS_MONGODB_URI --build-arg APOS_RELEASE_ID=$APOS_RELEASE_ID --file Dockerfile --pull -t "$gitea_registry/$DRONE_REPO_NAME:dev" .
+      - docker push "$gitea_registry/$DRONE_REPO_NAME:dev"
+    environment:
+      gitea_registry:
+        from_secret: gitea_registry
+      gitea_registry_url:
+        from_secret: gitea_registry_url
+      gitea_registry_user:
+        from_secret: gitea_registry_user
+      gitea_registry_password:
+        from_secret: gitea_registry_password
+
+trigger:
+  branch:
+    - dev
+  event:
+    - push
+
+node:
+  wtmlocal: docker
+
+volumes:
+  - name: dockersock
+    host:
+      path: /var/run/docker.sock
+
+depends_on:
+  - deploy-staging-services
+
+---
+kind: pipeline
+type: exec
+name: deploy-staging
+
+steps:
+  - name: registry-login
+    commands:
+      - docker login -u "$gitea_registry_user" -p "$gitea_registry_password" $gitea_registry_url
+    environment:
+      gitea_registry_url:
+        from_secret: gitea_registry_url
+      gitea_registry_user:
+        from_secret: gitea_registry_user
+      gitea_registry_password:
+        from_secret: gitea_registry_password
+
+  - name: docker-compose-run
+    commands:
+      - docker-compose -f docker-compose.staging.yml -f docker-compose.services.yml pull
+      - docker-compose -f docker-compose.staging.yml -f docker-compose.services.yml up -d
+
+trigger:
+  branch:
+    - dev
+  event:
+    - push
+
+node:
+  wtmlocal: exec
+
+depends_on:
+  - build-image-staging

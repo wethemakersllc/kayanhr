@@ -1,0 +1,56 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+module.exports = {
+  mode: "jit",
+  content: [
+    "./modules/**/*.{html,js}",
+    "./views/layout.html",
+    "./node_modules/@apostrophecms/form/modules/@apostrophecms/**/*.{html,js}",
+  ],
+  theme: {
+    screens: {
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      desktop: "1440px",
+      "2xl": "1536px",
+    },
+    extend: {
+      fontFamily: {
+        sans: ['"Futura MD"', ...defaultTheme.fontFamily.sans],
+      },
+      colors: {
+        yellow: "#edc41c",
+        "light-yellow": "#EDD677",
+        "light-gray1": "#f8f9fa",
+        "light-gray2": "#e5e5e5",
+        "light-gray3": "#f2f4f6",
+        "dark-gray1": "#696969",
+        "dark-gray2": "#727272",
+        "dark-gray3": "#999999",
+        "dark-gray4": "#262626",
+        "dark-gray5": "#3e3e3e",
+        "dark-gray6": "#1b1d21",
+        "dark-gray7": "#23272B",
+        blue: "#0f69b0",
+        blue2: "#1f8de3",
+        "azure-blue": "#3067ab",
+        "mystic-blue": "#eaeef3",
+        "sky-blue": "#41a6f7",
+        "light-blue1": "#ebf6ff",
+        "light-blue2": "#cce4f7",
+        "light-blue3": "#4e8dbf",
+        "light-blue4": "#c2d0db",
+        "light-blue5": "#5EA4F1",
+        "light-blue6": "#EBF6FF",
+        "navy-blue": "#000026",
+        "dark-navy-blue": "#264A6D",
+        "light-navy-blue": "#486C8F",
+      },
+    },
+    variants: {
+      space: ["responsive", "direction"],
+    },
+  },
+  plugins: [require("tailwindcss-dir")()],
+};

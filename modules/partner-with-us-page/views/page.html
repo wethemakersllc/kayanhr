@@ -1,0 +1,42 @@
+{% extends "layout.html" %} {% block main %}
+<section class="partner-with-us-banner-bg">
+  <div class="grid gap-10 lg:grid-cols-2 py-12 lg:py-24">
+    <div class="flex items-center justify-center">
+      <div class="px-6 w-full ltr:xl:pl-[16%] rtl:xl:pr-[16%]">
+        {% area data.page, 'bannerTitle'%} {% area data.page, 'bannerSubtitle'%}
+        {% area data.page, 'points'%}
+      </div>
+    </div>
+
+    <div
+      class="relative flex flex-col justify-center md:px-12 lg:px-12 xl:px-16 overflow-hidden"
+    >
+      <div class="lg:w-[550px] xl:w-[578px]">
+        <img
+          class="w-full mt-[200px] max-w-[578px] mx-auto"
+          src="/images/partner-with-us-illustration.png"
+          <img
+          class="absolute top-[4%] right-[15%] lg:top-[4%] lg:right-[7%] w-full max-w-[281px]"
+          src="/images/partner.png"
+          alt="Partner with kayan"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+<section class="relative py-20 2xl:py-40 overflow-hidden">
+  <div class="w-full">
+    <div
+      class="w-full md:w-[90%] mx-auto bg-white shadowpartner px-0 xl:px-16 py-16 rounded-lg"
+    >
+      <div class="relative container px-4 mx-auto">
+        <div>
+          {% area data.page, 'partnerForm' with { '@apostrophecms/form':{
+          type:"grid__form" } }%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% area data.page, 'featuredPartners'%} {% area data.page ,'testimonials' %} {%
+area data.page ,'clients' %} {% endblock %}

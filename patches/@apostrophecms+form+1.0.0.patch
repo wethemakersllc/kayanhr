@@ -1,0 +1,2125 @@
+diff --git a/node_modules/@apostrophecms/form/modules/@apostrophecms/form-base-field-widget/views/fragments/utility.html b/node_modules/@apostrophecms/form/modules/@apostrophecms/form-base-field-widget/views/fragments/utility.html
+index 639d560..8c6a353 100644
+--- a/node_modules/@apostrophecms/form/modules/@apostrophecms/form-base-field-widget/views/fragments/utility.html
++++ b/node_modules/@apostrophecms/form/modules/@apostrophecms/form-base-field-widget/views/fragments/utility.html
+@@ -1,6 +1,6 @@
+ {% macro optional(required) %}
+-  {% if not required %}
+-    <span class="apos-form-field-optional"> {{ __t('aposForm:templateOptional') }}</span>
++  {% if required %}
++  <span> *</span>
+   {% endif %}
+ {% endmacro %}
+ 
+diff --git a/node_modules/@apostrophecms/form/modules/@apostrophecms/form-radio-field-widget/views/widget.html b/node_modules/@apostrophecms/form/modules/@apostrophecms/form-radio-field-widget/views/widget.html
+index 046a8f4..a3e418d 100644
+--- a/node_modules/@apostrophecms/form/modules/@apostrophecms/form-radio-field-widget/views/widget.html
++++ b/node_modules/@apostrophecms/form/modules/@apostrophecms/form-radio-field-widget/views/widget.html
+@@ -4,25 +4,29 @@
+ {% set prependIfPrefix = apos.modules['@apostrophecms/form'].prependIfPrefix %}
+ {% import "fragments/utility.html" as utils with context %}
+ 
+-<fieldset
++<div
+   data-apos-form-radio
+-  class="apos-form-fieldset {{ prependIfPrefix('__fieldset') }}"
++  class="apos-form-fieldset {{ prependIfPrefix('__fieldset') }} col-span-2 lg:pb-[30px]"
+ >
+-  <legend class="{{ prependIfPrefix('__legend') }}">
++  <legend class="{{ prependIfPrefix('__legend') }} apos-form-label">
+     {{ widget.fieldLabel}}
++    {{ utils.optional(widget.required) }}
+   </legend>
+-  {{ utils.optional(widget.required) }}
+-  {% for choice in widget.choices %}
+-    {% set choiceId = id + apos.util.slugify(choice.value) %}
+-    <div class="{{ prependIfPrefix('__check-wrapper') }}">
+-      <input
+-        class="{{ prependIfPrefix('__input') }}"
+-        type="radio" id="{{ choiceId }}" name="{{ widget.fieldName }}"
+-        value="{{ choice.value }}">
+-      <label class="{{ prependIfPrefix('__label') }}" for="{{ choiceId }}">
+-        {{ choice.label }}
+-      </label>
+-    </div>
+-  {% endfor %}
++  <div class="flex justify-start md:justify-around flex-wrap w-[100%] md:w-[57%]">
++    {% for choice in widget.choices %}
++      {% set choiceId = id + apos.util.slugify(choice.value) %}
++      <div class="{{ prependIfPrefix('__check-wrapper') }} flex ltr:ml-4 rtl:mr-4">
++        <input
++          class="{{ prependIfPrefix('__input') }}"
++          type="radio" id="{{ choiceId }}" name="{{ widget.fieldName }}"
++          value="{{ choice.value }}"
++           {% if widget.required %}required{% endif %}
++          >
++        <label class="{{ prependIfPrefix('__label') }} body ltr:ml-6 rtl:mr-6" for="{{ choiceId }}">
++          {{ choice.label }}
++        </label>
++      </div>
++    {% endfor %}
++  </div>
+   <p data-apos-input-message="{{ widget.fieldName }}" hidden></p>
+-</fieldset>
++</div>
+diff --git a/node_modules/@apostrophecms/form/modules/@apostrophecms/form-select-field-widget/index.js b/node_modules/@apostrophecms/form/modules/@apostrophecms/form-select-field-widget/index.js
+index bfc875c..01ae069 100644
+--- a/node_modules/@apostrophecms/form/modules/@apostrophecms/form-select-field-widget/index.js
++++ b/node_modules/@apostrophecms/form/modules/@apostrophecms/form-select-field-widget/index.js
+@@ -32,7 +32,659 @@ module.exports = {
+     return {
+       sanitizeFormField (widget, input, output) {
+         // Get the options from that form for the widget
+-        const choices = self.getChoicesValues(widget);
++        const countries = [{"id":4,"alpha2":"af","alpha3":"afg","name":"Afghanistan"},
++{"id":8,"alpha2":"al","alpha3":"alb","name":"Albania"},
++{"id":12,"alpha2":"dz","alpha3":"dza","name":"Algeria"},
++{"id":20,"alpha2":"ad","alpha3":"and","name":"Andorra"},
++{"id":24,"alpha2":"ao","alpha3":"ago","name":"Angola"},
++{"id":28,"alpha2":"ag","alpha3":"atg","name":"Antigua and Barbuda"},
++{"id":32,"alpha2":"ar","alpha3":"arg","name":"Argentina"},
++{"id":51,"alpha2":"am","alpha3":"arm","name":"Armenia"},
++{"id":36,"alpha2":"au","alpha3":"aus","name":"Australia"},
++{"id":40,"alpha2":"at","alpha3":"aut","name":"Austria"},
++{"id":31,"alpha2":"az","alpha3":"aze","name":"Azerbaijan"},
++{"id":44,"alpha2":"bs","alpha3":"bhs","name":"Bahamas"},
++{"id":48,"alpha2":"bh","alpha3":"bhr","name":"Bahrain"},
++{"id":50,"alpha2":"bd","alpha3":"bgd","name":"Bangladesh"},
++{"id":52,"alpha2":"bb","alpha3":"brb","name":"Barbados"},
++{"id":112,"alpha2":"by","alpha3":"blr","name":"Belarus"},
++{"id":56,"alpha2":"be","alpha3":"bel","name":"Belgium"},
++{"id":84,"alpha2":"bz","alpha3":"blz","name":"Belize"},
++{"id":204,"alpha2":"bj","alpha3":"ben","name":"Benin"},
++{"id":64,"alpha2":"bt","alpha3":"btn","name":"Bhutan"},
++{"id":68,"alpha2":"bo","alpha3":"bol","name":"Bolivia (Plurinational State of)"},
++{"id":70,"alpha2":"ba","alpha3":"bih","name":"Bosnia and Herzegovina"},
++{"id":72,"alpha2":"bw","alpha3":"bwa","name":"Botswana"},
++{"id":76,"alpha2":"br","alpha3":"bra","name":"Brazil"},
++{"id":96,"alpha2":"bn","alpha3":"brn","name":"Brunei Darussalam"},
++{"id":100,"alpha2":"bg","alpha3":"bgr","name":"Bulgaria"},
++{"id":854,"alpha2":"bf","alpha3":"bfa","name":"Burkina Faso"},
++{"id":108,"alpha2":"bi","alpha3":"bdi","name":"Burundi"},
++{"id":132,"alpha2":"cv","alpha3":"cpv","name":"Cabo Verde"},
++{"id":116,"alpha2":"kh","alpha3":"khm","name":"Cambodia"},
++{"id":120,"alpha2":"cm","alpha3":"cmr","name":"Cameroon"},
++{"id":124,"alpha2":"ca","alpha3":"can","name":"Canada"},
++{"id":140,"alpha2":"cf","alpha3":"caf","name":"Central African Republic"},
++{"id":148,"alpha2":"td","alpha3":"tcd","name":"Chad"},
++{"id":152,"alpha2":"cl","alpha3":"chl","name":"Chile"},
++{"id":156,"alpha2":"cn","alpha3":"chn","name":"China"},
++{"id":170,"alpha2":"co","alpha3":"col","name":"Colombia"},
++{"id":174,"alpha2":"km","alpha3":"com","name":"Comoros"},
++{"id":178,"alpha2":"cg","alpha3":"cog","name":"Congo"},
++{"id":180,"alpha2":"cd","alpha3":"cod","name":"Congo, Democratic Republic of the"},
++{"id":188,"alpha2":"cr","alpha3":"cri","name":"Costa Rica"},
++{"id":384,"alpha2":"ci","alpha3":"civ","name":"Côte d'Ivoire"},
++{"id":191,"alpha2":"hr","alpha3":"hrv","name":"Croatia"},
++{"id":192,"alpha2":"cu","alpha3":"cub","name":"Cuba"},
++{"id":196,"alpha2":"cy","alpha3":"cyp","name":"Cyprus"},
++{"id":203,"alpha2":"cz","alpha3":"cze","name":"Czechia"},
++{"id":208,"alpha2":"dk","alpha3":"dnk","name":"Denmark"},
++{"id":262,"alpha2":"dj","alpha3":"dji","name":"Djibouti"},
++{"id":212,"alpha2":"dm","alpha3":"dma","name":"Dominica"},
++{"id":214,"alpha2":"do","alpha3":"dom","name":"Dominican Republic"},
++{"id":218,"alpha2":"ec","alpha3":"ecu","name":"Ecuador"},
++{"id":818,"alpha2":"eg","alpha3":"egy","name":"Egypt"},
++{"id":222,"alpha2":"sv","alpha3":"slv","name":"El Salvador"},
++{"id":226,"alpha2":"gq","alpha3":"gnq","name":"Equatorial Guinea"},
++{"id":232,"alpha2":"er","alpha3":"eri","name":"Eritrea"},
++{"id":233,"alpha2":"ee","alpha3":"est","name":"Estonia"},
++{"id":748,"alpha2":"sz","alpha3":"swz","name":"Eswatini"},
++{"id":231,"alpha2":"et","alpha3":"eth","name":"Ethiopia"},
++{"id":242,"alpha2":"fj","alpha3":"fji","name":"Fiji"},
++{"id":246,"alpha2":"fi","alpha3":"fin","name":"Finland"},
++{"id":250,"alpha2":"fr","alpha3":"fra","name":"France"},
++{"id":266,"alpha2":"ga","alpha3":"gab","name":"Gabon"},
++{"id":270,"alpha2":"gm","alpha3":"gmb","name":"Gambia"},
++{"id":268,"alpha2":"ge","alpha3":"geo","name":"Georgia"},
++{"id":276,"alpha2":"de","alpha3":"deu","name":"Germany"},
++{"id":288,"alpha2":"gh","alpha3":"gha","name":"Ghana"},
++{"id":300,"alpha2":"gr","alpha3":"grc","name":"Greece"},
++{"id":308,"alpha2":"gd","alpha3":"grd","name":"Grenada"},
++{"id":320,"alpha2":"gt","alpha3":"gtm","name":"Guatemala"},
++{"id":324,"alpha2":"gn","alpha3":"gin","name":"Guinea"},
++{"id":624,"alpha2":"gw","alpha3":"gnb","name":"Guinea-Bissau"},
++{"id":328,"alpha2":"gy","alpha3":"guy","name":"Guyana"},
++{"id":332,"alpha2":"ht","alpha3":"hti","name":"Haiti"},
++{"id":340,"alpha2":"hn","alpha3":"hnd","name":"Honduras"},
++{"id":348,"alpha2":"hu","alpha3":"hun","name":"Hungary"},
++{"id":352,"alpha2":"is","alpha3":"isl","name":"Iceland"},
++{"id":356,"alpha2":"in","alpha3":"ind","name":"India"},
++{"id":360,"alpha2":"id","alpha3":"idn","name":"Indonesia"},
++{"id":364,"alpha2":"ir","alpha3":"irn","name":"Iran (Islamic Republic of)"},
++{"id":368,"alpha2":"iq","alpha3":"irq","name":"Iraq"},
++{"id":372,"alpha2":"ie","alpha3":"irl","name":"Ireland"},
++{"id":376,"alpha2":"il","alpha3":"isr","name":"Israel"},
++{"id":380,"alpha2":"it","alpha3":"ita","name":"Italy"},
++{"id":388,"alpha2":"jm","alpha3":"jam","name":"Jamaica"},
++{"id":392,"alpha2":"jp","alpha3":"jpn","name":"Japan"},
++{"id":400,"alpha2":"jo","alpha3":"jor","name":"Jordan"},
++{"id":398,"alpha2":"kz","alpha3":"kaz","name":"Kazakhstan"},
++{"id":404,"alpha2":"ke","alpha3":"ken","name":"Kenya"},
++{"id":296,"alpha2":"ki","alpha3":"kir","name":"Kiribati"},
++{"id":408,"alpha2":"kp","alpha3":"prk","name":"Korea (Democratic People's Republic of)"},
++{"id":410,"alpha2":"kr","alpha3":"kor","name":"Korea, Republic of"},
++{"id":414,"alpha2":"kw","alpha3":"kwt","name":"Kuwait"},
++{"id":417,"alpha2":"kg","alpha3":"kgz","name":"Kyrgyzstan"},
++{"id":418,"alpha2":"la","alpha3":"lao","name":"Lao People's Democratic Republic"},
++{"id":428,"alpha2":"lv","alpha3":"lva","name":"Latvia"},
++{"id":422,"alpha2":"lb","alpha3":"lbn","name":"Lebanon"},
++{"id":426,"alpha2":"ls","alpha3":"lso","name":"Lesotho"},
++{"id":430,"alpha2":"lr","alpha3":"lbr","name":"Liberia"},
++{"id":434,"alpha2":"ly","alpha3":"lby","name":"Libya"},
++{"id":438,"alpha2":"li","alpha3":"lie","name":"Liechtenstein"},
++{"id":440,"alpha2":"lt","alpha3":"ltu","name":"Lithuania"},
++{"id":442,"alpha2":"lu","alpha3":"lux","name":"Luxembourg"},
++{"id":450,"alpha2":"mg","alpha3":"mdg","name":"Madagascar"},
++{"id":454,"alpha2":"mw","alpha3":"mwi","name":"Malawi"},
++{"id":458,"alpha2":"my","alpha3":"mys","name":"Malaysia"},
++{"id":462,"alpha2":"mv","alpha3":"mdv","name":"Maldives"},
++{"id":466,"alpha2":"ml","alpha3":"mli","name":"Mali"},
++{"id":470,"alpha2":"mt","alpha3":"mlt","name":"Malta"},
++{"id":584,"alpha2":"mh","alpha3":"mhl","name":"Marshall Islands"},
++{"id":478,"alpha2":"mr","alpha3":"mrt","name":"Mauritania"},
++{"id":480,"alpha2":"mu","alpha3":"mus","name":"Mauritius"},
++{"id":484,"alpha2":"mx","alpha3":"mex","name":"Mexico"},
++{"id":583,"alpha2":"fm","alpha3":"fsm","name":"Micronesia (Federated States of)"},
++{"id":498,"alpha2":"md","alpha3":"mda","name":"Moldova, Republic of"},
++{"id":492,"alpha2":"mc","alpha3":"mco","name":"Monaco"},
++{"id":496,"alpha2":"mn","alpha3":"mng","name":"Mongolia"},
++{"id":499,"alpha2":"me","alpha3":"mne","name":"Montenegro"},
++{"id":504,"alpha2":"ma","alpha3":"mar","name":"Morocco"},
++{"id":508,"alpha2":"mz","alpha3":"moz","name":"Mozambique"},
++{"id":104,"alpha2":"mm","alpha3":"mmr","name":"Myanmar"},
++{"id":516,"alpha2":"na","alpha3":"nam","name":"Namibia"},
++{"id":520,"alpha2":"nr","alpha3":"nru","name":"Nauru"},
++{"id":524,"alpha2":"np","alpha3":"npl","name":"Nepal"},
++{"id":528,"alpha2":"nl","alpha3":"nld","name":"Netherlands"},
++{"id":554,"alpha2":"nz","alpha3":"nzl","name":"New Zealand"},
++{"id":558,"alpha2":"ni","alpha3":"nic","name":"Nicaragua"},
++{"id":562,"alpha2":"ne","alpha3":"ner","name":"Niger"},
++{"id":566,"alpha2":"ng","alpha3":"nga","name":"Nigeria"},
++{"id":807,"alpha2":"mk","alpha3":"mkd","name":"North Macedonia"},
++{"id":578,"alpha2":"no","alpha3":"nor","name":"Norway"},
++{"id":512,"alpha2":"om","alpha3":"omn","name":"Oman"},
++{"id":586,"alpha2":"pk","alpha3":"pak","name":"Pakistan"},
++{"id":585,"alpha2":"pw","alpha3":"plw","name":"Palau"},
++{"id":801,"alpha2":"ps","alpha3":"pse","name":"Palestine"},
++{"id":591,"alpha2":"pa","alpha3":"pan","name":"Panama"},
++{"id":598,"alpha2":"pg","alpha3":"png","name":"Papua New Guinea"},
++{"id":600,"alpha2":"py","alpha3":"pry","name":"Paraguay"},
++{"id":604,"alpha2":"pe","alpha3":"per","name":"Peru"},
++{"id":608,"alpha2":"ph","alpha3":"phl","name":"Philippines"},
++{"id":616,"alpha2":"pl","alpha3":"pol","name":"Poland"},
++{"id":620,"alpha2":"pt","alpha3":"prt","name":"Portugal"},
++{"id":634,"alpha2":"qa","alpha3":"qat","name":"Qatar"},
++{"id":642,"alpha2":"ro","alpha3":"rou","name":"Romania"},
++{"id":643,"alpha2":"ru","alpha3":"rus","name":"Russian Federation"},
++{"id":646,"alpha2":"rw","alpha3":"rwa","name":"Rwanda"},
++{"id":659,"alpha2":"kn","alpha3":"kna","name":"Saint Kitts and Nevis"},
++{"id":662,"alpha2":"lc","alpha3":"lca","name":"Saint Lucia"},
++{"id":670,"alpha2":"vc","alpha3":"vct","name":"Saint Vincent and the Grenadines"},
++{"id":882,"alpha2":"ws","alpha3":"wsm","name":"Samoa"},
++{"id":674,"alpha2":"sm","alpha3":"smr","name":"San Marino"},
++{"id":678,"alpha2":"st","alpha3":"stp","name":"Sao Tome and Principe"},
++{"id":682,"alpha2":"sa","alpha3":"sau","name":"Saudi Arabia"},
++{"id":686,"alpha2":"sn","alpha3":"sen","name":"Senegal"},
++{"id":688,"alpha2":"rs","alpha3":"srb","name":"Serbia"},
++{"id":690,"alpha2":"sc","alpha3":"syc","name":"Seychelles"},
++{"id":694,"alpha2":"sl","alpha3":"sle","name":"Sierra Leone"},
++{"id":702,"alpha2":"sg","alpha3":"sgp","name":"Singapore"},
++{"id":703,"alpha2":"sk","alpha3":"svk","name":"Slovakia"},
++{"id":705,"alpha2":"si","alpha3":"svn","name":"Slovenia"},
++{"id":90,"alpha2":"sb","alpha3":"slb","name":"Solomon Islands"},
++{"id":706,"alpha2":"so","alpha3":"som","name":"Somalia"},
++{"id":710,"alpha2":"za","alpha3":"zaf","name":"South Africa"},
++{"id":728,"alpha2":"ss","alpha3":"ssd","name":"South Sudan"},
++{"id":724,"alpha2":"es","alpha3":"esp","name":"Spain"},
++{"id":144,"alpha2":"lk","alpha3":"lka","name":"Sri Lanka"},
++{"id":729,"alpha2":"sd","alpha3":"sdn","name":"Sudan"},
++{"id":740,"alpha2":"sr","alpha3":"sur","name":"Suriname"},
++{"id":752,"alpha2":"se","alpha3":"swe","name":"Sweden"},
++{"id":756,"alpha2":"ch","alpha3":"che","name":"Switzerland"},
++{"id":760,"alpha2":"sy","alpha3":"syr","name":"Syrian Arab Republic"},
++{"id":762,"alpha2":"tj","alpha3":"tjk","name":"Tajikistan"},
++{"id":834,"alpha2":"tz","alpha3":"tza","name":"Tanzania, United Republic of"},
++{"id":764,"alpha2":"th","alpha3":"tha","name":"Thailand"},
++{"id":626,"alpha2":"tl","alpha3":"tls","name":"Timor-Leste"},
++{"id":768,"alpha2":"tg","alpha3":"tgo","name":"Togo"},
++{"id":776,"alpha2":"to","alpha3":"ton","name":"Tonga"},
++{"id":780,"alpha2":"tt","alpha3":"tto","name":"Trinidad and Tobago"},
++{"id":788,"alpha2":"tn","alpha3":"tun","name":"Tunisia"},
++{"id":792,"alpha2":"tr","alpha3":"tur","name":"Turkey"},
++{"id":795,"alpha2":"tm","alpha3":"tkm","name":"Turkmenistan"},
++{"id":798,"alpha2":"tv","alpha3":"tuv","name":"Tuvalu"},
++{"id":800,"alpha2":"ug","alpha3":"uga","name":"Uganda"},
++{"id":804,"alpha2":"ua","alpha3":"ukr","name":"Ukraine"},
++{"id":784,"alpha2":"ae","alpha3":"are","name":"United Arab Emirates"},
++{"id":826,"alpha2":"gb","alpha3":"gbr","name":"United Kingdom of Great Britain and Northern Ireland"},
++{"id":840,"alpha2":"us","alpha3":"usa","name":"United States of America"},
++{"id":858,"alpha2":"uy","alpha3":"ury","name":"Uruguay"},
++{"id":860,"alpha2":"uz","alpha3":"uzb","name":"Uzbekistan"},
++{"id":548,"alpha2":"vu","alpha3":"vut","name":"Vanuatu"},
++{"id":862,"alpha2":"ve","alpha3":"ven","name":"Venezuela (Bolivarian Republic of)"},
++{"id":704,"alpha2":"vn","alpha3":"vnm","name":"Viet Nam"},
++{"id":887,"alpha2":"ye","alpha3":"yem","name":"Yemen"},
++{"id":894,"alpha2":"zm","alpha3":"zmb","name":"Zambia"},
++{"id":716,"alpha2":"zw","alpha3":"zwe","name":"Zimbabwe"}]
++
++const industries = [
++        {
++            "name": "Airlines/Aviation"
++        },
++        {
++            "name": "Alternative Dispute Resolution"
++        },
++        {
++            "name": "Alternative Medicine"
++        },
++        {
++            "name": "Animation"
++        },
++        {
++            "name": "Apparel Fashion"
++        },
++        {
++            "name": "Architecture Planning"
++        },
++        {
++            "name": "Arts Crafts"
++        },
++        {
++            "name": "Automotive"
++        },
++        {
++            "name": "Aviation Aerospace"
++        },
++        {
++            "name": "Banking"
++        },
++        {
++            "name": "Biotechnology"
++        },
++        {
++            "name": "Broadcast Media"
++        },
++        {
++            "name": "Building Materials"
++        },
++        {
++            "name": "Business Supplies Equipment"
++        },
++        {
++            "name": "Capital Markets"
++        },
++        {
++            "name": "Chemicals"
++        },
++        {
++            "name": "Civic Social Organization"
++        },
++        {
++            "name": "Civil Engineering"
++        },
++        {
++            "name": "Commercial Real Estate"
++        },
++        {
++            "name": "Computer Network Security"
++        },
++        {
++            "name": "Computer Games"
++        },
++        {
++            "name": "Computer Hardware"
++        },
++        {
++            "name": "Computer Networking"
++        },
++        {
++            "name": "Computer Software"
++        },
++        {
++            "name": "Construction"
++        },
++        {
++            "name": "Consumer Electronics"
++        },
++        {
++            "name": "Consumer Goods"
++        },
++        {
++            "name": "Consumer Services"
++        },
++        {
++            "name": "Cosmetics"
++        },
++        {
++            "name": "Dairy"
++        },
++        {
++            "name": "Defense Space"
++        },
++        {
++            "name": "Design"
++        },
++        {
++            "name": "E-learning"
++        },
++        {
++            "name": "Education Management"
++        },
++        {
++            "name": "Electrical Electronic Manufacturing"
++        },
++        {
++            "name": "Entertainment"
++        },
++        {
++            "name": "Environmental Services"
++        },
++        {
++            "name": "Events Services"
++        },
++        {
++            "name": "Executive Office"
++        },
++        {
++            "name": "Facilities Services"
++        },
++        {
++            "name": "Farming"
++        },
++        {
++            "name": "Financial Services"
++        },
++        {
++            "name": "Fine Art"
++        },
++        {
++            "name": "Fishery"
++        },
++        {
++            "name": "Food Beverages"
++        },
++        {
++            "name": "Food Production"
++        },
++        {
++            "name": "Fundraising"
++        },
++        {
++            "name": "Furniture"
++        },
++        {
++            "name": "Gambling Casinos"
++        },
++        {
++            "name": "Glass, Ceramics Concrete"
++        },
++        {
++            "name": "Government Administration"
++        },
++        {
++            "name": "Government Relations"
++        },
++        {
++            "name": "Graphic Design"
++        },
++        {
++            "name": "Health, Wellness Fitness"
++        },
++        {
++            "name": "Higher Education"
++        },
++        {
++            "name": "Hospital Health Care"
++        },
++        {
++            "name": "Hospitality"
++        },
++        {
++            "name": "Human Resources"
++        },
++        {
++            "name": "Import Export"
++        },
++        {
++            "name": "Individual Family Services"
++        },
++        {
++            "name": "Industrial Automation"
++        },
++        {
++            "name": "Information Services"
++        },
++        {
++            "name": "Information Technology Services"
++        },
++        {
++            "name": "Insurance"
++        },
++        {
++            "name": "International Affairs"
++        },
++        {
++            "name": "International Trade Development"
++        },
++        {
++            "name": "Internet"
++        },
++        {
++            "name": "Investment Banking"
++        },
++        {
++            "name": "Investment Management"
++        },
++        {
++            "name": "Judiciary"
++        },
++        {
++            "name": "Law Enforcement"
++        },
++        {
++            "name": "Law Practice"
++        },
++        {
++            "name": "Legal Services"
++        },
++        {
++            "name": "Legislative Office"
++        },
++        {
++            "name": "Leisure, Travel Tourism"
++        },
++        {
++            "name": "Libraries"
++        },
++        {
++            "name": "Logistics Supply Chain"
++        },
++        {
++            "name": "Luxury Goods Jewelry"
++        },
++        {
++            "name": "Machinery"
++        },
++        {
++            "name": "Management Consulting"
++        },
++        {
++            "name": "Maritime"
++        },
++        {
++            "name": "Market Research"
++        },
++        {
++            "name": "Marketing Advertising"
++        },
++        {
++            "name": "Mechanical Or Industrial Engineering"
++        },
++        {
++            "name": "Media Production"
++        },
++        {
++            "name": "Medical Device"
++        },
++        {
++            "name": "Medical Practice"
++        },
++        {
++            "name": "Mental Health Care"
++        },
++        {
++            "name": "Military"
++        },
++        {
++            "name": "Mining Metals"
++        },
++        {
++            "name": "Mobile Games"
++        },
++        {
++            "name": "Motion Pictures Film"
++        },
++        {
++            "name": "Museums Institutions"
++        },
++        {
++            "name": "Music"
++        },
++        {
++            "name": "Nanotechnology"
++        },
++        {
++            "name": "Newspapers"
++        },
++        {
++            "name": "Non-profit Organization Management"
++        },
++        {
++            "name": "Oil Energy"
++        },
++        {
++            "name": "Online Media"
++        },
++        {
++            "name": "Other"
++        },
++        {
++            "name": "Outsourcing/Offshoring"
++        },
++        {
++            "name": "Package/Freight Delivery"
++        },
++        {
++            "name": "Packaging Containers"
++        },
++        {
++            "name": "Paper Forest Products"
++        },
++        {
++            "name": "Performing Arts"
++        },
++        {
++            "name": "Pharmaceuticals"
++        },
++        {
++            "name": "Philanthropy"
++        },
++        {
++            "name": "Photography"
++        },
++        {
++            "name": "Plastics"
++        },
++        {
++            "name": "Political Organization"
++        },
++        {
++            "name": "Primary/Secondary Education"
++        },
++        {
++            "name": "Printing"
++        },
++        {
++            "name": "Professional Training Coaching"
++        },
++        {
++            "name": "Program Development"
++        },
++        {
++            "name": "Public Policy"
++        },
++        {
++            "name": "Public Relations Communications"
++        },
++        {
++            "name": "Public Safety"
++        },
++        {
++            "name": "Publishing"
++        },
++        {
++            "name": "Railroad Manufacture"
++        },
++        {
++            "name": "Ranching"
++        },
++        {
++            "name": "Real Estate"
++        },
++        {
++            "name": "Recreational Facilities Services"
++        },
++        {
++            "name": "Religious Institutions"
++        },
++        {
++            "name": "Renewables Environment"
++        },
++        {
++            "name": "Research"
++        },
++        {
++            "name": "Restaurants"
++        },
++        {
++            "name": "Retail"
++        },
++        {
++            "name": "Security Investigations"
++        },
++        {
++            "name": "Semiconductors"
++        },
++        {
++            "name": "Shipbuilding"
++        },
++        {
++            "name": "Sporting Goods"
++        },
++        {
++            "name": "Sports"
++        },
++        {
++            "name": "Staffing Recruiting"
++        },
++        {
++            "name": "Supermarkets"
++        },
++        {
++            "name": "Telecommunications"
++        },
++        {
++            "name": "Textiles"
++        },
++        {
++            "name": "Think Tanks"
++        },
++        {
++            "name": "Tobacco"
++        },
++        {
++            "name": "Translation Localization"
++        },
++        {
++            "name": "Transportation/Trucking/Railroad"
++        },
++        {
++            "name": "Utilities"
++        },
++        {
++            "name": "Venture Capital Private Equity"
++        },
++        {
++            "name": "Veterinary"
++        },
++        {
++            "name": "Warehousing"
++        },
++        {
++            "name": "Wholesale"
++        },
++        {
++            "name": "Wine Spirits"
++        },
++        {
++            "name": "Wireless"
++        },
++        {
++            "name": "Writing Editing"
++        }
++    ]
++       let choices;
++        if(widget.fieldName === 'country'){
++
++  choices = countries.map(({name})=> name);
++} else if(widget.fieldName === 'industry') {
++          choices = industries.map(({name})=> name);
++        }
++        else{
++  choices = self.getChoicesValues(widget);
++        }
++
++       
+ 
+         output[widget.fieldName] = self.apos.launder.select(input[widget.fieldName], choices);
+       }
+diff --git a/node_modules/@apostrophecms/form/modules/@apostrophecms/form-select-field-widget/views/widget.html b/node_modules/@apostrophecms/form/modules/@apostrophecms/form-select-field-widget/views/widget.html
+index 1c58568..60f24e5 100644
+--- a/node_modules/@apostrophecms/form/modules/@apostrophecms/form-select-field-widget/views/widget.html
++++ b/node_modules/@apostrophecms/form/modules/@apostrophecms/form-select-field-widget/views/widget.html
+@@ -1,26 +1,1173 @@
+ {# ids must be unique doc-wide #}
+ {% set id = apos.util.generateId() %}
+ {% set widget = data.widget %}
++
++{% set countries = [{"id":4,"alpha2":"af","alpha3":"afg","name":"Afghanistan"},
++{"id":8,"alpha2":"al","alpha3":"alb","name":"Albania"},
++{"id":12,"alpha2":"dz","alpha3":"dza","name":"Algeria"},
++{"id":20,"alpha2":"ad","alpha3":"and","name":"Andorra"},
++{"id":24,"alpha2":"ao","alpha3":"ago","name":"Angola"},
++{"id":28,"alpha2":"ag","alpha3":"atg","name":"Antigua and Barbuda"},
++{"id":32,"alpha2":"ar","alpha3":"arg","name":"Argentina"},
++{"id":51,"alpha2":"am","alpha3":"arm","name":"Armenia"},
++{"id":36,"alpha2":"au","alpha3":"aus","name":"Australia"},
++{"id":40,"alpha2":"at","alpha3":"aut","name":"Austria"},
++{"id":31,"alpha2":"az","alpha3":"aze","name":"Azerbaijan"},
++{"id":44,"alpha2":"bs","alpha3":"bhs","name":"Bahamas"},
++{"id":48,"alpha2":"bh","alpha3":"bhr","name":"Bahrain"},
++{"id":50,"alpha2":"bd","alpha3":"bgd","name":"Bangladesh"},
++{"id":52,"alpha2":"bb","alpha3":"brb","name":"Barbados"},
++{"id":112,"alpha2":"by","alpha3":"blr","name":"Belarus"},
++{"id":56,"alpha2":"be","alpha3":"bel","name":"Belgium"},
++{"id":84,"alpha2":"bz","alpha3":"blz","name":"Belize"},
++{"id":204,"alpha2":"bj","alpha3":"ben","name":"Benin"},
++{"id":64,"alpha2":"bt","alpha3":"btn","name":"Bhutan"},
++{"id":68,"alpha2":"bo","alpha3":"bol","name":"Bolivia (Plurinational State of)"},
++{"id":70,"alpha2":"ba","alpha3":"bih","name":"Bosnia and Herzegovina"},
++{"id":72,"alpha2":"bw","alpha3":"bwa","name":"Botswana"},
++{"id":76,"alpha2":"br","alpha3":"bra","name":"Brazil"},
++{"id":96,"alpha2":"bn","alpha3":"brn","name":"Brunei Darussalam"},
++{"id":100,"alpha2":"bg","alpha3":"bgr","name":"Bulgaria"},
++{"id":854,"alpha2":"bf","alpha3":"bfa","name":"Burkina Faso"},
++{"id":108,"alpha2":"bi","alpha3":"bdi","name":"Burundi"},
++{"id":132,"alpha2":"cv","alpha3":"cpv","name":"Cabo Verde"},
++{"id":116,"alpha2":"kh","alpha3":"khm","name":"Cambodia"},
++{"id":120,"alpha2":"cm","alpha3":"cmr","name":"Cameroon"},
++{"id":124,"alpha2":"ca","alpha3":"can","name":"Canada"},
++{"id":140,"alpha2":"cf","alpha3":"caf","name":"Central African Republic"},
++{"id":148,"alpha2":"td","alpha3":"tcd","name":"Chad"},
++{"id":152,"alpha2":"cl","alpha3":"chl","name":"Chile"},
++{"id":156,"alpha2":"cn","alpha3":"chn","name":"China"},
++{"id":170,"alpha2":"co","alpha3":"col","name":"Colombia"},
++{"id":174,"alpha2":"km","alpha3":"com","name":"Comoros"},
++{"id":178,"alpha2":"cg","alpha3":"cog","name":"Congo"},
++{"id":180,"alpha2":"cd","alpha3":"cod","name":"Congo, Democratic Republic of the"},
++{"id":188,"alpha2":"cr","alpha3":"cri","name":"Costa Rica"},
++{"id":384,"alpha2":"ci","alpha3":"civ","name":"Côte d'Ivoire"},
++{"id":191,"alpha2":"hr","alpha3":"hrv","name":"Croatia"},
++{"id":192,"alpha2":"cu","alpha3":"cub","name":"Cuba"},
++{"id":196,"alpha2":"cy","alpha3":"cyp","name":"Cyprus"},
++{"id":203,"alpha2":"cz","alpha3":"cze","name":"Czechia"},
++{"id":208,"alpha2":"dk","alpha3":"dnk","name":"Denmark"},
++{"id":262,"alpha2":"dj","alpha3":"dji","name":"Djibouti"},
++{"id":212,"alpha2":"dm","alpha3":"dma","name":"Dominica"},
++{"id":214,"alpha2":"do","alpha3":"dom","name":"Dominican Republic"},
++{"id":218,"alpha2":"ec","alpha3":"ecu","name":"Ecuador"},
++{"id":818,"alpha2":"eg","alpha3":"egy","name":"Egypt"},
++{"id":222,"alpha2":"sv","alpha3":"slv","name":"El Salvador"},
++{"id":226,"alpha2":"gq","alpha3":"gnq","name":"Equatorial Guinea"},
++{"id":232,"alpha2":"er","alpha3":"eri","name":"Eritrea"},
++{"id":233,"alpha2":"ee","alpha3":"est","name":"Estonia"},
++{"id":748,"alpha2":"sz","alpha3":"swz","name":"Eswatini"},
++{"id":231,"alpha2":"et","alpha3":"eth","name":"Ethiopia"},
++{"id":242,"alpha2":"fj","alpha3":"fji","name":"Fiji"},
++{"id":246,"alpha2":"fi","alpha3":"fin","name":"Finland"},
++{"id":250,"alpha2":"fr","alpha3":"fra","name":"France"},
++{"id":266,"alpha2":"ga","alpha3":"gab","name":"Gabon"},
++{"id":270,"alpha2":"gm","alpha3":"gmb","name":"Gambia"},
++{"id":268,"alpha2":"ge","alpha3":"geo","name":"Georgia"},
++{"id":276,"alpha2":"de","alpha3":"deu","name":"Germany"},
++{"id":288,"alpha2":"gh","alpha3":"gha","name":"Ghana"},
++{"id":300,"alpha2":"gr","alpha3":"grc","name":"Greece"},
++{"id":308,"alpha2":"gd","alpha3":"grd","name":"Grenada"},
++{"id":320,"alpha2":"gt","alpha3":"gtm","name":"Guatemala"},
++{"id":324,"alpha2":"gn","alpha3":"gin","name":"Guinea"},
++{"id":624,"alpha2":"gw","alpha3":"gnb","name":"Guinea-Bissau"},
++{"id":328,"alpha2":"gy","alpha3":"guy","name":"Guyana"},
++{"id":332,"alpha2":"ht","alpha3":"hti","name":"Haiti"},
++{"id":340,"alpha2":"hn","alpha3":"hnd","name":"Honduras"},
++{"id":348,"alpha2":"hu","alpha3":"hun","name":"Hungary"},
++{"id":352,"alpha2":"is","alpha3":"isl","name":"Iceland"},
++{"id":356,"alpha2":"in","alpha3":"ind","name":"India"},
++{"id":360,"alpha2":"id","alpha3":"idn","name":"Indonesia"},
++{"id":364,"alpha2":"ir","alpha3":"irn","name":"Iran (Islamic Republic of)"},
++{"id":368,"alpha2":"iq","alpha3":"irq","name":"Iraq"},
++{"id":372,"alpha2":"ie","alpha3":"irl","name":"Ireland"},
++{"id":380,"alpha2":"it","alpha3":"ita","name":"Italy"},
++{"id":388,"alpha2":"jm","alpha3":"jam","name":"Jamaica"},
++{"id":392,"alpha2":"jp","alpha3":"jpn","name":"Japan"},
++{"id":400,"alpha2":"jo","alpha3":"jor","name":"Jordan"},
++{"id":398,"alpha2":"kz","alpha3":"kaz","name":"Kazakhstan"},
++{"id":404,"alpha2":"ke","alpha3":"ken","name":"Kenya"},
++{"id":296,"alpha2":"ki","alpha3":"kir","name":"Kiribati"},
++{"id":408,"alpha2":"kp","alpha3":"prk","name":"Korea (Democratic People's Republic of)"},
++{"id":410,"alpha2":"kr","alpha3":"kor","name":"Korea, Republic of"},
++{"id":414,"alpha2":"kw","alpha3":"kwt","name":"Kuwait"},
++{"id":417,"alpha2":"kg","alpha3":"kgz","name":"Kyrgyzstan"},
++{"id":418,"alpha2":"la","alpha3":"lao","name":"Lao People's Democratic Republic"},
++{"id":428,"alpha2":"lv","alpha3":"lva","name":"Latvia"},
++{"id":422,"alpha2":"lb","alpha3":"lbn","name":"Lebanon"},
++{"id":426,"alpha2":"ls","alpha3":"lso","name":"Lesotho"},
++{"id":430,"alpha2":"lr","alpha3":"lbr","name":"Liberia"},
++{"id":434,"alpha2":"ly","alpha3":"lby","name":"Libya"},
++{"id":438,"alpha2":"li","alpha3":"lie","name":"Liechtenstein"},
++{"id":440,"alpha2":"lt","alpha3":"ltu","name":"Lithuania"},
++{"id":442,"alpha2":"lu","alpha3":"lux","name":"Luxembourg"},
++{"id":450,"alpha2":"mg","alpha3":"mdg","name":"Madagascar"},
++{"id":454,"alpha2":"mw","alpha3":"mwi","name":"Malawi"},
++{"id":458,"alpha2":"my","alpha3":"mys","name":"Malaysia"},
++{"id":462,"alpha2":"mv","alpha3":"mdv","name":"Maldives"},
++{"id":466,"alpha2":"ml","alpha3":"mli","name":"Mali"},
++{"id":470,"alpha2":"mt","alpha3":"mlt","name":"Malta"},
++{"id":584,"alpha2":"mh","alpha3":"mhl","name":"Marshall Islands"},
++{"id":478,"alpha2":"mr","alpha3":"mrt","name":"Mauritania"},
++{"id":480,"alpha2":"mu","alpha3":"mus","name":"Mauritius"},
++{"id":484,"alpha2":"mx","alpha3":"mex","name":"Mexico"},
++{"id":583,"alpha2":"fm","alpha3":"fsm","name":"Micronesia (Federated States of)"},
++{"id":498,"alpha2":"md","alpha3":"mda","name":"Moldova, Republic of"},
++{"id":492,"alpha2":"mc","alpha3":"mco","name":"Monaco"},
++{"id":496,"alpha2":"mn","alpha3":"mng","name":"Mongolia"},
++{"id":499,"alpha2":"me","alpha3":"mne","name":"Montenegro"},
++{"id":504,"alpha2":"ma","alpha3":"mar","name":"Morocco"},
++{"id":508,"alpha2":"mz","alpha3":"moz","name":"Mozambique"},
++{"id":104,"alpha2":"mm","alpha3":"mmr","name":"Myanmar"},
++{"id":516,"alpha2":"na","alpha3":"nam","name":"Namibia"},
++{"id":520,"alpha2":"nr","alpha3":"nru","name":"Nauru"},
++{"id":524,"alpha2":"np","alpha3":"npl","name":"Nepal"},
++{"id":528,"alpha2":"nl","alpha3":"nld","name":"Netherlands"},
++{"id":554,"alpha2":"nz","alpha3":"nzl","name":"New Zealand"},
++{"id":558,"alpha2":"ni","alpha3":"nic","name":"Nicaragua"},
++{"id":562,"alpha2":"ne","alpha3":"ner","name":"Niger"},
++{"id":566,"alpha2":"ng","alpha3":"nga","name":"Nigeria"},
++{"id":807,"alpha2":"mk","alpha3":"mkd","name":"North Macedonia"},
++{"id":578,"alpha2":"no","alpha3":"nor","name":"Norway"},
++{"id":512,"alpha2":"om","alpha3":"omn","name":"Oman"},
++{"id":586,"alpha2":"pk","alpha3":"pak","name":"Pakistan"},
++{"id":585,"alpha2":"pw","alpha3":"plw","name":"Palau"},
++{"id":801,"alpha2":"ps","alpha3":"pse
++","name":"Palestine"},
++{"id":591,"alpha2":"pa","alpha3":"pan","name":"Panama"},
++{"id":598,"alpha2":"pg","alpha3":"png","name":"Papua New Guinea"},
++{"id":600,"alpha2":"py","alpha3":"pry","name":"Paraguay"},
++{"id":604,"alpha2":"pe","alpha3":"per","name":"Peru"},
++{"id":608,"alpha2":"ph","alpha3":"phl","name":"Philippines"},
++{"id":616,"alpha2":"pl","alpha3":"pol","name":"Poland"},
++{"id":620,"alpha2":"pt","alpha3":"prt","name":"Portugal"},
++{"id":634,"alpha2":"qa","alpha3":"qat","name":"Qatar"},
++{"id":642,"alpha2":"ro","alpha3":"rou","name":"Romania"},
++{"id":643,"alpha2":"ru","alpha3":"rus","name":"Russian Federation"},
++{"id":646,"alpha2":"rw","alpha3":"rwa","name":"Rwanda"},
++{"id":659,"alpha2":"kn","alpha3":"kna","name":"Saint Kitts and Nevis"},
++{"id":662,"alpha2":"lc","alpha3":"lca","name":"Saint Lucia"},
++{"id":670,"alpha2":"vc","alpha3":"vct","name":"Saint Vincent and the Grenadines"},
++{"id":882,"alpha2":"ws","alpha3":"wsm","name":"Samoa"},
++{"id":674,"alpha2":"sm","alpha3":"smr","name":"San Marino"},
++{"id":678,"alpha2":"st","alpha3":"stp","name":"Sao Tome and Principe"},
++{"id":682,"alpha2":"sa","alpha3":"sau","name":"Saudi Arabia"},
++{"id":686,"alpha2":"sn","alpha3":"sen","name":"Senegal"},
++{"id":688,"alpha2":"rs","alpha3":"srb","name":"Serbia"},
++{"id":690,"alpha2":"sc","alpha3":"syc","name":"Seychelles"},
++{"id":694,"alpha2":"sl","alpha3":"sle","name":"Sierra Leone"},
++{"id":702,"alpha2":"sg","alpha3":"sgp","name":"Singapore"},
++{"id":703,"alpha2":"sk","alpha3":"svk","name":"Slovakia"},
++{"id":705,"alpha2":"si","alpha3":"svn","name":"Slovenia"},
++{"id":90,"alpha2":"sb","alpha3":"slb","name":"Solomon Islands"},
++{"id":706,"alpha2":"so","alpha3":"som","name":"Somalia"},
++{"id":710,"alpha2":"za","alpha3":"zaf","name":"South Africa"},
++{"id":728,"alpha2":"ss","alpha3":"ssd","name":"South Sudan"},
++{"id":724,"alpha2":"es","alpha3":"esp","name":"Spain"},
++{"id":144,"alpha2":"lk","alpha3":"lka","name":"Sri Lanka"},
++{"id":729,"alpha2":"sd","alpha3":"sdn","name":"Sudan"},
++{"id":740,"alpha2":"sr","alpha3":"sur","name":"Suriname"},
++{"id":752,"alpha2":"se","alpha3":"swe","name":"Sweden"},
++{"id":756,"alpha2":"ch","alpha3":"che","name":"Switzerland"},
++{"id":760,"alpha2":"sy","alpha3":"syr","name":"Syrian Arab Republic"},
++{"id":762,"alpha2":"tj","alpha3":"tjk","name":"Tajikistan"},
++{"id":834,"alpha2":"tz","alpha3":"tza","name":"Tanzania, United Republic of"},
++{"id":764,"alpha2":"th","alpha3":"tha","name":"Thailand"},
++{"id":626,"alpha2":"tl","alpha3":"tls","name":"Timor-Leste"},
++{"id":768,"alpha2":"tg","alpha3":"tgo","name":"Togo"},
++{"id":776,"alpha2":"to","alpha3":"ton","name":"Tonga"},
++{"id":780,"alpha2":"tt","alpha3":"tto","name":"Trinidad and Tobago"},
++{"id":788,"alpha2":"tn","alpha3":"tun","name":"Tunisia"},
++{"id":792,"alpha2":"tr","alpha3":"tur","name":"Turkey"},
++{"id":795,"alpha2":"tm","alpha3":"tkm","name":"Turkmenistan"},
++{"id":798,"alpha2":"tv","alpha3":"tuv","name":"Tuvalu"},
++{"id":800,"alpha2":"ug","alpha3":"uga","name":"Uganda"},
++{"id":804,"alpha2":"ua","alpha3":"ukr","name":"Ukraine"},
++{"id":784,"alpha2":"ae","alpha3":"are","name":"United Arab Emirates"},
++{"id":826,"alpha2":"gb","alpha3":"gbr","name":"United Kingdom of Great Britain and Northern Ireland"},
++{"id":840,"alpha2":"us","alpha3":"usa","name":"United States of America"},
++{"id":858,"alpha2":"uy","alpha3":"ury","name":"Uruguay"},
++{"id":860,"alpha2":"uz","alpha3":"uzb","name":"Uzbekistan"},
++{"id":548,"alpha2":"vu","alpha3":"vut","name":"Vanuatu"},
++{"id":862,"alpha2":"ve","alpha3":"ven","name":"Venezuela (Bolivarian Republic of)"},
++{"id":704,"alpha2":"vn","alpha3":"vnm","name":"Viet Nam"},
++{"id":887,"alpha2":"ye","alpha3":"yem","name":"Yemen"},
++{"id":894,"alpha2":"zm","alpha3":"zmb","name":"Zambia"},
++{"id":716,"alpha2":"zw","alpha3":"zwe","name":"Zimbabwe"}] %}
++
++{% set countriesAr = [{"id":4,"alpha2":"af","alpha3":"afg","name":"أفغانستان"},
++{"id":8,"alpha2":"al","alpha3":"alb","name":"ألبانيا"},
++{"id":12,"alpha2":"dz","alpha3":"dza","name":"الجزائر"},
++{"id":20,"alpha2":"ad","alpha3":"and","name":"أندورا"},
++{"id":24,"alpha2":"ao","alpha3":"ago","name":"أنغولا"},
++{"id":28,"alpha2":"ag","alpha3":"atg","name":"أنتيغوا وباربودا"},
++{"id":32,"alpha2":"ar","alpha3":"arg","name":"الأرجنتين"},
++{"id":51,"alpha2":"am","alpha3":"arm","name":"أرمينيا"},
++{"id":36,"alpha2":"au","alpha3":"aus","name":"أستراليا"},
++{"id":40,"alpha2":"at","alpha3":"aut","name":"النمسا"},
++{"id":31,"alpha2":"az","alpha3":"aze","name":"أذربيجان"},
++{"id":44,"alpha2":"bs","alpha3":"bhs","name":"باهاماس"},
++{"id":48,"alpha2":"bh","alpha3":"bhr","name":"البحرين"},
++{"id":50,"alpha2":"bd","alpha3":"bgd","name":"بنغلاديش"},
++{"id":52,"alpha2":"bb","alpha3":"brb","name":"باربادوس"},
++{"id":112,"alpha2":"by","alpha3":"blr","name":"بيلاروس"},
++{"id":56,"alpha2":"be","alpha3":"bel","name":"بلجيكا"},
++{"id":84,"alpha2":"bz","alpha3":"blz","name":"بليز"},
++{"id":204,"alpha2":"bj","alpha3":"ben","name":"بنين"},
++{"id":64,"alpha2":"bt","alpha3":"btn","name":"بوتان"},
++{"id":68,"alpha2":"bo","alpha3":"bol","name":"بوليفيا"},
++{"id":70,"alpha2":"ba","alpha3":"bih","name":"البوسنة والهرسك"},
++{"id":72,"alpha2":"bw","alpha3":"bwa","name":"بوتسوانا"},
++{"id":76,"alpha2":"br","alpha3":"bra","name":"البرازيل"},
++{"id":96,"alpha2":"bn","alpha3":"brn","name":"بروناي"},
++{"id":100,"alpha2":"bg","alpha3":"bgr","name":"بلغاريا"},
++{"id":854,"alpha2":"bf","alpha3":"bfa","name":"بوركينا فاسو"},
++{"id":108,"alpha2":"bi","alpha3":"bdi","name":"بوروندي"},
++{"id":116,"alpha2":"kh","alpha3":"khm","name":"كمبوديا"},
++{"id":120,"alpha2":"cm","alpha3":"cmr","name":"الكاميرون"},
++{"id":124,"alpha2":"ca","alpha3":"can","name":"كندا"},
++{"id":132,"alpha2":"cv","alpha3":"cpv","name":"الرأس الأخضر"},
++{"id":140,"alpha2":"cf","alpha3":"caf","name":"جمهورية أفريقيا الوسطى"},
++{"id":148,"alpha2":"td","alpha3":"tcd","name":"تشاد"},
++{"id":152,"alpha2":"cl","alpha3":"chl","name":"تشيلي"},
++{"id":156,"alpha2":"cn","alpha3":"chn","name":"الصين"},
++{"id":170,"alpha2":"co","alpha3":"col","name":"كولومبيا"},
++{"id":174,"alpha2":"km","alpha3":"com","name":"جزر القمر"},
++{"id":178,"alpha2":"cg","alpha3":"cog","name":"جمهورية الكونغو"},
++{"id":180,"alpha2":"cd","alpha3":"cod","name":"جمهورية الكونغو الديمقراطية"},
++{"id":188,"alpha2":"cr","alpha3":"cri","name":"كوستاريكا"},
++{"id":384,"alpha2":"ci","alpha3":"civ","name":"ساحل العاج"},
++{"id":191,"alpha2":"hr","alpha3":"hrv","name":"كرواتيا"},
++{"id":192,"alpha2":"cu","alpha3":"cub","name":"كوبا"},
++{"id":196,"alpha2":"cy","alpha3":"cyp","name":"قبرص"},
++{"id":203,"alpha2":"cz","alpha3":"cze","name":"جمهورية التشيك"},
++{"id":208,"alpha2":"dk","alpha3":"dnk","name":"الدنمارك"},
++{"id":262,"alpha2":"dj","alpha3":"dji","name":"جيبوتي"},
++{"id":212,"alpha2":"dm","alpha3":"dma","name":"دومينيكا"},
++{"id":214,"alpha2":"do","alpha3":"dom","name":"جمهورية الدومينيكان"},
++{"id":218,"alpha2":"ec","alpha3":"ecu","name":"الإكوادور"},
++{"id":818,"alpha2":"eg","alpha3":"egy","name":"مصر"},
++{"id":222,"alpha2":"sv","alpha3":"slv","name":"السلفادور"},
++{"id":226,"alpha2":"gq","alpha3":"gnq","name":"غينيا الاستوائية"},
++{"id":232,"alpha2":"er","alpha3":"eri","name":"إريتريا"},
++{"id":233,"alpha2":"ee","alpha3":"est","name":"إستونيا"},
++{"id":231,"alpha2":"et","alpha3":"eth","name":"إثيوبيا"},
++{"id":242,"alpha2":"fj","alpha3":"fji","name":"فيجي"},
++{"id":246,"alpha2":"fi","alpha3":"fin","name":"فنلندا"},
++{"id":250,"alpha2":"fr","alpha3":"fra","name":"فرنسا"},
++{"id":266,"alpha2":"ga","alpha3":"gab","name":"الغابون"},
++{"id":270,"alpha2":"gm","alpha3":"gmb","name":"غامبيا"},
++{"id":268,"alpha2":"ge","alpha3":"geo","name":"جورجيا"},
++{"id":276,"alpha2":"de","alpha3":"deu","name":"ألمانيا"},
++{"id":288,"alpha2":"gh","alpha3":"gha","name":"غانا"},
++{"id":300,"alpha2":"gr","alpha3":"grc","name":"اليونان"},
++{"id":308,"alpha2":"gd","alpha3":"grd","name":"غرينادا"},
++{"id":320,"alpha2":"gt","alpha3":"gtm","name":"غواتيمالا"},
++{"id":324,"alpha2":"gn","alpha3":"gin","name":"غينيا"},
++{"id":624,"alpha2":"gw","alpha3":"gnb","name":"غينيا بيساو"},
++{"id":328,"alpha2":"gy","alpha3":"guy","name":"غيانا"},
++{"id":332,"alpha2":"ht","alpha3":"hti","name":"هايتي"},
++{"id":340,"alpha2":"hn","alpha3":"hnd","name":"هندوراس"},
++{"id":348,"alpha2":"hu","alpha3":"hun","name":"المجر"},
++{"id":352,"alpha2":"is","alpha3":"isl","name":"آيسلندا"},
++{"id":356,"alpha2":"in","alpha3":"ind","name":"الهند"},
++{"id":360,"alpha2":"id","alpha3":"idn","name":"إندونيسيا"},
++{"id":364,"alpha2":"ir","alpha3":"irn","name":"إيران"},
++{"id":368,"alpha2":"iq","alpha3":"irq","name":"العراق"},
++{"id":372,"alpha2":"ie","alpha3":"irl","name":"أيرلندا"},
++{"id":380,"alpha2":"it","alpha3":"ita","name":"إيطاليا"},
++{"id":388,"alpha2":"jm","alpha3":"jam","name":"جامايكا"},
++{"id":392,"alpha2":"jp","alpha3":"jpn","name":"اليابان"},
++{"id":400,"alpha2":"jo","alpha3":"jor","name":"الأردن"},
++{"id":398,"alpha2":"kz","alpha3":"kaz","name":"كازاخستان"},
++{"id":404,"alpha2":"ke","alpha3":"ken","name":"كينيا"},
++{"id":296,"alpha2":"ki","alpha3":"kir","name":"كيريباتي"},
++{"id":408,"alpha2":"kp","alpha3":"prk","name":"كوريا الشمالية"},
++{"id":410,"alpha2":"kr","alpha3":"kor","name":"كوريا الجنوبية"},
++{"id":414,"alpha2":"kw","alpha3":"kwt","name":"الكويت"},
++{"id":417,"alpha2":"kg","alpha3":"kgz","name":"قيرغيزستان"},
++{"id":418,"alpha2":"la","alpha3":"lao","name":"لاوس"},
++{"id":428,"alpha2":"lv","alpha3":"lva","name":"لاتفيا"},
++{"id":422,"alpha2":"lb","alpha3":"lbn","name":"لبنان"},
++{"id":426,"alpha2":"ls","alpha3":"lso","name":"ليسوتو"},
++{"id":430,"alpha2":"lr","alpha3":"lbr","name":"ليبيريا"},
++{"id":434,"alpha2":"ly","alpha3":"lby","name":"ليبيا"},
++{"id":438,"alpha2":"li","alpha3":"lie","name":"ليختنشتاين"},
++{"id":440,"alpha2":"lt","alpha3":"ltu","name":"ليتوانيا"},
++{"id":442,"alpha2":"lu","alpha3":"lux","name":"لوكسمبورغ"},
++{"id":807,"alpha2":"mk","alpha3":"mkd","name":"مقدونيا"},
++{"id":450,"alpha2":"mg","alpha3":"mdg","name":"مدغشقر"},
++{"id":454,"alpha2":"mw","alpha3":"mwi","name":"مالاوي"},
++{"id":458,"alpha2":"my","alpha3":"mys","name":"ماليزيا"},
++{"id":462,"alpha2":"mv","alpha3":"mdv","name":"جزر المالديف"},
++{"id":466,"alpha2":"ml","alpha3":"mli","name":"مالي"},
++{"id":470,"alpha2":"mt","alpha3":"mlt","name":"مالطا"},
++{"id":584,"alpha2":"mh","alpha3":"mhl","name":"جزر مارشال"},
++{"id":478,"alpha2":"mr","alpha3":"mrt","name":"موريتانيا"},
++{"id":480,"alpha2":"mu","alpha3":"mus","name":"موريشيوس"},
++{"id":484,"alpha2":"mx","alpha3":"mex","name":"المكسيك"},
++{"id":583,"alpha2":"fm","alpha3":"fsm","name":"ولايات ميكرونيسيا المتحدة"},
++{"id":504,"alpha2":"ma","alpha3":"mar","name":"المغرب"},
++{"id":498,"alpha2":"md","alpha3":"mda","name":"مولدوفا"},
++{"id":492,"alpha2":"mc","alpha3":"mco","name":"موناكو"},
++{"id":496,"alpha2":"mn","alpha3":"mng","name":"منغوليا"},
++{"id":499,"alpha2":"me","alpha3":"mne","name":"الجبل الأسود"},
++{"id":508,"alpha2":"mz","alpha3":"moz","name":"موزمبيق"},
++{"id":104,"alpha2":"mm","alpha3":"mmr","name":"ميانمار"},
++{"id":516,"alpha2":"na","alpha3":"nam","name":"ناميبيا"},
++{"id":520,"alpha2":"nr","alpha3":"nru","name":"ناورو"},
++{"id":524,"alpha2":"np","alpha3":"npl","name":"نيبال"},
++{"id":528,"alpha2":"nl","alpha3":"nld","name":"هولندا"},
++{"id":554,"alpha2":"nz","alpha3":"nzl","name":"نيوزيلندا"},
++{"id":558,"alpha2":"ni","alpha3":"nic","name":"نيكاراغوا"},
++{"id":562,"alpha2":"ne","alpha3":"ner","name":"النيجر"},
++{"id":566,"alpha2":"ng","alpha3":"nga","name":"نيجيريا"},
++{"id":578,"alpha2":"no","alpha3":"nor","name":"النرويج"},
++{"id":512,"alpha2":"om","alpha3":"omn","name":"عمان"},
++{"id":586,"alpha2":"pk","alpha3":"pak","name":"باكستان"},
++{"id":585,"alpha2":"pw","alpha3":"plw","name":"بالاو"},
++{"id":591,"alpha2":"pa","alpha3":"pan","name":"بنما"},
++{"id":598,"alpha2":"pg","alpha3":"png","name":"بابوا غينيا الجديدة"},
++{"id":600,"alpha2":"py","alpha3":"pry","name":"باراغواي"},
++{"id":604,"alpha2":"pe","alpha3":"per","name":"بيرو"},
++{"id":608,"alpha2":"ph","alpha3":"phl","name":"الفلبين"},
++{"id":616,"alpha2":"pl","alpha3":"pol","name":"بولندا"},
++{"id":620,"alpha2":"pt","alpha3":"prt","name":"البرتغال"},
++{"id":634,"alpha2":"qa","alpha3":"qat","name":"قطر"},
++{"id":642,"alpha2":"ro","alpha3":"rou","name":"رومانيا"},
++{"id":643,"alpha2":"ru","alpha3":"rus","name":"روسيا"},
++{"id":646,"alpha2":"rw","alpha3":"rwa","name":"رواندا"},
++{"id":659,"alpha2":"kn","alpha3":"kna","name":"سانت كيتس ونيفيس"},
++{"id":662,"alpha2":"lc","alpha3":"lca","name":"سانت لوسيا"},
++{"id":670,"alpha2":"vc","alpha3":"vct","name":"سانت فينسنت والغرينادين"},
++{"id":882,"alpha2":"ws","alpha3":"wsm","name":"ساموا"},
++{"id":674,"alpha2":"sm","alpha3":"smr","name":"سان مارينو"},
++{"id":678,"alpha2":"st","alpha3":"stp","name":"ساو تومي وبرينسيب"},
++{"id":682,"alpha2":"sa","alpha3":"sau","name":"السعودية"},
++{"id":686,"alpha2":"sn","alpha3":"sen","name":"السنغال"},
++{"id":688,"alpha2":"rs","alpha3":"srb","name":"صربيا"},
++{"id":690,"alpha2":"sc","alpha3":"syc","name":"سيشل"},
++{"id":694,"alpha2":"sl","alpha3":"sle","name":"سيراليون"},
++{"id":702,"alpha2":"sg","alpha3":"sgp","name":"سنغافورة"},
++{"id":703,"alpha2":"sk","alpha3":"svk","name":"سلوفاكيا"},
++{"id":705,"alpha2":"si","alpha3":"svn","name":"سلوفينيا"},
++{"id":90,"alpha2":"sb","alpha3":"slb","name":"جزر سليمان"},
++{"id":706,"alpha2":"so","alpha3":"som","name":"الصومال"},
++{"id":710,"alpha2":"za","alpha3":"zaf","name":"جنوب أفريقيا"},
++{"id":728,"alpha2":"ss","alpha3":"ssd","name":"جنوب السودان"},
++{"id":724,"alpha2":"es","alpha3":"esp","name":"إسبانيا"},
++{"id":144,"alpha2":"lk","alpha3":"lka","name":"سريلانكا"},
++{"id":729,"alpha2":"sd","alpha3":"sdn","name":"السودان"},
++{"id":740,"alpha2":"sr","alpha3":"sur","name":"سورينام"},
++{"id":748,"alpha2":"sz","alpha3":"swz","name":"إسواتيني"},
++{"id":752,"alpha2":"se","alpha3":"swe","name":"السويد"},
++{"id":756,"alpha2":"ch","alpha3":"che","name":"سويسرا"},
++{"id":760,"alpha2":"sy","alpha3":"syr","name":"سوريا"},
++{"id":762,"alpha2":"tj","alpha3":"tjk","name":"طاجيكستان"},
++{"id":834,"alpha2":"tz","alpha3":"tza","name":"تنزانيا"},
++{"id":764,"alpha2":"th","alpha3":"tha","name":"تايلاند"},
++{"id":626,"alpha2":"tl","alpha3":"tls","name":"تيمور الشرقية"},
++{"id":768,"alpha2":"tg","alpha3":"tgo","name":"توغو"},
++{"id":776,"alpha2":"to","alpha3":"ton","name":"تونغا"},
++{"id":780,"alpha2":"tt","alpha3":"tto","name":"ترينيداد وتوباغو"},
++{"id":788,"alpha2":"tn","alpha3":"tun","name":"تونس"},
++{"id":792,"alpha2":"tr","alpha3":"tur","name":"تركيا"},
++{"id":795,"alpha2":"tm","alpha3":"tkm","name":"تركمانستان"},
++{"id":798,"alpha2":"tv","alpha3":"tuv","name":"توفالو"},
++{"id":800,"alpha2":"ug","alpha3":"uga","name":"أوغندا"},
++{"id":804,"alpha2":"ua","alpha3":"ukr","name":"أوكرانيا"},
++{"id":784,"alpha2":"ae","alpha3":"are","name":"الإمارات العربية المتحدة"},
++{"id":826,"alpha2":"gb","alpha3":"gbr","name":"المملكة المتحدة"},
++{"id":840,"alpha2":"us","alpha3":"usa","name":"الولايات المتحدة"},
++{"id":858,"alpha2":"uy","alpha3":"ury","name":"الأوروغواي"},
++{"id":860,"alpha2":"uz","alpha3":"uzb","name":"أوزبكستان"},
++{"id":548,"alpha2":"vu","alpha3":"vut","name":"فانواتو"},
++{"id":862,"alpha2":"ve","alpha3":"ven","name":"فنزويلا"},
++{"id":704,"alpha2":"vn","alpha3":"vnm","name":"فيتنام"},
++{"id":887,"alpha2":"ye","alpha3":"yem","name":"اليمن"},
++{"id":894,"alpha2":"zm","alpha3":"zmb","name":"زامبيا"},
++{"id":716,"alpha2":"zw","alpha3":"zwe","name":"زيمبابوي"}]%}
++
++{% set industries = [
++        {
++            "name": "Airlines/Aviation",
++"nameAr": "الطيران"
++        },
++        {
++            "name": "Alternative Dispute Resolution"
++            ,
++"nameAr": "التخلص من النزاعات"
++        },
++        {
++            "name": "Alternative Medicine"
++            ,
++"nameAr": "الطب البديل"
++        },
++        {
++            "name": "Animation"
++            ,
++"nameAr": "الرسوم المتحركة"
++        },
++        {
++            "name": "Apparel Fashion"
++            ,
++"nameAr": "الملابس"
++        },
++        {
++            "name": "Architecture Planning"
++            ,
++"nameAr": "الهندسة والتخطيط"
++        },
++        {
++            "name": "Arts Crafts"
++            ,
++"nameAr": "الفنون والحرف"
++        },
++        {
++            "name": "Automotive"
++            ,
++"nameAr": "السيارات"
++        },
++        {
++            "name": "Aviation Aerospace"
++            ,
++"nameAr": "الطيران والفضاء"
++        },
++        {
++            "name": "Banking"
++            ,
++"nameAr": "البنوك"
++        },
++        {
++            "name": "Biotechnology"
++            ,
++"nameAr": "التكنولوجيا الحيوية"
++        },
++        {
++            "name": "Broadcast Media"
++            ,
++"nameAr": "الإعلام"
++        },
++        {
++            "name": "Building Materials"
++            ,
++"nameAr": "مواد البناء"
++        },
++        {
++            "name": "Business Supplies Equipment"
++            ,
++"nameAr": "مستلزمات الأعمال والمعدات"
++        },
++        {
++            "name": "Capital Markets"
++            ,
++"nameAr": "الأسواق المالية"
++        },
++        {
++            "name": "Chemicals"
++            ,
++"nameAr": "الكيماويات"
++        },
++        {
++            "name": "Civic Social Organization"
++            ,
++"nameAr": "المنظمات المدنية والاجتماعية"
++        },
++        {
++            "name": "Civil Engineering"
++            ,
++"nameAr": "الهندسة المدنية"
++        },
++        {
++            "name": "Commercial Real Estate"
++            ,
++"nameAr": "العقارات التجارية"
++        },
++        {
++            "name": "Computer Network Security"
++            ,
++"nameAr": "الحماية من الشبكات الحاسوبية"
++        },
++        {
++            "name": "Computer Games"
++            ,
++"nameAr": "ألعاب الكمبيوتر"
++        },
++        {
++            "name": "Computer Hardware"
++            ,
++"nameAr": "الأجهزة الحاسوبية"
++        },
++        {
++            "name": "Computer Networking"
++            ,
++"nameAr": "شبكات الحاسوب"
++        },
++        {
++            "name": "Computer Software"
++            ,
++"nameAr": "برامج الحاسوب"
++        },
++        {
++            "name": "Construction"
++            ,
++"nameAr": "البناء"
++        },
++        {
++            "name": "Consumer Electronics"
++            ,
++"nameAr": "الإلكترونيات الاستهلاكية"
++        },
++        {
++            "name": "Consumer Goods"
++            ,
++"nameAr": "السلع الاستهلاكية"
++        },
++        {
++            "name": "Consumer Services"
++            ,
++"nameAr": "خدمات العملاء"
++        },
++        {
++            "name": "Cosmetics"
++            ,
++"nameAr": "المستحضرات الجمالية"
++        },
++        {
++            "name": "Dairy"
++            ,
++"nameAr": "الألبان"
++        },
++        {
++            "name": "Defense Space"
++            ,
++"nameAr": "الدفاع والفضاء"
++        },
++        {
++            "name": "Design"
++            ,
++"nameAr": "التصميم"
++        },
++        {
++            "name": "E-learning"
++            ,
++"nameAr": "التعليم عن بعد"
++        },
++        {
++            "name": "Education Management"
++            ,
++"nameAr": "إدارة التعليم"
++        },
++        {
++            "name": "Electrical Electronic Manufacturing"
++            ,
++"nameAr": "الإنتاج الكهربائي والإلكتروني"
++        },
++        {
++            "name": "Entertainment"
++            ,
++"nameAr": "الترفيه"
++        },
++        {
++            "name": "Environmental Services"
++            ,
++"nameAr": "خدمات البيئة"
++        },
++        {
++            "name": "Events Services"
++            ,
++"nameAr": "الأحداث والخدمات"
++        },
++        {
++            "name": "Executive Office"
++            ,
++"nameAr": "مكتب الرئيس التنفيذي"
++        },
++        {
++            "name": "Facilities Services"
++            ,
++"nameAr": "خدمات المرافق"
++        },
++        {
++            "name": "Farming"
++            ,
++"nameAr": "الزراعة"
++        },
++        {
++            "name": "Financial Services"
++            ,
++"nameAr": "الخدمات المالية"
++        },
++        {
++            "name": "Fine Art"
++            ,
++"nameAr": "الفنون الجميلة"
++        },
++        {
++            "name": "Fishery"
++            ,
++"nameAr": "الصيد البحري"
++        },
++        {
++            "name": "Food Beverages"
++            ,
++"nameAr": "الطعام والمشروبات"
++        },
++        {
++            "name": "Food Production"
++            ,
++"nameAr": "إنتاج الطعام"
++        },
++        {
++            "name": "Fundraising"
++            ,
++"nameAr": "التبرعات"
++        },
++        {
++            "name": "Furniture"
++            ,
++"nameAr": "الأثاث"
++        },
++        {
++            "name": "Gambling Casinos"
++            ,
++"nameAr": "المكاسب والكازينوهات"
++        },
++        {
++            "name": "Glass, Ceramics Concrete"
++            ,
++"nameAr": "الزجاج والسيراميك والخرسانة"
++        },
++        {
++            "name": "Government Administration"
++            ,
++"nameAr": "الحكومة والإدارة"
++        },
++        {
++            "name": "Government Relations"
++            ,
++"nameAr": "علاقات الحكومة"
++        },
++        {
++            "name": "Graphic Design"
++            ,
++"nameAr": "التصميم الجرافيكي"
++        },
++        {
++            "name": "Health, Wellness Fitness"
++            ,
++"nameAr": "الصحة والعافية واللياقة البدنية"
++        },
++        {
++            "name": "Higher Education"
++            ,
++"nameAr": "التعليم العالي"
++        },
++        {
++            "name": "Hospital Health Care"
++            ,
++"nameAr": "المستشفى والرعاية الصحية"
++        },
++        {
++            "name": "Hospitality"
++            ,
++"nameAr": "الضيافة"
++        },
++        {
++            "name": "Human Resources"
++            ,
++"nameAr": "الموارد البشرية"
++        },
++        {
++            "name": "Import Export"
++            ,
++"nameAr": "الاستيراد والتصدير"
++        },
++        {
++            "name": "Individual Family Services"
++            ,
++"nameAr": "الخدمات الفردية والعائلية"
++        },
++        {
++            "name": "Industrial Automation"
++            ,
++"nameAr": "التحكم الصناعي"
++        },
++        {
++            "name": "Information Services"
++            ,
++"nameAr": "خدمات المعلومات"
++        },
++        {
++            "name": "Information Technology Services"
++            ,
++"nameAr": "خدمات تكنولوجيا المعلومات"
++        },
++        {
++            "name": "Insurance"
++            ,
++"nameAr": "التأمين"
++        },
++        {
++            "name": "International Affairs"
++            ,
++"nameAr": "الشؤون الدولية"
++        },
++        {
++            "name": "International Trade Development"
++            ,
++"nameAr": "تطوير التجارة الدولية"
++        },
++        {
++            "name": "Internet"
++            ,
++"nameAr": "الإنترنت"
++        },
++        {
++            "name": "Investment Banking"
++            ,
++"nameAr": "التمويل الإستثماري"
++        },
++        {
++            "name": "Investment Management"
++            ,
++"nameAr": "إدارة الاستثمار"
++        },
++        {
++            "name": "Judiciary"
++            ,
++"nameAr": "القضاء"
++        },
++        {
++            "name": "Law Enforcement"
++            ,
++"nameAr": "التنفيذ القضائي"
++        },
++        {
++            "name": "Law Practice"
++            ,
++"nameAr": "ممارسة القانون"
++        },
++        {
++            "name": "Legal Services"
++            ,
++"nameAr": "خدمات قانونية"
++        },
++        {
++            "name": "Legislative Office"
++            ,
++"nameAr": "مكتب البرلمان"
++        },
++        {
++            "name": "Leisure, Travel Tourism"
++            ,
++"nameAr": "الترفيه والسفر والسياحة"
++        },
++        {
++            "name": "Libraries"
++            ,
++"nameAr": "المكتبات"
++        },
++        {
++            "name": "Logistics Supply Chain"
++            ,
++"nameAr": "التسويق والتوزيع"
++        },
++        {
++            "name": "Luxury Goods Jewelry"
++            ,
++"nameAr": "السلع الفاخرة والمجوهرات"
++        },
++        {
++            "name": "Machinery"
++            ,
++"nameAr": "الآلات"
++        },
++        {
++            "name": "Management Consulting"
++            ,
++"nameAr": "الاستشارات الإدارية"
++        },
++        {
++            "name": "Maritime"
++            ,
++"nameAr": "البحري"
++        },
++        {
++            "name": "Market Research"
++            ,
++"nameAr": "البحوث السوقية"
++        },
++        {
++            "name": "Marketing Advertising"
++            ,
++"nameAr": "التسويق والإعلان"
++        },
++        {
++            "name": "Mechanical Or Industrial Engineering"
++            ,
++"nameAr": "الهندسة الميكانيكية أو الصناعية"
++        },
++        {
++            "name": "Media Production"
++            ,
++"nameAr": "إنتاج الوسائط"
++        },
++        {
++            "name": "Medical Device"
++            ,
++"nameAr": "الأجهزة الطبية"
++        },
++        {
++            "name": "Medical Practice"
++            ,
++"nameAr": "ممارسة طبية"
++        },
++        {
++            "name": "Mental Health Care"
++            ,
++"nameAr": "رعاية الصحة النفسية"
++        },
++        {
++            "name": "Military"
++            ,
++"nameAr": "القوات المسلحة"
++        },
++        {
++            "name": "Mining Metals"
++            ,
++"nameAr": "التعدين والمعادن"
++        },
++        {
++            "name": "Mobile Games"
++            ,
++"nameAr": "ألعاب الهاتف المحمول"
++        },
++        {
++            "name": "Motion Pictures Film"
++            ,
++"nameAr": "الأفلام والأفلام"
++        },
++        {
++            "name": "Museums Institutions"
++            ,
++"nameAr": "المتاحف والمؤسسات"
++        },
++        {
++            "name": "Music"
++            ,
++"nameAr": "الموسيقى"
++        },
++        {
++            "name": "Nanotechnology"
++            ,
++"nameAr": "النانوتكنولوجيا"
++        },
++        {
++            "name": "Newspapers"
++            ,
++"nameAr": "الصحف"
++        },
++        {
++            "name": "Non-profit Organization Management"
++            ,
++"nameAr": "إدارة المنظمات غير الربحية"
++        },
++        {
++            "name": "Oil Energy"
++            ,
++"nameAr": "النفط والطاقة"
++        },
++        {
++            "name": "Online Media"
++            ,
++"nameAr": "وسائل الإعلام عبر الإنترنت"
++        },
++        {
++            "name": "Other"
++            ,
++"nameAr": "أخرى"
++        },
++        {
++            "name": "Outsourcing/Offshoring"
++            ,
++"nameAr": "التخصص الخارجي"
++        },
++        {
++            "name": "Package/Freight Delivery"
++            ,
++"nameAr": "الشحن والتسليم"
++        },
++        {
++            "name": "Packaging Containers"
++            ,
++"nameAr": "التعبئة والتغليف"
++        },
++        {
++            "name": "Paper Forest Products"
++            ,
++"nameAr": "الورق والمنتجات الغابية"
++        },
++        {
++            "name": "Performing Arts"
++            ,
++"nameAr": "الفنون المسرحية"
++        },
++        {
++            "name": "Pharmaceuticals"
++            ,
++"nameAr": "الأدوية"
++        },
++        {
++            "name": "Philanthropy"
++            ,
++"nameAr": "الأنفاق"
++        },
++        {
++            "name": "Photography"
++            ,
++"nameAr": "التصوير"
++        },
++        {
++            "name": "Plastics"
++            ,
++"nameAr": "البلاستيك"
++        },
++        {
++            "name": "Political Organization"
++            ,
++"nameAr": "المنظمات السياسية"
++        },
++        {
++            "name": "Primary/Secondary Education"
++            ,
++"nameAr": "التعليم الأساسي والثانوي"
++        },
++        {
++            "name": "Printing"
++            ,
++"nameAr": "الطباعة"
++        },
++        {
++            "name": "Professional Training Coaching"
++            ,
++"nameAr": "التدريب المهني والتدريب"
++        },
++        {
++            "name": "Program Development"
++            ,
++"nameAr": "تطوير البرامج"
++        },
++        {
++            "name": "Public Policy"
++            ,
++"nameAr": "سياسة العامة"
++        },
++        {
++            "name": "Public Relations Communications"
++            ,
++"nameAr": "العلاقات العامة والاتصالات"
++        },
++        {
++            "name": "Public Safety"
++            ,
++"nameAr": "السلامة العامة"
++        },
++        {
++            "name": "Publishing"
++            ,
++"nameAr": "النشر"
++        },
++        {
++            "name": "Railroad Manufacture"
++            ,
++"nameAr": "صناعة السكك الحديدية"
++        },
++        {
++            "name": "Ranching"
++            ,
++"nameAr": "الريف"
++        },
++        {
++            "name": "Real Estate"
++            ,
++"nameAr": "عقارات"
++        },
++        {
++            "name": "Recreational Facilities Services"
++            ,
++"nameAr": "الخدمات والمرافق الترفيهية"
++        },
++        {
++            "name": "Religious Institutions"
++            ,
++"nameAr": "المؤسسات الدينية"
++        },
++        {
++            "name": "Renewables Environment"
++            ,
++"nameAr": "الطاقات المتجددة والبيئة"
++        },
++        {
++            "name": "Research"
++            ,
++"nameAr": "البحث"
++        },
++        {
++            "name": "Restaurants"
++            ,
++"nameAr": "المطاعم"
++        },
++        {
++            "name": "Retail"
++            ,
++"nameAr": "التجزئة"
++        },
++        {
++            "name": "Security Investigations"
++            ,
++"nameAr": "الأمن والتحقيقات"
++        },
++        {
++            "name": "Semiconductors"
++            ,
++"nameAr": "الموصلات الكهربائية"
++        },
++        {
++            "name": "Shipbuilding"
++            ,
++"nameAr": "صناعة السفن"
++        },
++        {
++            "name": "Sporting Goods"
++            ,
++"nameAr": "الأدوات الرياضية"
++        },
++        {
++            "name": "Sports"
++            ,
++"nameAr": "الرياضة"
++        },
++        {
++            "name": "Staffing Recruiting"
++            ,
++"nameAr": "التوظيف والتوظيف"
++        },
++        {
++            "name": "Supermarkets"
++            ,
++"nameAr": "السوبر ماركت"
++        },
++        {
++            "name": "Telecommunications"
++            ,
++"nameAr": "الاتصالات"
++        },
++        {
++            "name": "Textiles"
++            ,
++"nameAr": "النسيج"
++        },
++        {
++            "name": "Think Tanks"
++            ,
++"nameAr": "مختبرات التفكير"
++        },
++        {
++            "name": "Tobacco"
++            ,
++"nameAr": "التبغ"
++        },
++        {
++            "name": "Translation Localization"
++            ,
++"nameAr": "الترجمة والتعريب"
++        },
++        {
++            "name": "Transportation/Trucking/Railroad"
++            ,
++"nameAr": "النقل والشحن والسكك الحديدية"
++        },
++        {
++            "name": "Utilities"
++            ,
++"nameAr": "الخدمات العامة"
++        },
++        {
++            "name": "Venture Capital Private Equity"
++            ,
++"nameAr": "رأس المال المبدع والاستثمار الخاص"
++        },
++        {
++            "name": "Veterinary"
++            ,
++"nameAr": "الطب البيطري"
++        },
++        {
++            "name": "Warehousing"
++            ,
++"nameAr": "التخزين"
++        },
++        {
++            "name": "Wholesale"
++            ,
++"nameAr": "الجملة"
++        },
++        {
++            "name": "Wine Spirits"
++            ,
++"nameAr": "النبيذ والمشروبات الكحولية"
++        },
++        {
++            "name": "Wireless"
++            ,
++"nameAr": "اللاسلكي"
++        },
++        {
++            "name": "Writing Editing"
++            ,
++"nameAr": "الكتابة والتحرير"
++        }
++    ] %}
+ {% set prependIfPrefix = apos.modules['@apostrophecms/form'].prependIfPrefix %}
+ {% import "fragments/utility.html" as utils with context %}
+ 
+ <div data-apos-form-select class="apos-form-input-wrapper">
+-  <label for="{{ id }}"
+-    class="apos-form-label {{ prependIfPrefix('__label') }}"
+-  >
++  <label for="{{ id }}" class="apos-form-label {{ prependIfPrefix('__label') }}">
+     {{ widget.fieldLabel}}
+     {{ utils.optional(widget.required) }}
+-    <span
+-      class="apos-form-label-message {{ prependIfPrefix('__label-message') }}"
++    <span class="apos-form-label-message {{ prependIfPrefix('__label-message') }}"
+       data-apos-input-message="{{ widget.fieldName}}" hidden></span>
+   </label>
+-  <select
+-    class="apos-form-input {{ prependIfPrefix('__input') }}" id="{{ id }}"
+-    name="{{ widget.fieldName}}" {% if widget.required %}required{% endif %}
+-  >
+-    <option value="">{{ __t("aposForm:selectBlank") }}</option>
++  <select class="apos-form-input {{ prependIfPrefix('__input') }}" id="{{ id }}" name="{{ widget.fieldName}}"
++    {% if widget.required %}required{% endif %}>
++    <option disabled selected value="" style="color:#999">{{__t("Select")}}</option>
++    {%if widget.fieldName == 'country' and  apos.i18n.options.locales[data.locale].isRtl%}
++    {% for country in countriesAr %}
++    <option value="{{ country.name }}">{{ country.name }}</option>
++    {% endfor %}
++
++    {% elif widget.fieldName == 'country'%}
++    {% for country in countries %}
++    <option value="{{ country.name }}">{{ country.name }}</option>
++    {% endfor %}
++
++
++    {%elif widget.fieldName == 'industry'  and  apos.i18n.options.locales[data.locale].isRtl%}
++    {% for industry in industries %}
++    <option value="{{ industry.name }}">{{ industry.nameAr }}</option>
++    {% endfor %}
++        {%elif widget.fieldName == 'industry'  %}
++    {% for industry in industries %}
++    <option value="{{ industry.name }}">{{ industry.name }}</option>
++    {% endfor %}
++    {%else%}
+     {% for choice in widget.choices %}
+-      <option value="{{ choice.value }}">{{ choice.label }}</option>
++    <option value="{{ choice.value }}">{{ choice.label }}</option>
+     {% endfor %}
++    {%endif%}
++
+   </select>
+ </div>
+diff --git a/node_modules/@apostrophecms/form/modules/@apostrophecms/form-text-field-widget/views/widget.html b/node_modules/@apostrophecms/form/modules/@apostrophecms/form-text-field-widget/views/widget.html
+index 4ea2757..3f555dc 100644
+--- a/node_modules/@apostrophecms/form/modules/@apostrophecms/form-text-field-widget/views/widget.html
++++ b/node_modules/@apostrophecms/form/modules/@apostrophecms/form-text-field-widget/views/widget.html
+@@ -14,19 +14,36 @@
+       class="apos-form-label-message {{ prependIfPrefix('__label-message') }}"
+       data-apos-input-message="{{ widget.fieldName }}" hidden></span>
+   </label>
+-  {% if widget.inputType == 'date' %}
+-    <p>
+-      <small class="apos-form-help">{{ __t("(YYYY-MM-DD)") }}</small>
+-    </p>
+-  {% endif %}
++  
+   <input
+-    class="apos-form-input {{ prependIfPrefix('__input') }}"
++    class="apos-form-input {{ prependIfPrefix('__input') }} {% if widget.inputType == 'date' and apos.i18n.options.locales[data.locale].isRtl %}
++      date-input-ar
++      {%elif widget.inputType == 'date' %}
++      date-input
++    {% endif %}"
++     {% if widget.inputType == 'date' %}
++       type="text"
++    {% else %}
+     type="{{ widget.inputType or "text" }}"
++  {%endif%}
++
++
++    {% if widget.inputType == 'tel' %}onkeypress="return onlyNumberKey(event)"{% endif %}
++    {% if widget.inputType == 'email' %}pattern="(?![_.-])((?![_.-][_.-])[\w.-]){0,63}[a-zA-Z\d]@((?!-)((?!--)[a-zA-Z\d-]){0,63}[a-zA-Z\d]\.){1,2}([a-zA-Z]{2,14}\.)?[a-zA-Z]{2,14}"
++    title="Email is not valid"
++    {% endif %}
+     placeholder="{{ widget.placeholder }}"
+     id="{{ id }}" name="{{ widget.fieldName }}"
+-    {% if widget.inputType == 'date' %}
+-      pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
+-    {% endif %}
+     {% if widget.required %}required{% endif %}
+   />
+ </div>
++<script>
++    function onlyNumberKey(evt) {
++          
++        // Only ASCII character in that range allowed
++        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
++        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
++            return false;
++        return true;
++    }
++</script>
+diff --git a/node_modules/@apostrophecms/form/modules/@apostrophecms/form-textarea-field-widget/views/widget.html b/node_modules/@apostrophecms/form/modules/@apostrophecms/form-textarea-field-widget/views/widget.html
+index 8feb57b..5f1f6bf 100644
+--- a/node_modules/@apostrophecms/form/modules/@apostrophecms/form-textarea-field-widget/views/widget.html
++++ b/node_modules/@apostrophecms/form/modules/@apostrophecms/form-textarea-field-widget/views/widget.html
+@@ -4,7 +4,7 @@
+ {% set prependIfPrefix = apos.modules['@apostrophecms/form'].prependIfPrefix %}
+ {% import "fragments/utility.html" as utils with context %}
+ 
+-<div data-apos-form-textarea class="apos-form-input-wrapper">
++<div data-apos-form-textarea class="apos-form-input-wrapper col-span-2" >
+   <label for="{{ id }}"
+     class="apos-form-label {{ prependIfPrefix('__label') }}"
+   >
+@@ -17,5 +17,6 @@
+   <textarea class="apos-form-input {{ prependIfPrefix('__input') }}"
+     id="{{ id }}" name="{{ widget.fieldName }}"
+     placeholder="{{ widget.placeholder }}"
+-    {% if widget.required %}required{% endif %}></textarea>
++    {% if widget.required %}required{% endif %}
++    rows="5"></textarea>
+ </div>
+\ No newline at end of file
+diff --git a/node_modules/@apostrophecms/form/modules/@apostrophecms/form-widget/ui/src/index.js b/node_modules/@apostrophecms/form/modules/@apostrophecms/form-widget/ui/src/index.js
+index 2a0739c..c575f32 100644
+--- a/node_modules/@apostrophecms/form/modules/@apostrophecms/form-widget/ui/src/index.js
++++ b/node_modules/@apostrophecms/form/modules/@apostrophecms/form-widget/ui/src/index.js
+@@ -1,11 +1,27 @@
+ import { processErrors } from './errors';
+ import { collectValues } from './fields';
+ import enableRecaptcha from './recaptcha';
++import {
++  Block
++} from 'notiflix/build/notiflix-block-aio';
++import {
++  Notify
++} from 'notiflix/build/notiflix-notify-aio';
+ 
+ export default () => {
+   apos.util.widgetPlayers['@apostrophecms/form'] = {
+     selector: '[data-apos-form-wrapper]',
+     player: function (el) {
++
++  var inputs = document.getElementsByTagName('input');
++  for (var i = 0; i < inputs.length; i++) {
++    if (inputs[i].type == 'text') {
++      inputs[i].onchange = function() {
++        this.value = this.value.replace(/^\s+/, '').replace(/\s+$/, '');
++      };
++    }
++  }
++
+       const form = el.querySelector('[data-apos-form-form]');
+ 
+       if (!form) {
+@@ -81,10 +97,7 @@ export default () => {
+ 
+         // For resubmissions
+         const errorMsg = el.querySelector('[data-apos-form-submit-error]');
+-        const spinner = el.querySelector('[data-apos-form-spinner]');
+-        const thankYou = el.querySelector('[data-apos-form-thank-you]');
+-        apos.util.removeClass(errorMsg, 'apos-form-visible');
+-        apos.util.addClass(spinner, 'apos-form-visible');
++        Block.dots('form');
+ 
+         // Convert to arrays old school for IE.
+         const existingErrorInputs = Array.prototype.slice.call(el.querySelectorAll('.apos-form-input-error'));
+@@ -113,22 +126,56 @@ export default () => {
+             body: formData
+           });
+         } catch (error) {
+-          formErrors = error.body?.data?.formErrors;
++            formErrors = error.body?.data?.formErrors;
++            if(apos.locale==='ar'){
++              Notify.failure('حدث خطأ ما، يرجى المحاولة مرة أخرى',{
++                rtl: true,
++              });
++            } else {
++
++         Notify.failure( 'something went wrong please try again later');
++            }
++          Block.remove('form');
++
+         }
+ 
+         form.removeAttribute('data-apos-form-busy');
+-        apos.util.removeClass(spinner, 'apos-form-visible');
+ 
+         if (formErrors) {
+           processErrors(formErrors, el);
++          Block.remove('form');
+ 
+         } else {
+           apos.util.emit(document.body, '@apostrophecms/form:submission-form', {
+             form,
+             formError: null
+           });
+-          apos.util.addClass(thankYou, 'apos-form-visible');
+-          apos.util.addClass(form, 'apos-form-hidden');
++          Block.remove('form');
++          if(apos.locale==='ar'){
++            Notify.success("تم الإرسال بنجاح. شكرا لك",{
++              rtl: true,
++            });
++          } else {
++          Notify.success('The form has been submitted successfully. thank you');
++          }
++          const inputs = document.querySelectorAll("input");
++          const textAreas = document.querySelectorAll("textarea");
++          const select = document.querySelectorAll("select")
++         
++          const elements = [...inputs,...textAreas,...select]
++for (let i=0; i < elements.length; i++) {
++if(elements[i].type==='checkbox'||elements[i].type==='radio'){
++elements[i].checked = false;
++} else if(elements[i].type === 'select'){
++elements[i].selectedIndex==='-1'
++
++} else {
++
++  elements[i].value = "";
++}
++    
++  
++}
+         }
+       }
+ 
+@@ -179,6 +226,7 @@ export default () => {
+           i++;
+         }
+       }
++     
+     }
+   };
+ };
+diff --git a/node_modules/@apostrophecms/form/modules/@apostrophecms/form-widget/views/widget.html b/node_modules/@apostrophecms/form/modules/@apostrophecms/form-widget/views/widget.html
+index a831a56..aa44f23 100644
+--- a/node_modules/@apostrophecms/form/modules/@apostrophecms/form-widget/views/widget.html
++++ b/node_modules/@apostrophecms/form/modules/@apostrophecms/form-widget/views/widget.html
+@@ -20,7 +20,7 @@
+   {% endif %}
+   <form
+     data-apos-form-form="{{ form._id }}"
+-    class="{{ prependIfPrefix('__form') }}" autocomplete="off"
++    class="{{ prependIfPrefix('__form') }} {{data.contextOptions.type}}" autocomplete="off"
+     {% if form.enableQueryParams %}data-apos-form-params='{{params}}'{% endif %}
+     {% if recaptchaReady %}
+       data-apos-recaptcha-sitekey="{{ recaptchaSite }}"
+@@ -34,7 +34,7 @@
+       </noscript>
+     {% endif %}
+     <button
+-      type="submit" class="{{ prependIfPrefix('__submit') }}"
++      type="submit" class="{{ prependIfPrefix('__submit') }} btn-primary Button2 transition-color duration-200 rounded-lg min-w-[113px] w-auto mx-auto mt-4 flex justify-center items-center"
+       data-apos-form-submit {% if recaptchaReady %}disabled{% endif %}
+     >
+       {{ form.submitLabel or __t('aposForm:widgetSubmit') }}

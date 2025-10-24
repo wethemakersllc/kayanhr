@@ -1,0 +1,57 @@
+<section
+  class="w-full px-4 md:px-20 lg:px-12 xl:px-16 partners-bg py-[50px]"
+  data-featured-partners-widget
+>
+  <div
+    class="flex flex-col justify-center items-center text-dark-gray4 text-center mx-auto"
+  >
+    {% area data.widget , 'title' %} {% area data.widget , 'subtitle' %}
+  </div>
+  <div
+    class="grid md:grid-cols-2 xl:grid-cols-3 gap-[33px] md:gap-[45px] mt-[60px] py-4 md:mt-[90px]"
+  >
+    {% for partner in data.widget._partners %}
+    <div
+      class="shadow-md flex flex-col max-w-[330px] lg:max-w-[353px] w-full px-[30px] py-[40px] rounded-[10px] mx-auto bg-white"
+    >
+      <!-- <div
+        class="ml-auto border-2 border-light-blue5 rounded-full Title3 text-sky-blue py-[9px] px-[30px] flex justify-center items-center"
+      >
+        {{partner.featureType}}
+      </div> -->
+      <div
+        class="shadow-md rounded-full w-[124px] h-[124px] flex justify-center items-center p-[18px]"
+      >
+        {% area partner,'partnerLogo' %}
+      </div>
+      <div class="mt-[40px]">
+        <p class="mb-4 Title2 text-dark-gray4">{{partner.cardTitle}}</p>
+        <div
+          class="h-[4px] w-[48px] rounded-md border-light-blue5 bg-light-blue5"
+        ></div>
+      </div>
+
+      <!-- <div>
+        <p class="text-black caption2 mt-[26px]">{{partner.cardDescription}}</p>
+      </div> -->
+    </div>
+
+    {% endfor %}
+  </div>
+  <div class="flex justify-center items-center mt-[54px]">
+    <a
+      {%if
+      apos.i18n.options.locales[data.locale].isRtl
+      %}
+      href="/ar/elevate-with-kayan-s-partner-program-kayanhr"
+      {%else
+      %}href="/elevate-with-kayan-s-partner-program-kayanhr"
+      {%
+      endif
+      %}
+      class="btn-primary transition-color duration-200 rounded-lg w-[260px] flex justify-center items-center mt-2 mx-auto sm:mx-0 Button2"
+    >
+      {{__t("Join Our Partner Program")}}
+    </a>
+  </div>
+</section>

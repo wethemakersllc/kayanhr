@@ -1,0 +1,382 @@
+{% extends "layout.html" %} {% block main %}
+<section class="py-[100px] lg:py-[120px] partners-bg">
+  <div
+    class="flex flex-col md:grid overflow-hidden md:grid-cols-2 grid-rows-2 lg:grid-rows-3 px-[30px] lg:px-[60px] xl:px-[111px] gap-4 lg:gap-0 space-y-4"
+  >
+    <div class="box row-span-1">
+      {% area data.page , 'pageTitle' %} {% area data.page , 'featureTitle1' %}
+      {% area data.page , 'featureSubtitle1' %}
+    </div>
+    <div class="box md:row-span-1 lg:row-span-2 col-start-2 col-span-2">
+      <img
+        class="max-w-[90%] sm:max-w-[550px] md:max-w-full mt-4 m-auto rtl:xl:transform rtl:xl:-translate-x-8"
+        {%if
+        apos.i18n.options.locales[data.locale].isRtl
+        %}
+        src="/images/multi-country-ar.png"
+        alt="ملف تعريف متعدد الدول"
+        {%else%}
+        src="/images/multi-country.png"
+        alt="Kayan Multi-Country Profile"
+        {%endif%}
+        alt=""
+      />
+    </div>
+    <div class="box md:row-span-1 lg:row-span-3 order-1 md:order-none">
+      <div
+        class="flex items-start h-full lg:h-auto lg:items-center justify-center mt-4"
+      >
+        <div class="mosaic_2 w-full">
+          <div class="mosaic_item_3">
+            <div
+              class="m-auto md:m-0 h-[300px] w-[90%] lg:h-[500px] lg:w-[400px] xl:h-[590px] xl:w-[505px] bg-no-repeat bg-cover bg-center shadow-md rounded-lg flex justify-center items-center"
+              style="background-image: url('{{apos.attachment.url(apos.attachment.first(data.page._firstImage))}}')"
+            ></div>
+          </div>
+
+          <div class="mosaic_item_3">
+            <img
+              class="flex justify-center w-[70%] md:w-[400px] m-auto md:ml-auto md:mr-0"
+              {%if
+              apos.i18n.options.locales[data.locale].isRtl
+              %}
+              src="/images/Localization-ar.png"
+              {%else%}
+              src="/images/Localization.png"
+              {%endif%}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="box ltr:md:pl-4 ltr:lg:pl-[13%] rtl:md:pr-4 rtl:lg:pr-[13%]">
+      {% area data.page , 'featureTitle2' %} {% area data.page ,
+      'featureSubtitle2' %}
+    </div>
+  </div>
+</section>
+<section>
+  <div class="pb-4 mx-auto px-[30px] lg:px-[60px] xl:px-[111px]">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div
+        class="flex flex-col justify-start ltr:md:pr-4 ltr:lg:pr-[13%] rtl:md:pl-4 rtl:lg:pl-[13%]"
+      >
+        <div class="lg:py-24">
+          {% area data.page , 'featureTitle3' %} {% area data.page ,
+          'featureSubtitle3' %}
+        </div>
+      </div>
+      <div
+        class="flex items-center justify-center -mx-4 ltr:lg:pl-8 rtl:lg:pr-8 mt-4"
+      >
+        <div class="mosaic w-full">
+          <div class="mosaic_item_2">
+            <img
+              class="m-auto lg:m-0 max-w-[90%] sm:max-w-[550px] md:max-w-full w-[90%] lg:w-[415px] xl:w-[640px] shadow-md rounded-lg flex justify-center items-center"
+              {%if
+              apos.i18n.options.locales[data.locale].isRtl
+              %}
+              src="/images/benefits-3-ar.png"
+              {%else%}
+              src="/images/reports.png"
+              {%endif%}
+            />
+          </div>
+
+          <div class="mosaic_item_2">
+            <div
+              class="hidden lg:flex justify-center h-[200px] w-[200px] lg:h-[146px] lg:w-[168px] xl:h-[246px] xl:w-[268px] bg-no-repeat bg-cover bg-center shadow-md rounded-lg ml-auto"
+              style="background-image: url('{{apos.attachment.url(apos.attachment.first(data.page._secondImage))}}')"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="px-[30px] lg:px-[60px] xl:px-[111px] py-16 mx-auto">
+    <div class="grid gap-10 md:grid-cols-2 mosaic-container">
+      <div
+        class="flex items-center justify-center md:-mx-4 col-span-1 m-auto w-[90%] sm:w-[420px] md:w-full order-1 md:order-none mt-4"
+      >
+        <div class="mosaic w-full relative">
+          <div class="mosaic_item_4">
+            <img
+              class="h-[280px] w-[280px] lg:h-[400px] lg:w-[400px] xl:h-[500px] xl:w-[500px] shadow-md rounded-lg flex justify-center items-center"
+              src="/images/Social-Wall.gif"
+            />
+          </div>
+
+          <div class="mosaic_item_4">
+            <img
+              class="relative ml-auto sm:absolute ltr:sm:right-0 rtl:sm:left-0 sm:bottom-4 md:flex justify-center w-[180px] lg:w-[260px] shadow-md rounded-lg bg-white"
+              src="/images/social-wall-buttons.png"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col justify-center lg:px-4 col-span-1 relative">
+        <div class="lg:py-24 ltr:lg:pr-24 rtl:lg:pl-24 lg:relative">
+          <div
+            class="bg-white shadow-md rounded-full w-[65px] h-[65px] flex justify-center items-center md:absolute top-[6%] md:top-[8%] lg:top-8 ltr:lg:right-12 rtl:lg:left-12 mb-2"
+          >
+            <img
+              src="/images/party.png"
+              class="w-[28px] h-[28px]"
+              alt="Employee Engagement"
+            />
+          </div>
+          {% area data.page , 'featureTitle4' %} {% area data.page ,
+          'featureSubtitle4' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{%if apos.i18n.options.locales[data.locale].isRtl %}
+
+<section
+  class="overflow-hidden flex flex-col ml-auto ltr:lg:pl-[124px] rtl:lg:pr-[124px]"
+  dir="ltr"
+>
+  <div
+    class="why-kayan-features-slider-ar py-5"
+    data-slides-count="{{data.page.featuresSlider.length}}"
+  >
+    {% for item in data.page.featuresSlider | reverse %}
+
+    <div dir="rtl">
+      <div class="card px-4 md:px-10">
+        <div
+          class="bg-[#cce4f733] rounded-full w-[80px] h-[80px] flex justify-center items-center p-[18px] mt-[30px] md:mt-[30px]"
+        >
+          {% area item,'icon' %}
+        </div>
+        <div class="mt-[40px]">
+          <p class="mb-4 Title2 text-dark-gray4">{{item.title}}</p>
+          <div
+            class="h-[4px] w-[48px] rounded-md border-light-blue5 bg-light-blue5"
+          ></div>
+        </div>
+        <div>
+          <p class="text-black caption2 mt-[26px]">{{item.description}}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="carousel__info pb-16 px-4 xl:ml-auto w-full" dir="rtl">
+    <div
+      class="carousel__controls w-[100%] flex flex-col md:flex-row items-center"
+    >
+      <progress max="100" value="0"></progress>
+      <div class="flex mt-8 md:ml-8 md:mt-0">
+        <button
+          class="flex items-center justify-center w-16 h-16 bg-transparent rounded-full why-kayan-features-slider-ar-next z-20 mr-6 slider-arrow hover-follow"
+        >
+          <svg
+            class="rotate-180"
+            xmlns="http://www.w3.org/2000/svg"
+            width="29.022"
+            height="19.356"
+            viewBox="0 0 29.022 19.356"
+          >
+            <path
+              id="Icon_ionic-ios-arrow-round-forward"
+              data-name="Icon ionic-ios-arrow-round-forward"
+              d="M26.383,11.622a1.317,1.317,0,0,0-.01,1.855L32.5,19.616H9.175a1.311,1.311,0,0,0,0,2.621H32.492l-6.129,6.139a1.327,1.327,0,0,0,.01,1.855,1.305,1.305,0,0,0,1.845-.01l8.306-8.367h0a1.472,1.472,0,0,0,.272-.413,1.251,1.251,0,0,0,.1-.5,1.314,1.314,0,0,0-.373-.917l-8.306-8.367A1.284,1.284,0,0,0,26.383,11.622Z"
+              transform="translate(36.897 30.608) rotate(-180)"
+              fill="#0F69B0"
+            />
+          </svg>
+        </button>
+        <button
+          class="flex items-center justify-center w-16 h-16 bg-light-blue2 transition-color duration-200 rounded-full why-kayan-features-slider-ar-prev slider-arrow hover-follow"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="29.022"
+            height="19.356"
+            viewBox="0 0 29.022 19.356"
+          >
+            <path
+              id="Icon_ionic-ios-arrow-round-forward"
+              data-name="Icon ionic-ios-arrow-round-forward"
+              d="M26.383,11.622a1.317,1.317,0,0,0-.01,1.855L32.5,19.616H9.175a1.311,1.311,0,0,0,0,2.621H32.492l-6.129,6.139a1.327,1.327,0,0,0,.01,1.855,1.305,1.305,0,0,0,1.845-.01l8.306-8.367h0a1.472,1.472,0,0,0,.272-.413,1.251,1.251,0,0,0,.1-.5,1.314,1.314,0,0,0-.373-.917l-8.306-8.367A1.284,1.284,0,0,0,26.383,11.622Z"
+              transform="translate(36.897 30.608) rotate(-180)"
+              fill="#0f69b0"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%else%}
+<section
+  class="overflow-hidden flex flex-col ml-auto ltr:lg:pl-[124px] rtl:lg:pr-[124px]"
+>
+  <div class="why-kayan-features-slider py-5">
+    {% for item in data.page.featuresSlider %}
+
+    <div class="">
+      <div class="card px-4 md:px-10">
+        <div
+          class="bg-[#cce4f733] rounded-full w-[80px] h-[80px] flex justify-center items-center p-[18px] mt-[30px] md:mt-[30px]"
+        >
+          {% area item,'icon' %}
+        </div>
+        <div class="mt-[40px]">
+          <p class="mb-4 Title2 text-dark-gray4">{{item.title}}</p>
+          <div
+            class="h-[4px] w-[48px] rounded-md border-light-blue5 bg-light-blue5"
+          ></div>
+        </div>
+        <div>
+          <p class="text-black caption2 mt-[26px]">{{item.description}}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="carousel__info pb-16 px-4 xl:ml-auto w-full">
+    <div
+      class="carousel__controls w-[100%] flex flex-col md:flex-row items-center"
+    >
+      <progress max="100" value="0"></progress>
+      <div class="flex mt-8 md:ml-8 md:mt-0">
+        <button
+          class="flex items-center justify-center w-16 h-16 bg-transparent rounded-full why-kayan-features-slider-prev z-20 mr-6 slider-arrow hover-follow"
+          data-carousel-nav="-1"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="29.022"
+            height="19.356"
+            viewBox="0 0 29.022 19.356"
+          >
+            <path
+              id="Icon_ionic-ios-arrow-round-forward"
+              data-name="Icon ionic-ios-arrow-round-forward"
+              d="M26.383,11.622a1.317,1.317,0,0,0-.01,1.855L32.5,19.616H9.175a1.311,1.311,0,0,0,0,2.621H32.492l-6.129,6.139a1.327,1.327,0,0,0,.01,1.855,1.305,1.305,0,0,0,1.845-.01l8.306-8.367h0a1.472,1.472,0,0,0,.272-.413,1.251,1.251,0,0,0,.1-.5,1.314,1.314,0,0,0-.373-.917l-8.306-8.367A1.284,1.284,0,0,0,26.383,11.622Z"
+              transform="translate(36.897 30.608) rotate(-180)"
+              fill="#0F69B0"
+            />
+          </svg>
+        </button>
+        <button
+          class="flex items-center justify-center w-16 h-16 bg-light-blue2 transition-color duration-200 rounded-full why-kayan-features-slider-next slider-arrow hover-follow"
+          data-carousel-nav="1"
+        >
+          <svg
+            class="rotate-180"
+            xmlns="http://www.w3.org/2000/svg"
+            width="29.022"
+            height="19.356"
+            viewBox="0 0 29.022 19.356"
+          >
+            <path
+              id="Icon_ionic-ios-arrow-round-forward"
+              data-name="Icon ionic-ios-arrow-round-forward"
+              d="M26.383,11.622a1.317,1.317,0,0,0-.01,1.855L32.5,19.616H9.175a1.311,1.311,0,0,0,0,2.621H32.492l-6.129,6.139a1.327,1.327,0,0,0,.01,1.855,1.305,1.305,0,0,0,1.845-.01l8.306-8.367h0a1.472,1.472,0,0,0,.272-.413,1.251,1.251,0,0,0,.1-.5,1.314,1.314,0,0,0-.373-.917l-8.306-8.367A1.284,1.284,0,0,0,26.383,11.622Z"
+              transform="translate(36.897 30.608) rotate(-180)"
+              fill="#0f69b0"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+{%endif%}
+
+<section class="bg-dark-gray5">
+  <div class="container px-4 mx-auto">
+    <div class="flex flex-wrap items-center -mx-4">
+      <div
+        class="w-full md:w-1/3 lg:w-1/2 px-16 md:px-4 order-last md:order-first -mt-36 container z-30 relative"
+      >
+        <img
+          class="mx-auto"
+          src="/images/kayan-application.png"
+          alt="kayan application"
+        />
+      </div>
+      <div class="w-full md:w-2/3 lg:w-1/2 px-4 mb-16 md:mb-0 py-20">
+        <div class="lg:max-w-2xl lg:ml-auto">
+          {% if apos.i18n.options.locales[data.locale].isRtl %}
+          <h2
+            class="Tajawal mb-4 text-5xl md:Title0 ltr:text-left rtl:text-right text-white relative"
+          >
+            ابق على اطلاع<br />
+            في
+            <span class="blue-circle3"> أي وقت </span>
+          </h2>
+
+          {%else%}
+          <h2
+            class="mb-4 text-5xl md:Title0 ltr:text-left rtl:text-right text-white relative"
+          >
+            Keep Track,<br />
+            <span class="blue-circle2"> Anytime </span>
+          </h2>
+          {%endif%} {% area data.page ,'appDescription' %}
+          <div class="flex justify-start items-center mt-12">
+            <a
+              class="ltr:mr-4 rtl:ml-4 transition-opacity duration-300 opacity-100 hover:opacity-70"
+              href="{{data.global.appStoreUrl}}"
+              target="_blank"
+            >
+              <img
+                {%if
+                apos.i18n.options.locales[data.locale].isRtl
+                %}
+                src="/images/app-store-ar.png"
+                alt="تحميل برنامج كيان اب ستور"
+                {%else%}
+                src="/images/app-store.png"
+                alt="kayan on app store"
+                {%endif%}
+                alt=""
+                {%if
+                apos.i18n.options.locales[data.locale].isRtl
+                %}
+                style="max-width: 216px"
+                {%endif%}
+              />
+            </a>
+            <a
+              class="transition-opacity duration-300 opacity-100 hover:opacity-70"
+              href="{{data.global.googlePlayUrl}}"
+              target="_blank"
+            >
+              <img
+                {%if
+                apos.i18n.options.locales[data.locale].isRtl
+                %}
+                src="/images/google-play-ar.png"
+                alt="تحميل برنامج كيان جوجل بلاي"
+                {%else%}
+                src="/images/google-play.png"
+                alt="Kayan app on Google play"
+                {%endif%}
+                alt=""
+                {%if
+                apos.i18n.options.locales[data.locale].isRtl
+                %}
+                style="max-width: 239px"
+                {%endif%}
+              />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

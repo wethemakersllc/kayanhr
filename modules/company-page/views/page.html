@@ -1,0 +1,45 @@
+{# This is an example home page template. It inherits and extends a layout
+template that lives in the top-level views/ folder for convenience #} {% extends
+"layout.html" %} {% block main %}
+<section class="bg-first-section px-[0]">
+  <div
+    class="flex lg:items-center flex-col ltr:text-left rtl:text-right px-[30px] pt-[50px] lg:pt-[110px] md:pb-[114px] w-full"
+  >
+    <div class="lg:text-center w-full pb-[8px]">
+      {% area data.page, 'titleOne'%}
+    </div>
+    <div class="flex">
+      <div class="min-w-[100px]">{% area data.page, 'firstDescription'%}</div>
+      <div class="w-[21px] h-[20px] ml-[7px] invisible md:visible">
+        {% area data.page, 'imageWithTitle'%}
+      </div>
+    </div>
+    <div class="min-w-100px">{% area data.page,'secondDescription'%}</div>
+  </div>
+  <div class="px-[30px] rtl:xl:px-[119px] ltr:xl:px-[119px] pb-[151px]">
+    <div
+      class="flex flex-col-reverse lg:grid grid-cols-2 gap-[20px] grid-images"
+    >
+      <div
+        class="container-company-grid my-14 mx-auto rtl:lg:mr-[0%] ltr:lg:ml-[0%]"
+      >
+        <div class="img-one-grid w-[239px]">
+          {% area data.page, 'imageOne'%}
+        </div>
+        <div class="img-two-grid w-[239px] xl:mb-[15%]">
+          {% area data.page, 'imageTwo'%}
+        </div>
+        <div
+          class="img-three-grid w-[140px] lg:w-[220px] flex items-center xl:mb-[20%]"
+        >
+          {% area data.page, 'imageThree'%}
+        </div>
+      </div>
+      <div class="media-padding xl:pr-[88px] pt-[25px]">
+        {% area data.page, 'titleTwo'%} {% area data.page, 'thirdDescription'%}
+      </div>
+    </div>
+  </div>
+</section>
+<div>{% area data.page, 'widgets'%}</div>
+{% endblock %}

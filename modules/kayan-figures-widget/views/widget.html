@@ -1,0 +1,44 @@
+<section data-kayan-figures-widget>
+  <div class="flex flex-col justify-between">
+    <div class="text-center">
+      <h1 class="Title1 lg:Title0 text-dark-gray4 mx-auto px-3">
+        {{data.widget.title}}
+      </h1>
+      <p class="mt-4 Title3 md:caption text-black mx-auto px-3">
+        {{data.widget.subtitle}}
+      </p>
+    </div>
+    <div class="py-10 flex flex-wrap justify-center text-dark-gray4">
+      {% for figure in data.widget.figures%}
+
+      <div class="flex flex-col justify-center items-center mx-8 lg:mx-16 mt-4">
+        <h2
+          class="Title1 md:Title0 lg:LargeTitle text-dark-gray4 counter-wrapper"
+        >
+          <span class="FuturaHV counter hidden">{{figure.value}}</span>{% if
+          figure.plus%}+{% endif %}
+        </h2>
+        <p class="Title3 md:caption text-black mt-4 uppercase">
+          {{figure.title}}
+        </p>
+      </div>
+      {% endfor%}
+    </div>
+    <div class="pb-16 flex justify-center items-center">
+      <a
+        {%if
+        apos.i18n.options.locales[data.locale].isRtl
+        %}
+        href="/ar/book-kayanhr-demo-and-discover-our-human-resource-solutions"
+        {%else
+        %}href="/book-kayanhr-demo-and-discover-our-human-resource-solutions"
+        {%
+        endif
+        %}
+        class="btn-primary transition-color duration-200 rounded-lg Button2"
+      >
+        {{__t("Get Started")}}
+      </a>
+    </div>
+  </div>
+</section>

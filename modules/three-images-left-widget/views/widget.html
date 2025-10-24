@@ -1,0 +1,44 @@
+<section data-three-images-left-widget>
+  <div
+    class="mx-auto px-8 md:px-12 flex flex-col-reverse lg:grid lg:grid-rows-1 lg:grid-flow-col lg:gap-6 mb-[15%] bg-[url('/images/gray-pills.png')] {%if apos.i18n.options.locales[data.locale].isRtl %} contact-background-position-ar {%else%} contact-background-position {%endif%} bg-no-repeat"
+  >
+    <div
+      class="mt-[50px] md:mt-[none] lg:w-full lg:max-w-[569px] lg:h-[357px] max-w-[400px] md:max-w-[500px] md:mx-auto"
+      dir="ltr"
+    >
+      <div class="relative">
+        <div class="md:max-w-[500px] lg:w-[400px] xl:w-[457px] desktop:mx-auto">
+          {% area data.widget, 'image'%}
+        </div>
+        <div
+          class="absolute top-[90%] left-[-5%] desktop:left-[0%] hidden lg:flex xl:h-[198px]"
+        >
+          <div
+            class="rounded-[12px] lg:w-[200px] xl:w-[260px] lg:h-[158px] xl:h-[198px] bg-light-blue1 flex flex-col justify-center items-center shadow-md p-[28px]"
+          >
+            {% area data.widget, 'featureIcon1'%}
+            <div class="mt-auto">{% area data.widget, 'featureTitle1'%}</div>
+          </div>
+          <div
+            class="bg-light-blue1 rounded-[12px] lg:w-[200px] xl:w-[260px] lg:h-[158px] xl:h-[198px] ml-[50px] flex flex-col justify-center items-center shadow-md p-[28px]"
+          >
+            {% area data.widget, 'featureIcon2'%}
+            <div class="mt-auto">{% area data.widget, 'featureTitle2'%}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="ltr:lg:ml-[30px] ltr:xl:ml-[80px] rtl:lg:mr-[30px] rtl:xl:mr-[80px] mt-[5%] lg:mt-[20%] ltr:text-left rtl:text-right md:text-center lg:ltr:text-left lg:rtl:text-right lg:max-w-[510px]"
+    >
+      {% area data.widget, 'title'%} {% area data.widget, 'description'%}
+    </div>
+  </div>
+</section>
+{%if data.widget.shadowDisabled %}
+<style>
+  .three-images-left {
+    box-shadow: none !important;
+  }
+</style>
+{%endif%}

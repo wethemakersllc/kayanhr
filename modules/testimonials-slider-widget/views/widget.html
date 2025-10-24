@@ -1,0 +1,227 @@
+<section
+  class="relative py-20 2xl:py-40 overflow-hidden slider-background-gradient"
+  data-testimonials-slider-widget
+>
+  <div class="w-full">
+    <div
+      class="w-full md:w-[90%] mx-auto bg-blue px-0 xl:px-32 bg-[url('/images/pills-background.png')] slider-background-position bg-no-repeat pb-16 rounded-lg"
+    >
+      <div class="relative container px-4 mx-auto">
+        <!-- desktop controls  -->
+        <div class="flex flex-wrap items-end -mx-4">
+          <div
+            class="hidden sm:flex justify-end w-1/6 px-4 text-right mb-[16%]"
+          >
+            <button
+              class="hidden sm:inline-flex items-center justify-center w-16 h-16 bg-transparent rounded-full {%if apos.i18n.options.locales[data.locale].isRtl %} testimonials-slider-next {%else%} testimonials-slider-prev {%endif%} slider-arrow hover-follow"
+            >
+              <svg
+                {%if
+                apos.i18n.options.locales[data.locale].isRtl
+                %}
+                class="rotate-180"
+                {%endif%}
+                xmlns="http://www.w3.org/2000/svg"
+                width="29.022"
+                height="19.356"
+                viewBox="0 0 29.022 19.356"
+              >
+                <path
+                  id="Icon_ionic-ios-arrow-round-forward"
+                  data-name="Icon ionic-ios-arrow-round-forward"
+                  d="M26.383,11.622a1.317,1.317,0,0,0-.01,1.855L32.5,19.616H9.175a1.311,1.311,0,0,0,0,2.621H32.492l-6.129,6.139a1.327,1.327,0,0,0,.01,1.855,1.305,1.305,0,0,0,1.845-.01l8.306-8.367h0a1.472,1.472,0,0,0,.272-.413,1.251,1.251,0,0,0,.1-.5,1.314,1.314,0,0,0-.373-.917l-8.306-8.367A1.284,1.284,0,0,0,26.383,11.622Z"
+                  transform="translate(36.897 30.608) rotate(-180)"
+                  fill="white"
+                />
+              </svg>
+            </button>
+          </div>
+          <div class="w-[95%] mx-auto sm:w-4/6 px-4" dir="ltr">
+            <div class="testimonials-slider touch-pan-y">
+              {%if apos.i18n.options.locales[data.locale].isRtl %} {% for
+              testimonial in data.widget.testimonials | reverse %}
+
+              <div>
+                <div
+                  class="relative text-center mb-14 text-white px-2 lg:px-16"
+                  dir="rtl"
+                >
+                  <div class="relative">
+                    <h2 class="mt-24 mb-16 Title1 lg:Title0">
+                      <span
+                        class="workSans absolute top-[-25px] {%if apos.i18n.options.locales[data.locale].isRtl %} right-[-15px] {%else%} left-[-15px] {%endif%}"
+                      >
+                        “</span
+                      >{{data.widget.title}}
+                    </h2>
+                  </div>
+                  <div class="max-w-xl mx-auto">
+                    <p class="mb-8 Title2 lg:Title1 leading-[3.5rem]">
+                      {{testimonial.title}}
+                    </p>
+                    <p class="body">{{testimonial.description}}</p>
+                  </div>
+                </div>
+                <div class="flex flex-col -mx-4 items-center justify-center">
+                  <div
+                    class="px-4 flex flex-col justify-center items-center text-white"
+                  >
+                    {%if testimonial._image.length > 0%}
+                    <img
+                      class="w-[73px] h-[73px] rounded-full"
+                      src="{{apos.attachment.url(apos.attachment.first(testimonial._image))}}"
+                      alt="{{testimonial._image[0].alt}}"
+                    />
+                    {%else%}
+
+                    <img
+                      class="w-[73px] h-[73px] rounded-full"
+                      src="/images/testimonial-fallback.png"
+                      alt="testimonial fallback"
+                    />{%endif%}
+                    <p class="Title4 mt-[10px] text-center">
+                      {{testimonial.name}}
+                    </p>
+                    <p class="Title3 mt-[7px] text-center">
+                      {{testimonial.moreInfo}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {% endfor %} {%else%} {% for testimonial in
+              data.widget.testimonials %}
+
+              <div>
+                <div
+                  class="relative text-center mb-14 text-white px-2 lg:px-16"
+                  dir="ltr"
+                >
+                  <div class="relative">
+                    <h2 class="mt-24 mb-16 Title1 lg:Title0">
+                      <span
+                        class="workSans absolute top-[-25px] {%if apos.i18n.options.locales[data.locale].isRtl %} right-[-15px] {%else%} left-[-15px] {%endif%}"
+                      >
+                        “</span
+                      >{{data.widget.title}}
+                    </h2>
+                  </div>
+                  <div class="max-w-xl mx-auto">
+                    <p class="mb-8 Title2 lg:Title1 leading-10">
+                      {{testimonial.title}}
+                    </p>
+                    <p class="body">{{testimonial.description}}</p>
+                  </div>
+                </div>
+                <div class="flex flex-col -mx-4 items-center justify-center">
+                  <div
+                    class="px-4 flex flex-col justify-center items-center text-white"
+                  >
+                    {%if testimonial._image.length > 0%}
+                    <img
+                      class="w-[73px] h-[73px] rounded-full"
+                      src="{{apos.attachment.url(apos.attachment.first(testimonial._image))}}"
+                      alt="{{ integration._image[0].alt}}"
+                    />
+                    {%else%}
+
+                    <img
+                      class="w-[73px] h-[73px] rounded-full"
+                      src="/images/testimonial-fallback.png"
+                      alt="testimonial fallback"
+                    />{%endif%}
+                    <p class="Title4 mt-[10px] text-center">
+                      {{testimonial.name}}
+                    </p>
+                    <p class="Title3 mt-[7px] text-center">
+                      {{testimonial.moreInfo}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {% endfor %} {%endif%}
+            </div>
+          </div>
+          <!-- desktop controls  -->
+          <div class="hidden sm:flex w-1/6 px-4 mb-[16%]">
+            <button
+              class="hidden sm:inline-flex items-center justify-center w-16 h-16 bg-light-blue2 transition-color duration-200 rounded-full {%if apos.i18n.options.locales[data.locale].isRtl %} testimonials-slider-prev {%else%} testimonials-slider-next {%endif%} slider-arrow hover-follow"
+            >
+              <svg
+                {%if
+                apos.i18n.options.locales[data.locale].isRtl
+                %}
+                class=""
+                {%else%}
+                class="rotate-180"
+                {%endif%}
+                xmlns="http://www.w3.org/2000/svg"
+                width="29.022"
+                height="19.356"
+                viewBox="0 0 29.022 19.356"
+              >
+                <path
+                  id="Icon_ionic-ios-arrow-round-forward"
+                  data-name="Icon ionic-ios-arrow-round-forward"
+                  d="M26.383,11.622a1.317,1.317,0,0,0-.01,1.855L32.5,19.616H9.175a1.311,1.311,0,0,0,0,2.621H32.492l-6.129,6.139a1.327,1.327,0,0,0,.01,1.855,1.305,1.305,0,0,0,1.845-.01l8.306-8.367h0a1.472,1.472,0,0,0,.272-.413,1.251,1.251,0,0,0,.1-.5,1.314,1.314,0,0,0-.373-.917l-8.306-8.367A1.284,1.284,0,0,0,26.383,11.622Z"
+                  transform="translate(36.897 30.608) rotate(-180)"
+                  fill="#0f69b0"
+                />
+              </svg>
+            </button>
+          </div>
+          <!-- mobile slider controls -->
+          <div class="sm:hidden text-center mb-10 w-full mt-6">
+            <button
+              class="inline-flex items-center justify-center w-16 h-16 mx-6 bg-transparent rounded-full {%if apos.i18n.options.locales[data.locale].isRtl %} testimonials-slider-mobile-next {%else%} testimonials-slider-mobile-prev {%endif%} slider-arrow hover-follow"
+            >
+              <svg
+                {%if
+                apos.i18n.options.locales[data.locale].isRtl
+                %}
+                class="rotate-180"
+                {%endif%}
+                xmlns="http://www.w3.org/2000/svg"
+                width="29.022"
+                height="19.356"
+                viewBox="0 0 29.022 19.356"
+              >
+                <path
+                  id="Icon_ionic-ios-arrow-round-forward"
+                  data-name="Icon ionic-ios-arrow-round-forward"
+                  d="M26.383,11.622a1.317,1.317,0,0,0-.01,1.855L32.5,19.616H9.175a1.311,1.311,0,0,0,0,2.621H32.492l-6.129,6.139a1.327,1.327,0,0,0,.01,1.855,1.305,1.305,0,0,0,1.845-.01l8.306-8.367h0a1.472,1.472,0,0,0,.272-.413,1.251,1.251,0,0,0,.1-.5,1.314,1.314,0,0,0-.373-.917l-8.306-8.367A1.284,1.284,0,0,0,26.383,11.622Z"
+                  transform="translate(36.897 30.608) rotate(-180)"
+                  fill="white"
+                />
+              </svg>
+            </button>
+            <button
+              class="inline-flex items-center justify-center w-16 h-16 mx-6 bg-light-blue2 rounded-full {%if apos.i18n.options.locales[data.locale].isRtl %} testimonials-slider-mobile-prev {%else%} testimonials-slider-mobile-next {%endif%} slider-arrow hover-follow"
+            >
+              <svg
+                {%if
+                apos.i18n.options.locales[data.locale].isRtl
+                %}
+                class=""
+                {%else%}
+                class="rotate-180"
+                {%endif%}
+                xmlns="http://www.w3.org/2000/svg"
+                width="29.022"
+                height="19.356"
+                viewBox="0 0 29.022 19.356"
+              >
+                <path
+                  id="Icon_ionic-ios-arrow-round-forward"
+                  data-name="Icon ionic-ios-arrow-round-forward"
+                  d="M26.383,11.622a1.317,1.317,0,0,0-.01,1.855L32.5,19.616H9.175a1.311,1.311,0,0,0,0,2.621H32.492l-6.129,6.139a1.327,1.327,0,0,0,.01,1.855,1.305,1.305,0,0,0,1.845-.01l8.306-8.367h0a1.472,1.472,0,0,0,.272-.413,1.251,1.251,0,0,0,.1-.5,1.314,1.314,0,0,0-.373-.917l-8.306-8.367A1.284,1.284,0,0,0,26.383,11.622Z"
+                  transform="translate(36.897 30.608) rotate(-180)"
+                  fill="#0f69b0"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

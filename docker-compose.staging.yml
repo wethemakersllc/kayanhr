@@ -1,0 +1,35 @@
+version: "2"
+services:
+  kayanhr-website:
+    container_name: kayanhr-website
+    restart: always
+    image: codebase.wtmsrv.com/we.the.makers/kayanhr-website:dev
+    networks:
+      - kayanhr
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.kayanhr.entrypoints=http"
+      - "traefik.http.routers.kayanhr.rule=Host(`kayanhr.staging.wtmsrv.com`)"
+      - "traefik.http.routers.kayanhr.middlewares=redirect@file"
+      - "traefik.http.routers.kayanhr-secure.entrypoints=https"
+      - "traefik.http.routers.kayanhr-secure.rule=Host(`kayanhr.staging.wtmsrv.com`)"
+      - "traefik.http.routers.kayanhr-secure.tls=true"
+      - "traefik.http.routers.kayanhr-secure.service=kayanhr-secure"
+      - "traefik.http.routers.kayanhr-secure.tls.certresolver=wtmtlschallenge"
+      - "traefik.http.services.kayanhr-secure.loadbalancer.server.port=3000"
+    volumes:
+      - /data/kayanhr-website/uploads:/app/public/uploads
+    environment:
+      - APOS_MONGODB_URI=mongodb://kayanhr-mongo:27017/kayanhr-website
+      - BASE_URL=https://kayanhr.staging.wtmsrv.com
+      - NODE_ENV=production
+    depends_on:
+      - kayanhr-mongo
+
+networks:
+  kayanhr:
+    name: kayanhr
+  traefik:
+    external: true

@@ -1,0 +1,24 @@
+<section data-center-feature-video-widget>
+  <div class="">
+    {%if data.widget.title.items.length > 0 %}
+    <div class="text-center container mx-auto px-8 mt-[40px] pt-[8%]">
+      {% area data.widget, 'title'%}
+    </div>
+    {% endif %}
+    <div>
+      <div class="container mx-auto px-8 pt-[80px] xl:w-[1084px]">
+        <div
+          class="h-[350px] w-full lg:h-[450px] lg:w-[475px] xl:h-[500px] xl:w-[650px] bg-no-repeat bg-cover bg-center shadow-md rounded-lg flex justify-center items-center mx-auto"
+          style="background-image: url('{{apos.attachment.url(apos.attachment.first(data.widget._videoSectionBackground))}}')"
+        >
+          <button
+            class="js-modal-btn"
+            data-video-id="{{data.widget.youtubeVideoId}}"
+          >
+            <img src="/images/play.svg" alt="play video" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

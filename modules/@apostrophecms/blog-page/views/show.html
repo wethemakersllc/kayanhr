@@ -1,0 +1,202 @@
+{% extends "layout.html" %} {% extends data.outerLayout %} {% block title %}{{
+data.piece.seoTitle }} {% endblock %} {% block main %}
+
+<div class="bg-container rtl:Tajawal">
+  <div class="white-bg rtl:Tajawal">
+    <script src="/js/like-buttons.js" defer></script>
+    <h1
+      class="rtl:Tajawal"
+      style="
+        text-align: center;
+        margin: 0 0 20px;
+        font-size: 3.125rem;
+        color: #1a1515;
+      "
+    >
+      {{ data.piece.title }}
+    </h1>
+    <div class="bg-publication-date rtl:Tajawal">
+      {{ data.piece.publishedAt | date('MMMM D, YYYY') }}
+    </div>
+    <div class="rtl:Tajawal">
+      <!-- show the blog post content -->
+      {% area data.piece, 'content' %}
+      <!-- <div class="contact-section">
+            <div class="likes-section">
+                <img id="like-button" src="https://image.similarpng.com/very-thumbnail/2020/06/Icon-like-button-transparent-PNG.png" class="bg-preview-likes"/>
+                {% if data.piece.likes %}
+                <p id="likes-count">{{data.piece.likes}}</p>
+                {% else %}
+                <p id="likes-count">{{0}}</p>
+                {% endif %}
+            </div>
+            <div class="comments-section">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0DaqOQRjiRexvMf144uQWARRyCKCdQWbHXw&s" class="bg-preview-comments"/>
+                {% if data.piece.comments %}
+                <p>{{data.piece.comments.length}}</p>
+                {% else %}
+                <p>0</p>
+                {% endif %}
+            </div>
+
+    <!- <div class="contact-section">
+      <div class="likes-section"
+      data-user-id="{{ data.user._id }}"
+      data-liked-by='{{ data.piece.likedBy | json  }}'>
+     <img
+       id="like-button"
+       src="https://cdn.iconscout.com/icon/free/png-256/free-love-1120-894769.png?f=webp"
+       class="bg-preview-likes"
+     />
+     <p id="likes-count">
+       {% if data.piece.likes %}
+         {{ data.piece.likes }}
+       {% else %}
+         0
+       {% endif %}
+     </p>
+ </div>
+      <div class="comments-section">
+        <img src="/images/comment.png" class="bg-preview-comments" />
+        <p>
+          {% if data.piece.comments %} {{ data.piece.comments.length }} {% else
+          %} 0 {% endif %}
+        </p>
+      </div>
+    </div> -->
+      <!-- <p>{{ __t('Leave a comment') }}</p>
+
+    <textarea id="comment-text" class="bg-preview-textarea" 
+    placeholder="{{ __t('Type your comment here') }}"
+    rows="5"></textarea>
+
+    <div class="submit-comment-container">
+      <button class="submit-comment-button" onclick="submitComment()">
+        {{ __t('Submit') }}
+      </button>
+    </div>
+    <div class="comment-area">
+      {% if data.piece.comments %} {% for comment in
+      data.piece.comments.reverse() %}
+      <div class="comment-card">
+        <p class="commenter-name">{{ comment.commenterName }}</p>
+        <p class="comment-paragraph">{{ comment.comment }}</p>
+        <p>{{ comment.date }}</p>
+
+      </div>
+      {% endfor %} {% endif %}
+    </div> -->
+    </div>
+    <!-- <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const likesSection = document.querySelector('.likes-section');
+    const userId = likesSection.getAttribute('data-user-id');
+    const likedByData = likesSection.getAttribute('data-liked-by');
+    const likesCountElement = document.getElementById('likes-count');
+    const totalLikes = parseInt(likesCountElement.textContent, 10) || 0;
+
+    try {
+      const likedBy = JSON.parse(likedByData);
+
+      // Check if the user has liked the post
+      const userHasLiked = likedBy.some(user => user.userId === userId);
+
+      // Update the text content based on userHasLiked
+      if (userHasLiked) {
+        likesCountElement.textContent = `You and ${totalLikes-1} others loved this`;
+      } else {
+        likesCountElement.textContent = `${totalLikes}`;
+      }
+
+      // Optionally, add visual feedback
+      if (userHasLiked) {
+        document.getElementById('like-button').classList.add('liked');
+      } else {
+        document.getElementById('like-button').classList.remove('liked');
+      }
+    } catch (e) {
+      console.error('Error parsing likedBy data:', e);
+    }
+  });
+    const localizationUrl = "{{data.localizations[0]._url}}";
+    let isLiked = false;
+    document
+      .getElementById("like-button")
+      .addEventListener("click", function () {
+        const blogId = "{{ data.piece._id }}";
+        let url = "";
+        if (localizationUrl) {
+          url = `{{ apos.prefix }}/api/v1/@apostrophecms/blog/like`;
+        } else {
+          url = `{{ apos.prefix }}/ar/api/v1/@apostrophecms/blog/like`;
+        }
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ _id: blogId, userId: `{{data.user._id}}` }), // Replace 5 with the actual user ID
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              const likesCount = document.getElementById('likes-count');
+              likesCount.textContent = parseInt(likesCount.textContent) + 1;
+              
+            } else {
+              alert('Failed to increase likes');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Error increasing likes');
+          });
+      });
+    function submitComment() {
+      const localizationUrl = "{{data.localizations[0]._url}}";
+      const commentText = document.getElementById("comment-text").value;
+      const pieceId = "{{ data.piece._id }}"; // Get the blog piece ID
+      const commenterName = "Anonymous"; // Replace with actual user name if available
+      let url = "";
+      if (localizationUrl) {
+        url = `{{ apos.prefix }}/api/v1/@apostrophecms/blog/comment`;
+      } else {
+        url = `{{ apos.prefix }}/ar/api/v1/@apostrophecms/blog/comment`;
+      }
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          pieceId: pieceId,
+          comment: commentText,
+          commenterName: `{{data.user.username}}`,
+        }),
+      })
+        .then((response) => {
+          console.log(response);
+          if (!response.ok) {
+            return response.text().then((text) => {
+              throw new Error(text);
+            });
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data.success) {
+            location.reload(); // Reload the page to show the new comment
+          } else {
+            alert("Error submitting comment");
+          }
+        })
+        .catch((error) => {
+          console.error("There was a problem with the fetch operation:", error);
+        });
+    }
+  </script> -->
+    <!-- Debug output -->
+  </div>
+</div>
+
+{% endblock %}

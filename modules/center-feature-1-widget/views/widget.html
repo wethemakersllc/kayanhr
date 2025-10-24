@@ -1,0 +1,23 @@
+<section data-center-feature-1-widget>
+  <div class="list-bg">
+    <div class="text-center container mx-auto px-8 mt-[40px] pt-[8%]">
+      {% area data.widget, 'title'%} {% area data.widget, 'subtitle'%}
+      <br />
+      <div>{% area data.widget, 'description'%}</div>
+    </div>
+    <div>
+      <div
+        class="container mx-auto px-8 pt-[80px] {%if not data.widget.smallImage %} xl:w-[1084px] {%else%} max-w-[538px] xl:w-[538px] {%endif%}"
+      >
+        {% area data.widget, 'image'%}
+      </div>
+    </div>
+  </div>
+</section>
+{%if data.widget.shadowDisabled %}
+<style>
+  .center-feature-1 {
+    box-shadow: none !important;
+  }
+</style>
+{%endif%}

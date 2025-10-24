@@ -1,0 +1,104 @@
+<section data-contact-us-widget>
+  <section
+    class="bg-blue2 px-8 pb-8 md:px-20 lg:px-32 lg:pt-[80px] bg-[url('/images/pills-background.png')] {%if apos.i18n.options.locales[data.locale].isRtl %} contact-background-position-ar {%else%} contact-background-position {%endif%} bg-no-repeat"
+  >
+    <div class="w-full md:w-2/3 lg:w-1/2 ltr:pr-4 rtl:pl-4 md:mb-0 py-20">
+      <div class="lg:max-w-2xl ltr:lg:ml-auto rtl:lg:mr-auto">
+        {%if apos.i18n.options.locales[data.locale].isRtl %}
+        <h2
+          class="Tajawal mb-4 text-5xl md:Title0 ltr:text-left rtl:text-right text-white relative"
+        >
+          تواصل<span
+            class="blue-circle before:md:top-[-25px] before:md:right-[185px] before:top-[-25px] before:right-[138px] before:w-[165px] md:before:w-[220px]"
+          >
+            معنا
+          </span>
+        </h2>
+        {%else%}
+        <h2
+          class="mb-4 text-5xl md:Title0 ltr:text-left rtl:text-right text-white relative"
+        >
+          Get in<span
+            class="blue-circle before:md:top-[-25px] before:md:left-[185px] before:top-[-25px] before:left-[138px] before:w-[165px] md:before:w-[220px]"
+          >
+            Touch
+          </span>
+        </h2>
+        {%endif%} {% area data.widget, 'bannerDescription'%}
+      </div>
+    </div>
+    <div class="container">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="flex flex-col justify-left">
+          <div>
+            <p class="mb-4 Title2 text-white">{{__t("Office Numbers")}}</p>
+            <div
+              class="h-[4px] w-[48px] rounded-md border-light-blue5 bg-light-blue5"
+            ></div>
+          </div>
+          <div class="mt-[26px] text-white space-y-1">
+            <p class="caption2">{% area data.widget, 'telephone'%}</p>
+
+            <p class="caption2" style="display: inline">
+              {% area data.widget, 'fax'%}
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-col justify-left">
+          <div>
+            <p class="mb-4 Title2 text-white">{{__t("Email")}}</p>
+            <div
+              class="h-[4px] w-[48px] rounded-md border-light-blue5 bg-light-blue5"
+            ></div>
+          </div>
+          <div class="mt-[26px] text-white space-y-1">
+            {% area data.widget, 'email'%}
+          </div>
+        </div>
+        <div class="flex flex-col justify-left">
+          <div>
+            <p class="mb-4 Title2 text-white">{{__t("Working Hours")}}</p>
+            <div
+              class="h-[4px] w-[48px] rounded-md border-light-blue5 bg-light-blue5"
+            ></div>
+          </div>
+          <div class="mt-[26px] text-white space-y-1">
+            {% area data.widget, 'workingDays'%} {% area data.widget,
+            'workingHours'%}
+          </div>
+        </div>
+        <div class="flex flex-col justify-left">
+          <div>
+            <p class="mb-4 Title2 text-white">{{__t("Address")}}</p>
+            <div
+              class="h-[4px] w-[48px] rounded-md border-light-blue5 bg-light-blue5"
+            ></div>
+          </div>
+          <div class="mt-[26px] text-white space-y-1">
+            <p class="caption2">{% area data.widget, 'address'%}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section
+    class="bg-blue2 px-2 pb-8 md:px-20 lg:px-32 pt-20 contact-background-gradient"
+  >
+    <div
+      class="mx-auto bg-white shadow-md container rounded-2xl py-11 px-8 ltr:lg:pr-8 ltr:lg:pl-16 rtl:lg:pl-8 rtl:lg:pr-16 grid grid-cols-1 lg:grid-cols-2 gap-6"
+    >
+      <div>
+        {% area data.widget, 'contactForm' with { '@apostrophecms/form':{
+        type:"column__form" } }%}
+      </div>
+
+      <iframe
+        height="100%"
+        class="border-0 min-h-[400px] mx-auto w-full md:w-[90%]"
+        loading="lazy"
+        allowfullscreen
+        src="{{ data.widget.googleMap }}"
+      ></iframe>
+    </div>
+  </section>
+</section>

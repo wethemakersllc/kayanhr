@@ -1,0 +1,65 @@
+<section data-integration-widget>
+  <section>
+    <div
+      class="px-4 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-2"
+    >
+      <div class="sm:grid gap-10 lg:grid-cols-2">
+        <div
+          class="flex items-center justify-center -mx-4 ltr:lg:pl-8 rtl:lg:pr-8"
+        >
+          <div class="flex flex-col items-end px-3">
+            <img
+              class="object-contain w-full max-w-lg h-full"
+              src="/images/integration.png"
+              alt="Integration"
+            />
+          </div>
+        </div>
+        <div
+          class="flex flex-col justify-center ltr:md:pr-8 ltr:xl:pr-0 rtl:md:pl-8 rtl:xl:pl-0 lg:max-w-lg"
+        >
+          <div class="py-10 lg:py-24">
+            <h2
+              class="Title2 sm:Title1 ltr:text-left rtl:text-right text-dark-gray4"
+            >
+              {{data.widget.title}}
+            </h2>
+
+            <p class="mt-4 body text-dark-gray2">{{data.widget.description}}</p>
+            <a
+              {%if
+              apos.i18n.options.locales[data.locale].isRtl
+              %}
+              href="/ar/integration"
+              {%else
+              %}href="/integration"
+              {%
+              endif
+              %}
+              class="btn-primary transition-color duration-200 rounded-lg mt-8 Button2"
+            >
+              {{__t("Explore")}}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="py-8 lg:py-2">
+    <div class="container px-4 mx-auto">
+      <div class="max-w-6xl mx-auto">
+        <div
+          class="grid md:grid-cols-2 lg:grid-cols-6 gap-0 md:gap-4 justify-items-center items-center"
+        >
+          {% for integration in data.widget.integrations %}
+          <img
+            class="mb-5 md:mb-10 lg:mb-0 h-[100px]"
+            src="{{apos.attachment.url(apos.attachment.first(integration._image))}}"
+            alt="{{integration._image[0].alt}}"
+          />
+          {%endfor%}
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

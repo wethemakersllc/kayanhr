@@ -1,0 +1,23 @@
+<section data-three-points-widget>
+  <div
+    class="mx-auto bg-[url('/images/gray-pills.png')] {%if apos.i18n.options.locales[data.locale].isRtl %} feature-points-bg-position-ar {%else%} feature-points-bg-position {%endif%} bg-no-repeat pb-[80px] md:pb-[140px] pt-[80px] md:pt-[200px]"
+  >
+    <div
+      class="px-8 sm:px-[50px] py-[30px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-24"
+    >
+      {% for point in data.widget.pointsInfo %}
+      <div class="flex flex-col justify-left">
+        <div>
+          {%if point.title.items[0]%} {% area point, 'title'%} {%endif%}
+          <div
+            class="h-[4px] w-[48px] rounded-md border-light-blue5 bg-light-blue5"
+          ></div>
+        </div>
+        <div class="mt-[26px] text-black space-y-1">
+          <p class="caption2">{{point.description}}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

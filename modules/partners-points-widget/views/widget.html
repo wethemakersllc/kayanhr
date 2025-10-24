@@ -1,0 +1,18 @@
+<ul
+  class="list-outside mt-[40px] lg:mt-[100px] space-y-6 ltr:lg:pr-[10%] ltr:xl:pr-[20%] rtl:lg:pl-[10%] rtl:xl:pl-[20%]"
+>
+  {% for point in data.widget.pointsInfo %}
+
+  <li class="flex">
+    <div class="w-[20px]">
+      <div class="w-[13px] h-[13px] bg-sky-blue rounded-full mt-[7px]"></div>
+    </div>
+    <div
+      class="flex flex-col ltr:pl-[20px] ltr:lg:pl-[60px] rtl:pr-[20px] rtl:lg:pr-[60px]"
+    >
+      <h3 class="text-dark-gray4 Title4">{{point.title}}</h3>
+      <p class="text-black caption2 mt-2">{{point.description}}</p>
+    </div>
+  </li>
+  {% endfor %}
+</ul>

@@ -1,0 +1,223 @@
+{# This is an example home page template. It inherits and extends a layout
+template that lives in the top-level views/ folder for convenience #} {% extends
+"layout.html" %} {% block main %}
+<section class="blue-gradient overflow-hidden">
+  <div
+    class="px-4 py-4 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8"
+  >
+    <div class="sm:grid gap-10 lg:grid-cols-2">
+      <div
+        class="flex flex-col justify-center ltr:md:pr-8 ltr:xl:pr-0 rtl:md:pl-8 rtl:xl:pl-0 lg:max-w-lg"
+      >
+        <div class="py-[5rem] lg:py-24">
+          <h2
+            class="Title1 md:Title0 ltr:text-left rtl:text-right text-dark-gray4 relative"
+          >
+            {%if apos.i18n.options.locales[data.locale].isRtl %}
+            <span
+              class="blue-circle before:md:top-[-28px] before:md:right-[125px] before:top-[-34px] before:right-[85px] before:w-[150px] md:before:w-[200px] text-sky-blue"
+            >
+              فوائد</span
+            >
+            <span class="relative"> حقيقية </span>
+            <br />
+            اشخاص حقيقيون. {% else %} Real<span class="relative"> </span>
+            <span
+              class="blue-circle before:md:top-[-30px] before:md:left-[125px] before:top-[-20px] before:left-[85px] before:w-[185px] md:before:w-[276px] text-sky-blue"
+            >
+              Benefits.</span
+            ><br />
+            Real People. {% endif %}
+          </h2>
+
+          {% area data.page , 'bannerDescription' %}
+          <a
+            {%if
+            apos.i18n.options.locales[data.locale].isRtl
+            %}
+            href="/ar/book-kayanhr-demo-and-discover-our-human-resource-solutions"
+            {%else
+            %}href="/book-kayanhr-demo-and-discover-our-human-resource-solutions"
+            {%
+            endif
+            %}
+            class="btn-primary transition-color duration-200 rounded-lg mt-8 Button2"
+          >
+            {{__t("Book A Demo")}}
+          </a>
+        </div>
+      </div>
+      <div
+        class="flex items-center justify-center -mx-4 ltr:lg:pl-8 rtl:lg:pr-8"
+      >
+        <div class="flex flex-col items-end px-5 py-10">
+          <img
+            class="object-contain max-w-full md:max-w-lg"
+            {%if
+            apos.i18n.options.locales[data.locale].isRtl
+            %}
+            src="/images/banner-ar.png"
+            {%else%}
+            src="/images/banner.png"
+            {%endif%}
+            alt="banner"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ltr:pr-4 rtl:pl-4 py-16 mx-auto">
+    <div class="grid gap-10 lg:grid-cols-2">
+      <div
+        class="flex items-center justify-center -mx-4 ltr:lg:pl-8 rtl:lg:pr-8"
+      >
+        <div class="mosaic w-full">
+          <div class="mosaic_item">
+            <div
+              class="h-[240px] w-full lg:h-[400px] lg:w-[415px] xl:h-[500px] xl:w-[515px] bg-no-repeat bg-cover bg-center shadow-md rounded-lg flex justify-center items-center"
+              style="background-image: url('{{apos.attachment.url(apos.attachment.first(data.page._videoSectionBackground))}}')"
+            >
+              <button
+                class="js-modal-btn"
+                data-video-id="{{data.page.youtubeVideoId}}"
+              >
+                <img
+                  src="/images/play.svg"
+                  class="transform scale-75 md:scale-100"
+                  alt="play video"
+                />
+              </button>
+            </div>
+          </div>
+
+          <div class="mosaic_item">
+            <div
+              class="hidden lg:flex justify-center h-[200px] w-[200px] lg:h-[146px] lg:w-[168px] xl:h-[246px] xl:w-[268px] bg-no-repeat bg-cover bg-center shadow-md rounded-lg"
+              style="background-image: url('{{apos.attachment.url(apos.attachment.first(data.page._videoSectionImage))}}')"
+            ></div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col justify-start md:px-12 lg:px-12 xl:px-24">
+        <div class="lg:py-24 px-6">
+          {% area data.page , 'videoSectionTitle' %} {% area data.page ,
+          'videoSectionSubTitle' %}
+
+          <div
+            class="overflow-hidden inline-flex my-3 mx-auto mt-16 text-light-blue3"
+          >
+            <div
+              class="py-[10px] sm:py-5 px-[12px] sm:px-6 inline-flex items-center justify-center text-center Title3 capitalize ltr:rounded-l-xl rtl:rounded-r-xl transition-color duration-500 border-2 ltr:border-r rtl:border-l border-[#41A6F748] bg-[#41A6F748] border-r-[#41A6F748]"
+              id="small-companies"
+            >
+              {{__t("Small Companies")}}
+            </div>
+            <div
+              class="py-[10px] sm:py-5 px-[12px] sm:px-6 inline-flex items-center justify-center text-center Title3 capitalize transition-color duration-500 border-2 border-l border-r border-light-blue2 bg-light-blue1"
+              id="medium-companies"
+            >
+              {{__t("Medium Companies")}}
+            </div>
+            <div
+              class="py-[10px] sm:py-5 px-[12px] sm:px-6 inline-flex items-center justify-center text-center Title3 capitalize transition-color duration-500 ltr:rounded-r-xl rtl:rounded-l-xl border-2 ltr:border-l rtl:border-r border-light-blue2 bg-light-blue1"
+              id="big-companies"
+            >
+              {{__t("Big Companies")}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% area data.page ,'whyKayanSlider' %} {% area data.page ,'kayanFigures' %} {%
+area data.page ,'ourBenefits' %} {% area data.page ,'integration' %} {% area
+data.page ,'featuresSlider' %} {% area data.page ,'testimonials' %} {% area
+data.page ,'clients' %}
+
+<section class="bg-dark-gray5">
+  <div class="container px-4 mx-auto">
+    <div class="flex flex-wrap items-center -mx-4">
+      <div
+        class="w-full md:w-1/3 lg:w-1/2 px-16 md:px-4 order-last md:order-first -mt-36 container z-30 relative"
+      >
+        <img
+          class="mx-auto"
+          src="/images/kayan-application.png"
+          alt="kayan application"
+        />
+      </div>
+      <div class="w-full md:w-2/3 lg:w-1/2 px-4 mb-16 md:mb-0 py-20">
+        <div class="lg:max-w-2xl lg:ml-auto">
+          {% if apos.i18n.options.locales[data.locale].isRtl %}
+          <h2
+            class="Tajawal mb-4 text-5xl md:Title0 ltr:text-left rtl:text-right text-white relative"
+          >
+            ابق على اطلاع<br />
+            في
+            <span class="blue-circle3"> أي وقت </span>
+          </h2>
+
+          {%else%}
+          <h2
+            class="mb-4 text-5xl md:Title0 ltr:text-left rtl:text-right text-white relative"
+          >
+            Keep Track,<br />
+            <span class="blue-circle2"> Anytime </span>
+          </h2>
+          {%endif%} {% area data.page ,'appDescription' %}
+          <div class="flex justify-start items-center mt-12">
+            <a
+              class="ltr:mr-4 rtl:ml-4 transition-opacity duration-300 opacity-100 hover:opacity-70"
+              href="{{data.global.appStoreUrl}}"
+              target="_blank"
+            >
+              <img
+                {%if
+                apos.i18n.options.locales[data.locale].isRtl
+                %}
+                src="/images/app-store-ar.png"
+                alt="تحميل برنامج كيان اب ستور"
+                {%else%}
+                src="/images/app-store.png"
+                alt="kayan on app store"
+                {%endif%}
+                alt=""
+                {%if
+                apos.i18n.options.locales[data.locale].isRtl
+                %}
+                style="max-width: 216px"
+                {%endif%}
+              />
+            </a>
+            <a
+              class="transition-opacity duration-300 opacity-100 hover:opacity-70"
+              href="{{data.global.googlePlayUrl}}"
+              target="_blank"
+            >
+              <img
+                {%if
+                apos.i18n.options.locales[data.locale].isRtl
+                %}
+                src="/images/google-play-ar.png"
+                alt="تحميل برنامج كيان جوجل بلاي"
+                {%else%}
+                src="/images/google-play.png"
+                alt="Kayan app on Google play"
+                {%endif%}
+                alt=""
+                {%if
+                apos.i18n.options.locales[data.locale].isRtl
+                %}
+                style="max-width: 239px"
+                {%endif%}
+              />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

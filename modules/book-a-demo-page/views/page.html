@@ -1,0 +1,28 @@
+{% extends "layout.html" %} {% block main %}
+<section
+  class="w-full {%if apos.i18n.options.locales[data.locale].isRtl %} partners-bg-rtl {%else%} partners-bg {%endif%} py-[50px]"
+  data-featured-partners-widget
+>
+  <div
+    class="flex flex-col justify-center items-center text-dark-gray4 text-center mx-auto max-w-[920px] px-4 lg:px-12 xl:px-16"
+  >
+    {% area data.page , 'bannerTitle' %} {% area data.page , 'bannerSubtitle' %}
+    {% area data.page , 'bannerDescription' %}
+  </div>
+  <div class="relative pb-4 pt-20 2xl:pt-40 overflow-hidden">
+    <div class="w-full">
+      <div
+        class="w-full md:w-[90%] mx-auto bg-white shadow-md px-4 lg:px-12 xl:px-16 py-16 rounded-lg"
+      >
+        <div class="relative container px-4 mx-auto">
+          <div>
+            {% area data.page, 'bookDemoForm' with { '@apostrophecms/form':{
+            type:"grid__form" } }%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

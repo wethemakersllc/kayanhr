@@ -1,0 +1,82 @@
+<section
+  class="pb-[90vh] bg-[url('/images/customize-global-tax-and-social-security-rules-easily-kayanhr.png')] bg-no-repeat bg-center why-kayan-background"
+  data-why-kayan-slider-widget
+>
+  <div
+    class="flex flex-col justify-center md:max-w-md lg:max-w-lg mr-auto why-kayan-slider-container"
+  >
+    <div class="py-24 pl-4 lg:pl-14">
+      <h2 class="caption ltr:text-left rtl:text-right text-black">
+        {{data.widget.title}}
+      </h2>
+      <div dir="ltr">
+        <div class="why-kayan-slider">
+          {%if apos.i18n.options.locales[data.locale].isRtl %} {% for item in
+          data.widget.slides|reverse %}
+          <div dir="rtl">
+            <h2
+              class="Title2 sm:Title1 ltr:text-left rtl:text-right text-black mt-2 md:mt-0"
+            >
+              {{item.title}}
+            </h2>
+
+            <p class="mt-8 body text-dark-gray1">{{item.description}}</p>
+          </div>
+          {% endfor %} {%else%} {% for item in data.widget.slides %}
+          <div dir="ltr">
+            <h2
+              class="Title2 sm:Title1 ltr:text-left rtl:text-right text-black mt-2 md:mt-0"
+            >
+              {{item.title}}
+            </h2>
+
+            <p class="mt-8 body text-dark-gray1">{{item.description}}</p>
+          </div>
+          {% endfor %} {%endif%}
+        </div>
+      </div>
+
+      <div
+        class="flex {%if apos.i18n.options.locales[data.locale].isRtl %} justify-start{%else%}justify-end {%endif%} items-center w-full mt-[40px] rtl:flex-row-reverse"
+      >
+        <button
+          class="inline-flex mr-[20px] items-center justify-center w-16 h-16 rounded-full {%if apos.i18n.options.locales[data.locale].isRtl %} bg-light-blue2 {%else%} bg-transparent {%endif%} why-kayan-slider-prev slider-arrow hover-follow"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="29.022"
+            height="19.356"
+            viewBox="0 0 29.022 19.356"
+          >
+            <path
+              id="Icon_ionic-ios-arrow-round-forward"
+              data-name="Icon ionic-ios-arrow-round-forward"
+              d="M26.383,11.622a1.317,1.317,0,0,0-.01,1.855L32.5,19.616H9.175a1.311,1.311,0,0,0,0,2.621H32.492l-6.129,6.139a1.327,1.327,0,0,0,.01,1.855,1.305,1.305,0,0,0,1.845-.01l8.306-8.367h0a1.472,1.472,0,0,0,.272-.413,1.251,1.251,0,0,0,.1-.5,1.314,1.314,0,0,0-.373-.917l-8.306-8.367A1.284,1.284,0,0,0,26.383,11.622Z"
+              transform="translate(36.897 30.608) rotate(-180)"
+              fill="#0f69b0"
+            />
+          </svg>
+        </button>
+        <button
+          class="inline-flex items-center justify-center w-16 h-16 rounded-full {%if apos.i18n.options.locales[data.locale].isRtl %} bg-transparent {%else%} bg-light-blue2 {%endif%} why-kayan-slider-next slider-arrow hover-follow"
+        >
+          <svg
+            class="rotate-180"
+            xmlns="http://www.w3.org/2000/svg"
+            width="29.022"
+            height="19.356"
+            viewBox="0 0 29.022 19.356"
+          >
+            <path
+              id="Icon_ionic-ios-arrow-round-forward"
+              data-name="Icon ionic-ios-arrow-round-forward"
+              d="M26.383,11.622a1.317,1.317,0,0,0-.01,1.855L32.5,19.616H9.175a1.311,1.311,0,0,0,0,2.621H32.492l-6.129,6.139a1.327,1.327,0,0,0,.01,1.855,1.305,1.305,0,0,0,1.845-.01l8.306-8.367h0a1.472,1.472,0,0,0,.272-.413,1.251,1.251,0,0,0,.1-.5,1.314,1.314,0,0,0-.373-.917l-8.306-8.367A1.284,1.284,0,0,0,26.383,11.622Z"
+              transform="translate(36.897 30.608) rotate(-180)"
+              fill="#0f69b0"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

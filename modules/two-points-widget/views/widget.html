@@ -1,0 +1,27 @@
+{% set cls = cycler("ltr:xl:pl-[65px] rtl:xl:pr-[65px]", "ltr:xl:pr-[65px]
+rtl:xl:pl-[65px]") %}
+<section data-three-points-widget>
+  <div
+    class="bg-light-gray1 mx-auto pb-[80px] md:pb-[59px] pt-[40px] md:pt-[10px]"
+  >
+    <div
+      class="px-8 md:px-[100px] lg:px-[200px] xl:px-[275] py-[30px] grid grid-cols-1 sm:grid-cols-2 gap-[80px] gap-x-[18%]"
+    >
+      {% for point in data.widget.pointsInfo %}
+
+      <div class="flex flex-col justify-left {{cls.next()}}">
+        <div>
+          {%if point.title.items[0]%} {% area point, 'title'%} {%endif%}
+
+          <div
+            class="h-[4px] w-[48px] rounded-md border-light-blue5 bg-light-blue5"
+          ></div>
+        </div>
+        <div class="mt-[26px] text-black space-y-1 lg:max-w-[85%]">
+          <p class="caption2">{{point.description}}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

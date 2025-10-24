@@ -1,0 +1,100 @@
+{% set cls = cycler("odd", "even") %}
+<section data-our-benefits-widget>
+  <div
+    class="container flex flex-col justify-between bg-white shadow drop-shadow-md rounded-2xl mx-auto mb-36"
+  >
+    <div
+      class="px-4 mx-auto sm:max-w-xl md:max-w-full lg:w-full md:px-10 lg:px-8 lg:py-2 mt-8"
+    >
+      <div class="grid gap-2 lg:gap-10 lg:grid-cols-3">
+        <div class="flex items-center justify-center lg:-mx-4 lg:ml-[-20px]">
+          <div class="flex flex-col items-end lg:px-3">
+            <h2
+              class="Title1 lg:Title0 ltr:text-left rtl:text-right text-black"
+            >
+              {{data.widget.title}}
+            </h2>
+          </div>
+        </div>
+        <div
+          class="flex flex-col justify-center ltr:xl:pr-0 rtl:xl:pl-0 lg:w-full col-span-2"
+        >
+          <div class="lg:py-24">
+            <p class="mt-4 md:mt-[-10px] body text-dark-gray3">
+              {{data.widget.description}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% for benefit in data.widget.benefits %} {% if cls.next() === 'odd' %}
+    <div
+      class="px-4 mx-auto sm:max-w-xl md:max-w-full lg:w-full md:px-10 lg:px-8 lg:py-2 mt-8"
+    >
+      <div class="grid gap-2 lg:gap-10 lg:grid-cols-2">
+        <div
+          class="flex items-center justify-center -mx-4 ltr:lg:pl-4 rtl:lg:pr-4"
+        >
+          <div class="flex flex-col items-end p-4 lg:p-11">
+            <img
+              class="object-contain w-full h-full drop-shadow-md"
+              src="{{apos.attachment.url(apos.attachment.first(benefit._image))}}"
+            />
+          </div>
+        </div>
+        <div
+          class="flex flex-col justify-center ltr:xl:pr-0 rtl:xl:pl-0 lg:max-w-lg ltr:mr-auto rtl:ml-auto"
+        >
+          <div class="lg:py-24 ltr:lg:pl-14 rtl:lg:pr-14">
+            <h2
+              class="Title2 sm:Title1 ltr:text-left rtl:text-right text-dark-gray4"
+            >
+              {{benefit.title}}
+            </h2>
+
+            <p class="mt-4 body text-dark-gray2">{{benefit.description}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div
+      class="px-4 mx-auto sm:max-w-xl md:max-w-full lg:w-full md:px-10 lg:px-8 lg:py-2 mt-8"
+    >
+      <div class="grid gap-2 lg:gap-10 lg:grid-cols-2">
+        <div
+          class="flex flex-col justify-center ltr:xl:pr-0 rtl:xl:pl-0 lg:max-w-lg"
+        >
+          <div class="lg:py-24 ltr:lg:pl-11 rtl:lg:pr-11">
+            <h2
+              class="Title2 sm:Title1 ltr:text-left rtl:text-right text-dark-gray4"
+            >
+              {{benefit.title}}
+            </h2>
+
+            <p class="body text-dark-gray2">{{benefit.description}}</p>
+          </div>
+        </div>
+        <div
+          class="flex items-center justify-center -mx-4 ltr:lg:pl-8 rtl:lg:pr-8 order-first lg:order-last"
+        >
+          <div class="flex flex-col items-end p-4 lg:p-11">
+            <img
+              class="object-contain w-full h-full drop-shadow-md"
+              src="{{apos.attachment.url(apos.attachment.first(benefit._image))}}"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endif %} {% endfor %}
+
+    <div
+      class="px-4 mx-auto sm:max-w-xl md:max-w-full lg:w-full md:px-10 lg:px-8 lg:py-2 mt-8"
+    >
+      {% area data.widget , 'footer'%}
+    </div>
+  </div>
+</section>
