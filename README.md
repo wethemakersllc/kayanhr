@@ -3,11 +3,11 @@ KayanHR believe that employee management should be made easier and simpler. Big 
 
 
 <p align="center" dir="auto">
-  <img src="https://raw.githubusercontent.com/opensourceprojects025/kayanhr/main/public/images/home_screen.png" alt="KayanHR Welcome Screen" width="1200" style="max-width: 100%;" />
+  <img src="https://raw.githubusercontent.com/wethemakersllc/kayanhr/main/public/images/home_screen.png" alt="KayanHR Welcome Screen" width="1200" style="max-width: 100%;" />
 </p>
 
 <p align="center" dir="auto">
-  <img src="https://raw.githubusercontent.com/opensourceprojects025/kayanhr/main/public/images/welcome_screen.png" alt="KayanHR Home Screen" width="1200" style="max-width: 100%;" />
+  <img src="https://raw.githubusercontent.com/wethemakersllc/kayanhr/main/public/images/welcome_screen.png" alt="KayanHR Home Screen" width="1200" style="max-width: 100%;" />
 </p>
 
 
